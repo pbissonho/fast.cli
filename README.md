@@ -1,4 +1,9 @@
-A sample command-line application.
+# Tenaz CLI
+ 
+An incredible command line interface for Flutter.
 
-Created from templates made available by Stagehand under a BSD-style
 [license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+
+# Installing
+
+# 
