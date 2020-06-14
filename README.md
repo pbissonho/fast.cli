@@ -11,12 +11,13 @@ That way you are not forced to use the project structure set by someone else and
 ## Features
 - Templates generator
 - Aplication Scaffold generator
-- Standard line commands
+- Custom commands
+- Standard line commands (Some commands already included in the CLI)
     - install (Add a package to the project dependencies)
     - unistall (Remove a package to the project dependencies)
 
 
-## Template generator exemple
+## Template generator example
 
 ### Template example:
 
@@ -63,7 +64,7 @@ args:
 # - other3
 ```
 
-### Running the tempate
+### Running the template
 
 Run this command so that your template is generated.
 
@@ -94,6 +95,76 @@ class _HomePageState extends State<HomePage> {
 }
 ```
 
+## Scaffold generator exemple
+
+### Scaffold example:
+
+file: scaffold.yaml
+```yaml
+# The scaffold name.
+name: sample
+description: A sample scaffold.
+author: Pedro Bissonho <pedro.bissonho@gmail.com>
+
+# The folder structure that will be generated inside the 'lib' folder.
+structure:
+  - ui:
+    - pages
+    - shared 
+    - themes
+  - data:
+    - models
+    - repositorys
+  - blocs
+# The folder structure that will be generated inside the 'test' folder.
+test_structure:
+  - ui:
+  - data:
+  - fixtures:
+
+# The standard dependencies that the project will have.
+# Your project will start with all these dependencies.
+# If the version is not informed, the version will be configured as the last version available in Dart Pub.
+dependencies: 
+  koin: 
+  flutter_bloc: 
+
+# The standard dev_dependencies that the project will have.
+dev_dependencies:
+  koin_test:  
+```
+
+### Create a APP with the sample scaffold
+
+Run this command for your application to be created.
+
+run on cmd:
+tena create --name myapp --scafoold sample
+
+### Result 
+
+An application created with structure and dependencies selects no sample of scaffolding.
+
+![alt text](scaffold.png)
+
+## Commands example 
+
+### Commands YAML example:
+
+file: commands.yaml
+```yaml
+commands:
+  runner: flutter build runner build
+  push: git push origin master
+  mkdir: mkdir myFolder
+```
+
+### Running a command
+
+run on cmd:
+tenaz run runner
+
+
 # Setup
 
 ## Install
@@ -108,7 +179,7 @@ pub global activate tenaz
 Configure the path of the templates that will be used by the CLI.
 
 run on cmd: 
-tena config templates <tempates_path>
+tena config templates <templates_path>
 tena config projects <projects_path>
 
 Exemple: 
