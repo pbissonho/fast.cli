@@ -4,9 +4,9 @@ An incredible command line interface for Flutter.
 
 With this CLI, you can create your custom templates and define how your project will start.
 
-The schemes are from the outside in, that is, the users create and define the templates, the CLI only creates them.
+The generated directories and files are defined from the outside in, that is, the users define the templates, the CLI only creates them.
 
-That way you are not forced to use the project structure set by someone else.
+That way you are not forced to use the project structure set by someone else and you can easily modify templates already created.
 
 ## Features
 - Templates generator
@@ -111,7 +111,7 @@ run on cmd:
 tena config templates <tempates_path>
 tena config projects <projects_path>
 
-Exemplo: 
+Exemple: 
 
 tena config templates /home/pedro/Documentos/templates/
 tena config projects /home/pedro/Documentos/projects/
