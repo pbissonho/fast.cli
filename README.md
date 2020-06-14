@@ -177,22 +177,32 @@ tenaz run runner
 ## Install
 
 Install this package globally. To do this, you must have the Dart SDK [installed and configured](https://dart.dev/get-dart) 
+See the [guide](https://dart.dev/tools/pub/cmd/pub-global) referring to the installation of packages globally if you have any doubts on how to do it.
 
 run on cmd: 
 pub global activate tenaz
 
 ## Config
 
+Before using the CLI, it is necessary to configure where your templates, commands and scaffolds are. Once this configuration is made, you only need to add new resources.
+
+If these paths are not defined, the CLI will not work correctly, because by default the CLI does not come with resources, it is necessary to create new ones or use resources already created by the community.
+
+In the [resources repository] (https://github.com/pbissonho/tenaz) you can download a set of resources already created.
+
 Configure the path of the templates that will be used by the CLI.
 
 run on cmd: 
 tena config templates <templates_path>
-tena config projects <projects_path>
+tena config scaffolds <scaffolds_path>
+tena config commands <commands_yaml_file_path>
 
-Exemple: 
+Example: 
+tena config templates /home/pedro/Documentos/tenaz_resources/templates/
+tena config scaffolds /home/pedro/Documentos/tenaz_resources/scaffolds/
+tena config commands /home/pedro/Documentos/tenaz_resources/
 
-tena config templates /home/pedro/Documentos/templates/
-tena config projects /home/pedro/Documentos/projects/
+![alt-text](resources.gif)
 
 # License
 
