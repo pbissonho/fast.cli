@@ -8,10 +8,22 @@ The schemes are from the outside in, that is, the users create and define the te
 
 That way you are not forced to use the project structure set by someone else.
 
-## Exemplo
+## Features
+- Templates generator
+- Aplication Scaffold generator
+- Standard line commands
+    - install (Add a package to the project dependencies)
+    - unistall (Remove a package to the project dependencies)
 
-### Template exemplo:
 
+## Template generator exemple
+
+### Template example:
+
+First we define the files that are generated.
+In this example, the '@Name' tag will be replaced by the '--name' argument when the file is generated.
+
+file: @name_page.dart
 ```dart
 import 'package:flutter/material.dart';
 
@@ -31,6 +43,9 @@ class _@NamePageState extends State<@NamePage> {
   }
 }
 ```
+In the same folder as the file above we have the yaml file that defines how the template should be created.
+
+file: template.yaml
 ```yaml
 #Yaml file for configuring the template.
 #The template name
