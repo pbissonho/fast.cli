@@ -68,6 +68,9 @@ args:
 
 Run this command so that your template is generated.
 
+tenaz <template_name>  <templates_arg1, templates_arg1, templates_arg1....>
+
+Example:
 run on cmd:
 tenaz page --name home
 
@@ -138,6 +141,8 @@ dev_dependencies:
 
 Run this command for your application to be created.
 
+tena create --name <app_name> --scafoold <scafoold_name> 
+
 run on cmd:
 tena create --name myapp --scafoold sample
 
@@ -161,7 +166,9 @@ commands:
 
 ### Running a command
 
-run on cmd:
+tenaz run <command_name>
+
+Example:
 tenaz run runner
 
 
