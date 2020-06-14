@@ -18,8 +18,6 @@ import 'package:flunt_dart/flunt_dart.dart';
 import '../logger.dart';
 
 abstract class CommandBase<T> extends Command<T> {
-  CommandBase();
-
   void validate(Contract contract) async {
     var comandName = runtimeType.toString();
     logger.d('$comandName triggered.');

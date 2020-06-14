@@ -23,7 +23,7 @@ import '../logger.dart';
 class SetupAction implements Action {
   final String path;
   final bool force;
-  final Project project;
+  final Scaffold project;
 
   SetupAction(this.path, this.force, this.project);
 
@@ -33,7 +33,7 @@ class SetupAction implements Action {
   Future<void> execute() async {
     var libPath = '$path/lib';
     var createStructAction =
-        CreateProjectStructure(libPath, project.structure.mainFolder);
+        CreateScaffoldStructure(libPath, project.structure.mainFolder);
 
     if (await Directory(libPath).existsFiles()) {
       if (force) {

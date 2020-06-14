@@ -26,6 +26,7 @@ class ConfigCommand extends CommandBase {
   ConfigCommand() {
     addSubcommand(ConfigTemplatesPathCommand());
     addSubcommand(ConfigProjectsPathCommand());
+    addSubcommand(ConfigCommandsPathCommand());
   }
 }
 
@@ -38,13 +39,15 @@ class ConfigTemplatesPathCommand extends CommandBase {
   @override
   Future<void> run() async {
     validate(Contract('', ''));
-    var newTemplatePath = argResults.rest[0];
-
-    var projectsPath =
-        await ConfigStorage().getConfigByKeyOrBlank(ConfigKeys.templatesPath);
+    var templatesPath = argResults.rest[0];
+    var configStorage = ConfigStorage();
 
     await ConfigStorage().setConfig(TenazConfig(
-        templatesPath: newTemplatePath, projectsPath: projectsPath));
+        scaffoldsPath:
+            await configStorage.getConfigByKeyOrBlank(ConfigKeys.scaffoldsPath),
+        templatesPath: templatesPath,
+        commandsFilePath: await configStorage
+            .getConfigByKeyOrBlank(ConfigKeys.commandsFilePath)));
   }
 }
 
@@ -52,17 +55,40 @@ class ConfigProjectsPathCommand extends CommandBase {
   @override
   String get description => 'Config the template path.';
   @override
-  String get name => 'projects';
+  String get name => 'scaffold';
 
   @override
   Future<void> run() async {
     validate(Contract('', ''));
-    var projectPath = argResults.rest[0];
+    var scaffoldPath = argResults.rest[0];
+    var configStorage = ConfigStorage();
 
-    var templatesPath =
-        await ConfigStorage().getConfigByKeyOrBlank(ConfigKeys.templatesPath);
+    await ConfigStorage().setConfig(TenazConfig(
+        scaffoldsPath: scaffoldPath,
+        templatesPath:
+            await configStorage.getConfigByKeyOrBlank(ConfigKeys.templatesPath),
+        commandsFilePath: await configStorage
+            .getConfigByKeyOrBlank(ConfigKeys.commandsFilePath)));
+  }
+}
 
-    await ConfigStorage().setConfig(
-        TenazConfig(projectsPath: projectPath, templatesPath: templatesPath));
+class ConfigCommandsPathCommand extends CommandBase {
+  @override
+  String get description => 'Config the template path.';
+  @override
+  String get name => 'commands';
+
+  @override
+  Future<void> run() async {
+    validate(Contract('', ''));
+    var configStorage = ConfigStorage();
+    var commandsPath = argResults.rest[0];
+
+    await ConfigStorage().setConfig(TenazConfig(
+        scaffoldsPath:
+            await configStorage.getConfigByKeyOrBlank(ConfigKeys.scaffoldsPath),
+        templatesPath:
+            await configStorage.getConfigByKeyOrBlank(ConfigKeys.templatesPath),
+        commandsFilePath: commandsPath));
   }
 }

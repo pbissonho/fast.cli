@@ -19,24 +19,28 @@ import 'core/exceptions.dart';
 
 class ConfigKeys {
   static const String templatesPath = 'templatesPath';
-  static const String projectsPath = 'projectsPath';
+  static const String scaffoldsPath = 'scaffoldsPath';
+  static const String commandsFilePath = 'commandsFilePath';
 }
 
 class TenazConfig {
   String templatesPath;
-  String projectsPath;
+  String scaffoldsPath;
+  String commandsFilePath;
 
-  TenazConfig({this.templatesPath, this.projectsPath});
+  TenazConfig({this.templatesPath, this.scaffoldsPath, this.commandsFilePath});
 
   TenazConfig._fromJson(Map<String, dynamic> json) {
     templatesPath = json[ConfigKeys.templatesPath];
+    commandsFilePath = json[ConfigKeys.commandsFilePath];
     templatesPath = json[ConfigKeys.templatesPath];
   }
 
   Map<String, dynamic> _toJson() {
     final data = <String, dynamic>{};
     data[ConfigKeys.templatesPath] = templatesPath;
-    data[ConfigKeys.projectsPath] = projectsPath;
+    data[ConfigKeys.commandsFilePath] = commandsFilePath;
+    data[ConfigKeys.scaffoldsPath] = scaffoldsPath;
     return data;
   }
 }

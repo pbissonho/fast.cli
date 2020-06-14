@@ -16,10 +16,10 @@ import 'dart:io';
 import 'package:tena/core/action.dart';
 import 'package:tena/core/directory/directory.dart';
 
-class ClearProjectStructure implements Action {
+class ClearScaffoldStructure implements Action {
   final String path;
 
-  ClearProjectStructure(this.path);
+  ClearScaffoldStructure(this.path);
 
   @override
   Future<void> execute() async {

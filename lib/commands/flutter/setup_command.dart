@@ -33,20 +33,20 @@ class SetupComand extends CommandBase {
   SetupComand() {
     argParser.addFlag('force',
         abbr: 'f', help: 'Create even with data in the lib folder.');
-    argParser.addOption('project', abbr: 'p', help: 'Project template name.');
+    argParser.addOption('scaffold', abbr: 'p', help: 'scaffold template name.');
   }
 
   @override
   Future<void> run() async {
     validate(Contract('', ''));
     var force = argResults.wasParsed('force');
-    var projectName = argResults['project'];
+    var scaffoldName = argResults['scaffold'];
 
-    var projectsPath =
-        ConfigStorage().getConfigByKeyOrBlank(ConfigKeys.projectsPath);
-    var project = YamlManager.loadProject('$projectsPath/$projectName');
+    var scaffoldsPath =
+        ConfigStorage().getConfigByKeyOrBlank(ConfigKeys.scaffoldsPath);
+    var scaffold = YamlManager.loadScaffold('$scaffoldsPath/$scaffoldName');
 
-    await SetupAction(Directory.current.path, force, project).execute();
-    await ShowFolderStructure(project.structure.mainFolder).execute();
+    await SetupAction(Directory.current.path, force, scaffold).execute();
+    await ShowFolderStructure(scaffold.structure.mainFolder).execute();
   }
 }

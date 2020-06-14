@@ -16,11 +16,11 @@ import 'package:tena/core/action.dart';
 import 'package:tena/core/directory/directory.dart';
 import 'package:tena/yaml_manager.dart';
 
-class CreateProjectStructure extends CreateFolderStructure {
-  CreateProjectStructure(String path, Folder folder) : super(path, folder);
+class CreateScaffoldStructure extends CreateFolderStructure {
+  CreateScaffoldStructure(String path, Folder folder) : super(path, folder);
 
   @override
-  String get actionName => 'Create project structure.';
+  String get actionName => 'Create Scaffold structure.';
 }
 
 class CreateFolderStructure implements Action {

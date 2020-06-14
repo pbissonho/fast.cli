@@ -25,7 +25,7 @@ import 'package:tena/actions/show_folder_structure.dart';
 import 'package:tena/core/tenaz_process.dart';
 import '../command_base.dart';
 
-class FlutterProjectArgs {
+class FlutterAppArgs {
   final String name;
   String description;
   String org;
@@ -33,7 +33,7 @@ class FlutterProjectArgs {
   final bool useSwift;
   final bool useAndroidX;
 
-  FlutterProjectArgs({
+  FlutterAppArgs({
     this.useAndroidX = false,
     this.org = '',
     this.description = '',
@@ -57,8 +57,9 @@ class FlutterCreaterComand extends CommandBase {
 
   FlutterCreaterComand() {
     argParser.addOption('name', abbr: 'n', help: 'Project name.');
-    argParser.addOption('project', abbr: 'p', help: 'Project template name.');
-    argParser.addOption('description', abbr: 'd', help: 'Project descritiopn.');
+    argParser.addOption('scaffold', abbr: 's', help: 'Scaffold template name.');
+    argParser.addOption('description',
+        abbr: 'd', help: 'Project descritiopn.');
     argParser.addFlag('kotlin', abbr: 'a', help: 'User kotlin.');
     argParser.addFlag('swift', abbr: 'i', help: 'User Swift.');
     argParser.addFlag('androidx', abbr: 'x', help: 'Use AndroidX.');
@@ -67,58 +68,58 @@ class FlutterCreaterComand extends CommandBase {
   @override
   Future<void> run() async {
     var appName = argResults['name'];
-    var projectName = argResults['project'];
+    var scaffoldName = argResults['scaffold'];
     var description = argResults['description'];
     var useKotlin = argResults.wasParsed('kotlin');
     var useSwift = argResults.wasParsed('swift');
     var useAndroidX = argResults.wasParsed('androidx');
 
-    var flutterProjectArgs = FlutterProjectArgs(
+    var flutterScaffoldArgs = FlutterAppArgs(
         useAndroidX: useAndroidX,
         name: appName,
         description: description,
         useKotlin: useKotlin,
         useSwift: useSwift);
 
-    var projectsPath =
-        await ConfigStorage().getConfigByKeyOrBlank(ConfigKeys.projectsPath);
-    var project =
-        YamlManager.loadProject(normalize('$projectsPath/$projectName'));
+    var ScaffoldsPath =
+        await ConfigStorage().getConfigByKeyOrBlank(ConfigKeys.scaffoldsPath);
+    var Scaffold =
+        YamlManager.loadScaffold(normalize('$ScaffoldsPath/$scaffoldName'));
 
     validate(
-        Contract<FlutterProjectArgs>(flutterProjectArgs, 'FlutterProjectArgs'));
+        Contract<FlutterAppArgs>(flutterScaffoldArgs, 'FlutterScaffoldArgs'));
 
     // Create Flutter App
     var createFlutter =
-        CreaterFlutterAction(appName, flutterProjectArgs, TenazProcessCli());
+        CreaterFlutterAction(appName, flutterScaffoldArgs, TenazProcessCli());
     await createFlutter.execute();
     logger.d('Action: ${createFlutter.actionName}');
 
     // Clear Flutter lib and test folders.
-    var clearLibFolder = ClearProjectStructure('$appName/lib');
-    var clearTestFolder = ClearProjectStructure('$appName/test');
+    var clearLibFolder = ClearScaffoldStructure('$appName/lib');
+    var clearTestFolder = ClearScaffoldStructure('$appName/test');
     await clearLibFolder.execute();
     await clearTestFolder.execute();
     logger.d('Action: ${clearLibFolder.actionName}');
     logger.d('Action: ${clearTestFolder.actionName}');
 
-    // Project Structure
-    var createProjectStructure =
-        CreateProjectStructure('$appName/lib', project.structure.mainFolder);
+    // Scaffold Structure
+    var createScaffoldStructure =
+        CreateScaffoldStructure('$appName/lib', Scaffold.structure.mainFolder);
 
-    var showProjectStructure =
-        ShowFolderStructure(project.structure.mainFolder);
+    var showScaffoldStructure =
+        ShowFolderStructure(Scaffold.structure.mainFolder);
 
-    await createProjectStructure.execute();
-    logger.d('Action: ${createProjectStructure.actionName}');
-    await showProjectStructure.execute();
-    logger.d('Action: ${showProjectStructure.actionName}');
+    await createScaffoldStructure.execute();
+    logger.d('Action: ${createScaffoldStructure.actionName}');
+    await showScaffoldStructure.execute();
+    logger.d('Action: ${showScaffoldStructure.actionName}');
 
     // Test Structure
     var createTestStructure = CreateFolderStructure(
-        '$appName/test', project.testStructure.mainFolder);
+        '$appName/test', Scaffold.testStructure.mainFolder);
     var showTestStructure =
-        ShowFolderStructure(project.testStructure.mainFolder);
+        ShowFolderStructure(Scaffold.testStructure.mainFolder);
     await createTestStructure.execute();
     logger.d('Action: ${createTestStructure.actionName}');
     await showTestStructure.execute();
@@ -126,10 +127,11 @@ class FlutterCreaterComand extends CommandBase {
 
     // Setup YAML
     var setupYaml = SetupYaml('$appName/pubspec.yaml',
-        normalize('$projectsPath/$projectName/project.yaml'));
+        normalize('$ScaffoldsPath/$scaffoldName/scaffold.yaml'));
     await setupYaml.execute();
     logger.d('Action: ${setupYaml.actionName}');
 
     logger.d('${runtimeType.toString()} finished. - $finishedDescription');
   }
 }
+

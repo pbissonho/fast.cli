@@ -12,13 +12,13 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+import 'package:tena/commands/flutter/create_flutter_comand.dart';
 import 'package:tena/core/action.dart';
 import 'package:tena/core/tenaz_process.dart';
-import '../commands/flutter/create_flutter_comand.dart';
 
 class CreaterFlutterAction implements Action {
   final String path;
-  final FlutterProjectArgs flutterProjectArgs;
+  final FlutterAppArgs flutterProjectArgs;
   final TenazProcess process;
 
   CreaterFlutterAction(this.path, this.flutterProjectArgs, this.process);

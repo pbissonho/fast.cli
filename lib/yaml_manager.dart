@@ -17,7 +17,7 @@ import 'package:yaml/yaml.dart';
 import 'core/exceptions.dart';
 import 'yaml_reader.dart';
 
-class YamlProjectKeys {
+class YamlScaffoldKeys {
   static String commandsKey = 'commands';
   static String structureKey = 'structure';
   static String testStructureKey = 'test_structure';
@@ -124,12 +124,11 @@ class Template {
   Template({this.description, this.name, this.to, this.args});
 }
 
-class Project {
+class Scaffold {
   final Structure structure;
   final Structure testStructure;
-  final List<YamlCommand> yamlCommands;
 
-  Project({this.structure, this.testStructure, this.yamlCommands});
+  Scaffold({this.structure, this.testStructure});
 }
 
 class YamlManager {
@@ -145,46 +144,52 @@ class YamlManager {
     return templates;
   }
 
-  static List<Project> loadProjects(String folder) {
-    var projects = <Project>[];
+  static List<Scaffold> loadScaffolds(String folder) {
+    var Scaffolds = <Scaffold>[];
 
     var dir = Directory(folder);
     dir.listSync().forEach((element) {
-      var project = readerYamlProjectFile('${element.path}/project.yaml');
-      projects.add(project);
+      var Scaffold = readerYamlScaffoldFile('${element.path}/scaffold.yaml');
+      Scaffolds.add(Scaffold);
     });
 
-    return projects;
+    return Scaffolds;
   }
 
-  static Project loadProject(String folderPath) {
-    Project project;
+  static Scaffold loadScaffold(String folderPath) {
+    Scaffold scaffold;
     var dir = Directory(folderPath);
-    project = readerYamlProjectFile('${dir.path}/project.yaml');
-    return project;
+    scaffold = readerYamlScaffoldFile('${dir.path}/scaffold.yaml');
+    return scaffold;
   }
 
-  static Project readerYamlProjectFile(String yamlPath) {
+  static List<YamlCommand> readerYamlCommandsFile(String yamlPath) {
     var yamlCommands = <YamlCommand>[];
     var reader = YamlReader(yamlPath);
-    dynamic structureData;
     var yamldata = reader.reader();
-
-    var yamlCommandsData = yamldata[YamlProjectKeys.commandsKey] as Map;
+    var yamlCommandsData = yamldata[YamlScaffoldKeys.commandsKey] as Map;
     yamlCommandsData.forEach((key, comand) {
       yamlCommands.add(YamlCommand(key, comand));
     });
 
-    structureData = yamldata[YamlProjectKeys.structureKey];
+    return yamlCommands;
+  }
+
+  static Scaffold readerYamlScaffoldFile(String yamlPath) {
+    var reader = YamlReader(yamlPath);
+    dynamic structureData;
+    var yamldata = reader.reader();
+
+    structureData = yamldata[YamlScaffoldKeys.structureKey];
     var structure = Structure(structureData);
 
-    var testStructureData = yamldata[YamlProjectKeys.testStructureKey];
+    var testStructureData = yamldata[YamlScaffoldKeys.testStructureKey];
     var testStructure = Structure(testStructureData);
 
-    return Project(
-        structure: structure,
-        testStructure: testStructure,
-        yamlCommands: yamlCommands);
+    return Scaffold(
+      structure: structure,
+      testStructure: testStructure,
+    );
   }
 }
 

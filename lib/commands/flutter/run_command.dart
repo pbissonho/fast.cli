@@ -16,6 +16,7 @@ import 'dart:io';
 
 import 'package:flunt_dart/flunt_dart.dart';
 import 'package:tena/actions/run_command.dart';
+import 'package:tena/config_storage.dart';
 
 import '../command_base.dart';
 
@@ -27,18 +28,14 @@ class RunComand extends CommandBase {
 
   String get finishedDescription => 'Run a project command.';
 
-  RunComand() {
-    argParser.addOption('name', abbr: 'n', help: 'Command name.');
-  }
-
   @override
   Future<void> run() async {
     validate(Contract('', ''));
-
-    var name = argResults['name'];
-    var path = Directory.current;
-    print(path.path);
-
-    await RunCommandAction(path, name).execute();
+    var configStorage = await ConfigStorage().getConfig();
+    var name = argResults.rest[0];
+    var workingDirectory = Directory.current;
+    await RunCommandAction(
+            workingDirectory, name, configStorage.commandsFilePath)
+        .execute();
   }
 }
