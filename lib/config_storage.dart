@@ -56,7 +56,7 @@ class ConfigStorage {
   }
 
   Future<String> getConfigByKeyOrBlank(String key) async {
-    var file = File('${_homePath()}/.tena.json');
+    var file = File('${_homePath()}/.fast.json');
     dynamic data;
     if (!await file.exists() || await file.readAsString.toString().isEmpty) {
       return '';
@@ -84,7 +84,7 @@ class ConfigStorage {
   }
 
   Future _updateFile(Map<String, dynamic> data) async {
-    var file = File('${_homePath()}/.tena.json');
+    var file = File('${_homePath()}/.fast.json');
     bool exists;
 
     exists = await file.exists();
@@ -100,7 +100,7 @@ class ConfigStorage {
   }
 
   Future<Map<String, dynamic>> _readFile() async {
-    var file = File('${_homePath()}/.tena.json');
+    var file = File('${_homePath()}/.fast.json');
 
     if (!await file.exists() || await file.readAsString.toString().isEmpty) {
       throw NotFounfFastConfigException('''

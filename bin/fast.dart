@@ -28,7 +28,7 @@ void main(List<String> arguments) async {
     ClearCommand(),
     SetupComand(),
     RunComand(),
-    AddPackageCommand(),
+    InstallPackageCommand(),
     ConfigCommand(),
     // CleateTemplate(logger)
   ]);

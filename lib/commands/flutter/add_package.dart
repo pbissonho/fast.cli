@@ -16,23 +16,22 @@ import 'package:fast/actions/add_pachage.dart';
 import '../../logger.dart';
 import '../command_base.dart';
 
-class AddPackageCommand extends CommandBase {
+class InstallPackageCommand extends CommandBase {
   @override
   String get description => 'Adds a package to the dependencies.';
 
   @override
-  String get name => 'add';
+  String get name => 'install';
 
   String get finishedDescription => 'Adds a package to the dependencies.';
 
-  AddPackageCommand() {
-    argParser.addOption('name', abbr: 'n', help: 'Package name.');
+  InstallPackageCommand() {
     argParser.addOption('version', abbr: 'v', help: 'Package version.');
   }
 
   @override
   Future<void> run() async {
-    var packageName = argResults['name'];
+    var packageName = argResults.rest[0];
     // var packageVersion = argResults['version'];
 
     var addPackageAction = AddPackage(packageName, 'pubspec.yaml', '');

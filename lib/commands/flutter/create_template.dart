@@ -26,12 +26,10 @@ class CreateTemplateCommand extends CommandBase {
   final Template template;
 
   @override
-  String get description => 'CleateTemplate';
+  String get description => template.description;
 
   @override
   String get name => template.name;
-
-  String get finishedDescription => 'CleateTemplate';
 
   CreateTemplateCommand(
       {this.templateYamlPath, this.templateFolderPath, this.template}) {
