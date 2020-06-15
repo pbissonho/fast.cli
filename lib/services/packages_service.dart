@@ -28,7 +28,8 @@ class PackagesService {
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        return Package.fromJson(data);
+        var map = data as Map;
+        return Package.fromJson(map);
       }
       throw Exception('Not found package.');
     } catch (e) {
@@ -44,24 +45,27 @@ Erro: $e
 class Package {
   String name;
   Version latest;
-  List<Version> versions;
+ // List<Version> versions;
 
+  /*
   bool hasVersion(String version) {
     if (versions.firstWhere((v) => v.version == version) != null) return true;
     return false;
-  }
+  }*/
 
   Package({name, latest, versions});
 
   Package.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     latest = json['latest'] != null ? Version.fromJson(json['latest']) : null;
+
+    /*
     if (json['versions'] != null) {
       versions = <Version>[];
       json['versions'].forEach((v) {
         versions.add(Version.fromJson(v));
       });
-    }
+    }*/
   }
 }
 

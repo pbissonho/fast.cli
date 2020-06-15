@@ -21,7 +21,7 @@ import 'package:tena/commands/flutter/setup_command.dart';
 import 'package:tena/tena.dart';
 
 void main(List<String> arguments) async {
-  var tenazCLI = TenazCLI();
+  var tenazCLI = TenaCLI();
   await tenazCLI.setupCommandRunner();
   tenazCLI.configCommands([
     FlutterCreaterComand(),

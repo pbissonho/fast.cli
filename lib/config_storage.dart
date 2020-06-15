@@ -23,14 +23,14 @@ class ConfigKeys {
   static const String commandsFilePath = 'commandsFilePath';
 }
 
-class TenazConfig {
+class TenaConfig {
   String templatesPath;
   String scaffoldsPath;
   String commandsFilePath;
 
-  TenazConfig({this.templatesPath, this.scaffoldsPath, this.commandsFilePath});
+  TenaConfig({this.templatesPath, this.scaffoldsPath, this.commandsFilePath});
 
-  TenazConfig._fromJson(Map<String, dynamic> json) {
+  TenaConfig._fromJson(Map<String, dynamic> json) {
     templatesPath = json[ConfigKeys.templatesPath];
     commandsFilePath = json[ConfigKeys.commandsFilePath];
     templatesPath = json[ConfigKeys.templatesPath];
@@ -46,17 +46,17 @@ class TenazConfig {
 }
 
 class ConfigStorage {
-  Future setConfig(TenazConfig tenazConfig) async {
+  Future setConfig(TenaConfig tenazConfig) async {
     await _updateFile(tenazConfig._toJson());
   }
 
-  Future<TenazConfig> getConfig() async {
+  Future<TenaConfig> getConfig() async {
     var data = await _readFile();
-    return TenazConfig._fromJson(data);
+    return TenaConfig._fromJson(data);
   }
 
   Future<String> getConfigByKeyOrBlank(String key) async {
-    var file = File('${_homePath()}/.tenaz.json');
+    var file = File('${_homePath()}/.tena.json');
     dynamic data;
     if (!await file.exists() || await file.readAsString.toString().isEmpty) {
       return '';
@@ -84,7 +84,7 @@ class ConfigStorage {
   }
 
   Future _updateFile(Map<String, dynamic> data) async {
-    var file = File('${_homePath()}/.tenaz.json');
+    var file = File('${_homePath()}/.tena.json');
     bool exists;
 
     exists = await file.exists();
@@ -100,10 +100,10 @@ class ConfigStorage {
   }
 
   Future<Map<String, dynamic>> _readFile() async {
-    var file = File('${_homePath()}/.tenaz.json');
+    var file = File('${_homePath()}/.tena.json');
 
     if (!await file.exists() || await file.readAsString.toString().isEmpty) {
-      throw NotFounfTenazConfigException('''
+      throw NotFounfTenaConfigException('''
 Before using the CLI, you must configure the templates folder path.
 Use the command "tena config <folder path> 'to configure the location of the templates.
 Example: tena config /home/pedro/Documents/templates/

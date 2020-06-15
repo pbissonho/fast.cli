@@ -1,4 +1,4 @@
-# Tenaz CLI
+# Tena CLI
  
 An incredible command line interface for Flutter.
 
@@ -68,7 +68,7 @@ args:
 
 Run this command so that your template is generated.
 
-tenaz <template_name>  <templates_arg1, templates_arg1, templates_arg1....>
+tenaz <template_name>  <templates_arg1, templates_arg2, templates_arg3....>
 
 Example:
 run on cmd:
@@ -185,10 +185,8 @@ pub global activate tenaz
 ## Config
 
 Before using the CLI, it is necessary to configure where your templates, commands and scaffolds are. Once this configuration is made, you only need to add new resources.
-
 If these paths are not defined, the CLI will not work correctly, because by default the CLI does not come with resources, it is necessary to create new ones or use resources already created by the community.
-
-In the [resources repository] (https://github.com/pbissonho/tenaz) you can download a set of resources already created.
+In the [resources repository](https://github.com/pbissonho/tenaz) you can download a set of resources already created.
 
 Configure the path of the templates that will be used by the CLI.
 
@@ -198,9 +196,9 @@ tena config scaffolds <scaffolds_path>
 tena config commands <commands_yaml_file_path>
 
 Example: 
-tena config templates /home/pedro/Documentos/tenaz_resources/templates/
-tena config scaffolds /home/pedro/Documentos/tenaz_resources/scaffolds/
-tena config commands /home/pedro/Documentos/tenaz_resources/
+tena config templates /home/pedro/Documentos/tena_resources/templates/
+tena config scaffolds /home/pedro/Documentos/tena_resources/scaffolds/
+tena config commands /home/pedro/Documentos/tena_resources/
 
 ![alt-text](resources.gif)
 

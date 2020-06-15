@@ -12,9 +12,9 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-class TenazException implements Exception {
+class TenaException implements Exception {
   final String msg;
-  TenazException(this.msg);
+  TenaException(this.msg);
 
   @override
   String toString() {
@@ -22,14 +22,14 @@ class TenazException implements Exception {
   }
 }
 
-class StorageException extends TenazException {
+class StorageException extends TenaException {
   StorageException(String msg) : super(msg);
 }
 
-class NotFounfTenazConfigException extends TenazException {
-  NotFounfTenazConfigException(String msg) : super(msg);
+class NotFounfTenaConfigException extends TenaException {
+  NotFounfTenaConfigException(String msg) : super(msg);
 }
 
-class YamlTemplateFileException extends TenazException {
+class YamlTemplateFileException extends TenaException {
   YamlTemplateFileException(String msg) : super(msg);
 }

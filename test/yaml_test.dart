@@ -1,8 +1,5 @@
 import 'dart:io';
-
-import 'package:tena/actions/add_pachage.dart';
-import 'package:tena/actions/clear_structure.dart';
-import 'package:tena/actions/create_structure.dart';
+import 'package:tena/actions/setup_yaml.dart';
 import 'package:tena/yaml_manager.dart';
 import 'package:test/test.dart';
 
@@ -40,7 +37,10 @@ void main() {
     '''));
   });
 
-  test('shoud add the package', () {
-    AddPackage('koin', 'flutter.yaml', '^0.9.1').execute();
+  test('setup YAML', () async {
+    var setupYaml = SetupYaml(
+        'test/resources/_pubspec.yaml', 'test/resources/scaffold.yaml');
+
+    await setupYaml.execute();
   });
 }

@@ -23,15 +23,15 @@ import 'package:tena/logger.dart';
 import 'package:tena/yaml_manager.dart';
 import 'commands/flutter/create_template.dart';
 
-class TenazCLI {
+class TenaCLI {
   final String _cliName = 'Tenaz CLI';
   final String _cliDescription = 'An incredible Dart CLI.';
   CommandRunner _commandRunner;
 
-  TenazCLI();
+  TenaCLI();
 
   Future<void> setupCommandRunner() async {
-    TenazConfig tenazConfig;
+    TenaConfig tenazConfig;
 
     try {
       _commandRunner = CommandRunner(_cliName, _cliDescription);
@@ -48,7 +48,7 @@ class TenazCLI {
               templateYamlPath: normalize(
                   '${tenazConfig.templatesPath}/${template.name}_template/template.yaml')));
         });
-      } on NotFounfTenazConfigException catch (erro) {
+      } on NotFounfTenaConfigException catch (erro) {
         logger.e('Warning: ${erro.msg}');
       } catch (erro) {
         rethrow;
@@ -56,7 +56,7 @@ class TenazCLI {
     } on StorageException catch (erro) {
       logger.d(erro.msg);
       exit(64);
-    } on TenazException catch (erro) {
+    } on TenaException catch (erro) {
       logger.d(erro.msg);
       exit(64);
     } catch (error) {

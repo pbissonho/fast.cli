@@ -5,7 +5,7 @@ void main() {
   test('Cache path test', () async {
     var configStorage = ConfigStorage();
 
-    await configStorage.setConfig(TenazConfig(
+    await configStorage.setConfig(TenaConfig(
         templatesPath: '/home/pedro/Documentos/tenaz_resources/templates/'));
 
     var getConfig = await configStorage.getConfig();

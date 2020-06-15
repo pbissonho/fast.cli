@@ -13,14 +13,18 @@
 //limitations under the License.
 
 import 'dart:io';
+import 'package:plain_optional/plain_optional.dart';
 import 'package:pubspec_yaml/pubspec_yaml.dart';
 import 'package:tena/core/action.dart';
+import 'package:tena/services/packages_service.dart';
 
 class SetupYaml implements Action {
   final String pubspecPath;
-  final String projectPath;
+  final String scaffoldPath;
+  var newHostedDependencies = <PackageDependencySpec>[];
+  var scaffoldYamlDependencies = <PackageDependencySpec>[];
 
-  SetupYaml(this.pubspecPath, this.projectPath);
+  SetupYaml(this.pubspecPath, this.scaffoldPath);
 
   String get finishedDescription => 'Setup pubspec.yaml';
 
@@ -28,21 +32,50 @@ class SetupYaml implements Action {
   Future<void> execute() async {
     var pubspecFile = File(pubspecPath);
 
-    final projectYaml = File('$projectPath').readAsStringSync().toPubspecYaml();
+    final scaffoldYaml =
+        await File('$scaffoldPath').readAsStringSync().toPubspecYaml();
 
-    final pubsYaml = pubspecFile.readAsStringSync().toPubspecYaml();
+    for (var depen in scaffoldYaml.dependencies) {
+      await depen.iswitch(sdk: (sdk) {
+        scaffoldYamlDependencies.add(PackageDependencySpec.sdk(sdk));
+      }, git: (git) {
+        scaffoldYamlDependencies.add(PackageDependencySpec.git(git));
+      }, path: (path) {
+        scaffoldYamlDependencies.add(PackageDependencySpec.path(path));
+      }, hosted: (hosted) async {
+        await process(hosted);
+      });
+    }
+
+    final pubsYaml = await pubspecFile.readAsStringSync().toPubspecYaml();
 
     var finalYaml = pubsYaml.copyWith(dependencies: [
-      ...projectYaml.dependencies,
+      ...newHostedDependencies,
+      ...scaffoldYamlDependencies,
       ...pubsYaml.dependencies
     ], devDependencies: [
-      ...projectYaml.devDependencies,
+      ...scaffoldYaml.devDependencies,
       ...pubsYaml.devDependencies
     ]);
 
     var yamlData = finalYaml.toYamlString();
 
     await pubspecFile.writeAsString(yamlData);
+  }
+
+  void process(HostedPackageDependencySpec hosted) async {
+    var pubService = PackagesService();
+    Package package;
+    try {
+      package = await pubService.fetchPackage(hosted.package);
+    } catch (error) {
+      rethrow;
+    }
+
+    var newHosted =
+        hosted.copyWith(version: Optional('^${package.latest.version}'));
+
+    newHostedDependencies.add(PackageDependencySpec.hosted(newHosted));
   }
 
   @override
