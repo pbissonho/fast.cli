@@ -12,18 +12,18 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-import 'package:tena/commands/flutter/add_package.dart';
-import 'package:tena/commands/flutter/clear_command.dart';
-import 'package:tena/commands/flutter/config_command.dart';
-import 'package:tena/commands/flutter/create_flutter_comand.dart';
-import 'package:tena/commands/flutter/run_command.dart';
-import 'package:tena/commands/flutter/setup_command.dart';
-import 'package:tena/tena.dart';
+import 'package:fast/commands/flutter/add_package.dart';
+import 'package:fast/commands/flutter/clear_command.dart';
+import 'package:fast/commands/flutter/config_command.dart';
+import 'package:fast/commands/flutter/create_flutter_comand.dart';
+import 'package:fast/commands/flutter/run_command.dart';
+import 'package:fast/commands/flutter/setup_command.dart';
+import 'package:fast/fast.dart';
 
 void main(List<String> arguments) async {
-  var tenazCLI = TenaCLI();
-  await tenazCLI.setupCommandRunner();
-  tenazCLI.configCommands([
+  var fastzCLI = fastCLI();
+  await fastzCLI.setupCommandRunner();
+  fastzCLI.configCommands([
     FlutterCreaterComand(),
     ClearCommand(),
     SetupComand(),
@@ -32,5 +32,5 @@ void main(List<String> arguments) async {
     ConfigCommand(),
     // CleateTemplate(logger)
   ]);
-  tenazCLI.run(arguments);
+  fastzCLI.run(arguments);
 }

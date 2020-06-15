@@ -1,4 +1,4 @@
-name: tena
+name: fast
 description: A sample command-line application.
 version: 0.0.9
 # homepage: https://www.example.com
@@ -6,7 +6,7 @@ version: 0.0.9
 
 # Add the bin/stagehand.dart script to the scripts pub installs.
 executables:
-  tena:
+  fast:
 
 environment:
   sdk: '>=2.7.2 <3.0.0'

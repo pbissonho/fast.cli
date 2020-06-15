@@ -15,8 +15,8 @@
 import 'dart:io';
 import 'package:plain_optional/plain_optional.dart';
 import 'package:pubspec_yaml/pubspec_yaml.dart';
-import 'package:tena/core/action.dart';
-import 'package:tena/services/packages_service.dart';
+import 'package:fast/core/action.dart';
+import 'package:fast/services/packages_service.dart';
 
 class SetupYaml implements Action {
   final String pubspecPath;

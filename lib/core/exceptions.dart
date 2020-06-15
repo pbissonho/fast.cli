@@ -12,9 +12,9 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-class TenaException implements Exception {
+class FastException implements Exception {
   final String msg;
-  TenaException(this.msg);
+  FastException(this.msg);
 
   @override
   String toString() {
@@ -22,14 +22,14 @@ class TenaException implements Exception {
   }
 }
 
-class StorageException extends TenaException {
+class StorageException extends FastException {
   StorageException(String msg) : super(msg);
 }
 
-class NotFounfTenaConfigException extends TenaException {
-  NotFounfTenaConfigException(String msg) : super(msg);
+class NotFounfFastConfigException extends FastException {
+  NotFounfFastConfigException(String msg) : super(msg);
 }
 
-class YamlTemplateFileException extends TenaException {
+class YamlTemplateFileException extends FastException {
   YamlTemplateFileException(String msg) : super(msg);
 }

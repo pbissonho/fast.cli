@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:tena/actions/create_template.dart';
-import 'package:tena/commands/flutter/create_template.dart';
-import 'package:tena/yaml_manager.dart';
+import 'package:fast/actions/create_template.dart';
+import 'package:fast/commands/flutter/create_template.dart';
+import 'package:fast/yaml_manager.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -78,4 +78,4 @@ main() {
   });
 }
 
-var tamplatesFolder = '/home/pedro/Documentos/tenaz_resources/';
+var tamplatesFolder = '/home/pedro/Documentos/fastz_resources/';

@@ -12,43 +12,43 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-library tena;
+library fast;
 
 import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:path/path.dart';
-import 'package:tena/config_storage.dart';
-import 'package:tena/core/exceptions.dart';
-import 'package:tena/logger.dart';
-import 'package:tena/yaml_manager.dart';
+import 'package:fast/config_storage.dart';
+import 'package:fast/core/exceptions.dart';
+import 'package:fast/logger.dart';
+import 'package:fast/yaml_manager.dart';
 import 'commands/flutter/create_template.dart';
 
-class TenaCLI {
-  final String _cliName = 'Tenaz CLI';
+class fastCLI {
+  final String _cliName = 'Fast CLI';
   final String _cliDescription = 'An incredible Dart CLI.';
   CommandRunner _commandRunner;
 
-  TenaCLI();
+  fastCLI();
 
   Future<void> setupCommandRunner() async {
-    TenaConfig tenazConfig;
+    FastConfig fastzConfig;
 
     try {
       _commandRunner = CommandRunner(_cliName, _cliDescription);
 
       try {
-        tenazConfig = await ConfigStorage().getConfig();
-        var templates = YamlManager.loadTemplates(tenazConfig.templatesPath);
+        fastzConfig = await ConfigStorage().getConfig();
+        var templates = YamlManager.loadTemplates(fastzConfig.templatesPath);
 
         templates.forEach((template) {
           _commandRunner.addCommand(CreateTemplateCommand(
               template: template,
               templateFolderPath: normalize(
-                  '${tenazConfig.templatesPath}/${template.name}_template'),
+                  '${fastzConfig.templatesPath}/${template.name}_template'),
               templateYamlPath: normalize(
-                  '${tenazConfig.templatesPath}/${template.name}_template/template.yaml')));
+                  '${fastzConfig.templatesPath}/${template.name}_template/template.yaml')));
         });
-      } on NotFounfTenaConfigException catch (erro) {
+      } on NotFounfFastConfigException catch (erro) {
         logger.e('Warning: ${erro.msg}');
       } catch (erro) {
         rethrow;
@@ -56,7 +56,7 @@ class TenaCLI {
     } on StorageException catch (erro) {
       logger.d(erro.msg);
       exit(64);
-    } on TenaException catch (erro) {
+    } on FastException catch (erro) {
       logger.d(erro.msg);
       exit(64);
     } catch (error) {

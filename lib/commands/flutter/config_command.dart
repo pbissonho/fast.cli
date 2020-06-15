@@ -13,7 +13,7 @@
 //limitations under the License.
 
 import 'package:flunt_dart/flunt_dart.dart';
-import 'package:tena/config_storage.dart';
+import 'package:fast/config_storage.dart';
 
 import '../command_base.dart';
 
@@ -42,7 +42,7 @@ class ConfigTemplatesPathCommand extends CommandBase {
     var templatesPath = argResults.rest[0];
     var configStorage = ConfigStorage();
 
-    await ConfigStorage().setConfig(TenaConfig(
+    await ConfigStorage().setConfig(FastConfig(
         scaffoldsPath:
             await configStorage.getConfigByKeyOrBlank(ConfigKeys.scaffoldsPath),
         templatesPath: templatesPath,
@@ -63,7 +63,7 @@ class ConfigProjectsPathCommand extends CommandBase {
     var scaffoldPath = argResults.rest[0];
     var configStorage = ConfigStorage();
 
-    await ConfigStorage().setConfig(TenaConfig(
+    await ConfigStorage().setConfig(FastConfig(
         scaffoldsPath: scaffoldPath,
         templatesPath:
             await configStorage.getConfigByKeyOrBlank(ConfigKeys.templatesPath),
@@ -84,7 +84,7 @@ class ConfigCommandsPathCommand extends CommandBase {
     var configStorage = ConfigStorage();
     var commandsPath = argResults.rest[0];
 
-    await ConfigStorage().setConfig(TenaConfig(
+    await ConfigStorage().setConfig(FastConfig(
         scaffoldsPath:
             await configStorage.getConfigByKeyOrBlank(ConfigKeys.scaffoldsPath),
         templatesPath:

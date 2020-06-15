@@ -1,4 +1,4 @@
-import 'package:tena/services/packages_service.dart';
+import 'package:fast/services/packages_service.dart';
 import 'package:test/test.dart';
 
 void main() {

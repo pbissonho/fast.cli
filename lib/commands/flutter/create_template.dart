@@ -14,11 +14,11 @@
 
 import 'dart:io';
 
-import 'package:tena/actions/create_template.dart';
+import 'package:fast/actions/create_template.dart';
 import '../../yaml_manager.dart';
 import '../command_base.dart';
 
-import 'package:tena/core/directory/directory.dart';
+import 'package:fast/core/directory/directory.dart';
 
 class CreateTemplateCommand extends CommandBase {
   final String templateYamlPath;

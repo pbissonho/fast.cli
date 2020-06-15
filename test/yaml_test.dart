@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:tena/actions/setup_yaml.dart';
-import 'package:tena/yaml_manager.dart';
+import 'package:fast/actions/setup_yaml.dart';
+import 'package:fast/yaml_manager.dart';
 import 'package:test/test.dart';
 
 void main() {

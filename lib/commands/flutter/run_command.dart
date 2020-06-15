@@ -15,8 +15,8 @@
 import 'dart:io';
 
 import 'package:flunt_dart/flunt_dart.dart';
-import 'package:tena/actions/run_command.dart';
-import 'package:tena/config_storage.dart';
+import 'package:fast/actions/run_command.dart';
+import 'package:fast/config_storage.dart';
 
 import '../command_base.dart';
 

@@ -15,7 +15,7 @@
 
 import 'dart:io';
 
-class TenazProcess {
+class FastProcess {
   Future<bool> executeProcess(
       String name, List<String> args, String path) async {
     var process = await Process.start(name, args,
@@ -34,7 +34,7 @@ class TenazProcess {
   }
 }
 
-class TenazProcessCli implements TenazProcess {
+class FastProcessCLI implements FastProcess {
   @override
   Future<bool> executeProcess(
       String name, List<String> args, String path) async {

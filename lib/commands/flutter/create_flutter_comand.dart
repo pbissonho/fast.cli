@@ -14,15 +14,15 @@
 
 import 'package:flunt_dart/flunt_dart.dart';
 import 'package:path/path.dart';
-import 'package:tena/yaml_manager.dart';
+import 'package:fast/yaml_manager.dart';
 import '../../config_storage.dart';
 import '../../logger.dart';
-import 'package:tena/actions/clear_structure.dart';
-import 'package:tena/actions/create_structure.dart';
-import 'package:tena/actions/creater_flutter_action.dart';
-import 'package:tena/actions/setup_yaml.dart';
-import 'package:tena/actions/show_folder_structure.dart';
-import 'package:tena/core/tenaz_process.dart';
+import 'package:fast/actions/clear_structure.dart';
+import 'package:fast/actions/create_structure.dart';
+import 'package:fast/actions/creater_flutter_action.dart';
+import 'package:fast/actions/setup_yaml.dart';
+import 'package:fast/actions/show_folder_structure.dart';
+import 'package:fast/core/process_extension.dart';
 import '../command_base.dart';
 
 class FlutterAppArgs {
@@ -91,7 +91,7 @@ class FlutterCreaterComand extends CommandBase {
 
     // Create Flutter App
     var createFlutter =
-        CreaterFlutterAction(appName, flutterScaffoldArgs, TenazProcessCli());
+        CreaterFlutterAction(appName, flutterScaffoldArgs, FastProcessCLI());
     await createFlutter.execute();
     logger.d('Action: ${createFlutter.actionName}');
 

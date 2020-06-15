@@ -13,8 +13,8 @@
 //limitations under the License.
 import 'dart:io';
 
-import 'package:tena/core/action.dart';
-import 'package:tena/core/directory/directory.dart';
+import 'package:fast/core/action.dart';
+import 'package:fast/core/directory/directory.dart';
 
 class ClearScaffoldStructure implements Action {
   final String path;

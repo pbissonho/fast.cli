@@ -12,7 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-import 'package:tena/actions/add_pachage.dart';
+import 'package:fast/actions/add_pachage.dart';
 import '../../logger.dart';
 import '../command_base.dart';
 

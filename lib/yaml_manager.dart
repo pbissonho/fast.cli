@@ -213,7 +213,7 @@ class YamlTemplateReader {
         description: yamlData['description'],
       );
     } catch (error) {
-      throw TenaException('''
+      throw FastException('''
 An error occurred while reading the template $path's file.
 Check that the yaml file has been written correctly.
 Error: $error

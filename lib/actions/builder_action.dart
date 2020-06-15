@@ -11,8 +11,8 @@
 //WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //See the License for the specific language governing permissions and
 //limitations under the License.
-import 'package:tena/core/action.dart';
-import 'package:tena/logger.dart';
+import 'package:fast/core/action.dart';
+import 'package:fast/logger.dart';
 
 class ActionBuilder implements Action {
   List<Action> internalActions;

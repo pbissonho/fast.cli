@@ -15,8 +15,8 @@
 import 'dart:io';
 
 import 'package:path/path.dart';
-import 'package:tena/core/action.dart';
-import 'package:tena/yaml_manager.dart';
+import 'package:fast/core/action.dart';
+import 'package:fast/yaml_manager.dart';
 import '../core/directory/directory.dart';
 
 class TemplateFile {

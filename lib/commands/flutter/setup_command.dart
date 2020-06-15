@@ -15,8 +15,8 @@
 import 'dart:io';
 
 import 'package:flunt_dart/flunt_dart.dart';
-import 'package:tena/actions/setup_action.dart';
-import 'package:tena/actions/show_folder_structure.dart';
+import 'package:fast/actions/setup_action.dart';
+import 'package:fast/actions/show_folder_structure.dart';
 import '../../config_storage.dart';
 import '../../yaml_manager.dart';
 import '../command_base.dart';

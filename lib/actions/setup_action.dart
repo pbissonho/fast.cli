@@ -13,10 +13,10 @@
 //limitations under the License.
 
 import 'dart:io';
-import 'package:tena/actions/create_structure.dart';
-import 'package:tena/core/action.dart';
-import 'package:tena/core/directory/directory.dart';
-import 'package:tena/yaml_manager.dart';
+import 'package:fast/actions/create_structure.dart';
+import 'package:fast/core/action.dart';
+import 'package:fast/core/directory/directory.dart';
+import 'package:fast/yaml_manager.dart';
 
 import '../logger.dart';
 

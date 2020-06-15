@@ -1,5 +1,5 @@
-# Tena CLI
- 
+# FAST CLI
+
 An incredible command line interface for Flutter.
 
 With this CLI, you can create your custom templates and define how your project will start.
@@ -14,7 +14,6 @@ That way you are not forced to use the project structure set by someone else and
 - Custom commands
 - Standard line commands (Some commands already included in the CLI)
     - install (Add a package to the project dependencies)
-    - unistall (Remove a package to the project dependencies)
 
 
 ## Template generator example
@@ -68,11 +67,11 @@ args:
 
 Run this command so that your template is generated.
 
-tenaz <template_name>  <templates_arg1, templates_arg2, templates_arg3....>
+fast <template_name>  <templates_arg1, templates_arg2, templates_arg3....>
 
 Example:
 run on cmd:
-tenaz page --name home
+fast page --name home
 
 ### Result 
 
@@ -141,10 +140,10 @@ dev_dependencies:
 
 Run this command for your application to be created.
 
-tena create --name <app_name> --scafoold <scafoold_name> 
+fast create --name <app_name> --scafoold <scafoold_name> 
 
 run on cmd:
-tena create --name myapp --scafoold sample
+fast create --name myapp --scafoold sample
 
 ### Result 
 
@@ -166,10 +165,10 @@ commands:
 
 ### Running a command
 
-tenaz run <command_name>
+fast run <command_name>
 
 Example:
-tenaz run runner
+fast run runner
 
 
 # Setup
@@ -180,25 +179,25 @@ Install this package globally. To do this, you must have the Dart SDK [installed
 See the [guide](https://dart.dev/tools/pub/cmd/pub-global) referring to the installation of packages globally if you have any doubts on how to do it.
 
 run on cmd: 
-pub global activate tenaz
+pub global activate fast
 
 ## Config
 
 Before using the CLI, it is necessary to configure where your templates, commands and scaffolds are. Once this configuration is made, you only need to add new resources.
 If these paths are not defined, the CLI will not work correctly, because by default the CLI does not come with resources, it is necessary to create new ones or use resources already created by the community.
-In the [resources repository](https://github.com/pbissonho/tenaz) you can download a set of resources already created.
+In the [resources repository](https://github.com/pbissonho/fast) you can download a set of resources already created.
 
 Configure the path of the templates that will be used by the CLI.
 
 run on cmd: 
-tena config templates <templates_path>
-tena config scaffolds <scaffolds_path>
-tena config commands <commands_yaml_file_path>
+fast config templates <templates_path>
+fast config scaffolds <scaffolds_path>
+fast config commands <commands_yaml_file_path>
 
 Example: 
-tena config templates /home/pedro/Documentos/tena_resources/templates/
-tena config scaffolds /home/pedro/Documentos/tena_resources/scaffolds/
-tena config commands /home/pedro/Documentos/tena_resources/
+fast config templates /home/pedro/Documentos/fast_resources/templates/
+fast config scaffolds /home/pedro/Documentos/fast_resources/scaffolds/
+fast config commands /home/pedro/Documentos/fast_resources/
 
 ![alt-text](resources.gif)
 

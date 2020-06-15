@@ -23,14 +23,14 @@ class ConfigKeys {
   static const String commandsFilePath = 'commandsFilePath';
 }
 
-class TenaConfig {
+class FastConfig {
   String templatesPath;
   String scaffoldsPath;
   String commandsFilePath;
 
-  TenaConfig({this.templatesPath, this.scaffoldsPath, this.commandsFilePath});
+  FastConfig({this.templatesPath, this.scaffoldsPath, this.commandsFilePath});
 
-  TenaConfig._fromJson(Map<String, dynamic> json) {
+  FastConfig._fromJson(Map<String, dynamic> json) {
     templatesPath = json[ConfigKeys.templatesPath];
     commandsFilePath = json[ConfigKeys.commandsFilePath];
     templatesPath = json[ConfigKeys.templatesPath];
@@ -46,13 +46,13 @@ class TenaConfig {
 }
 
 class ConfigStorage {
-  Future setConfig(TenaConfig tenazConfig) async {
+  Future setConfig(FastConfig tenazConfig) async {
     await _updateFile(tenazConfig._toJson());
   }
 
-  Future<TenaConfig> getConfig() async {
+  Future<FastConfig> getConfig() async {
     var data = await _readFile();
-    return TenaConfig._fromJson(data);
+    return FastConfig._fromJson(data);
   }
 
   Future<String> getConfigByKeyOrBlank(String key) async {
@@ -103,7 +103,7 @@ class ConfigStorage {
     var file = File('${_homePath()}/.tena.json');
 
     if (!await file.exists() || await file.readAsString.toString().isEmpty) {
-      throw NotFounfTenaConfigException('''
+      throw NotFounfFastConfigException('''
 Before using the CLI, you must configure the templates folder path.
 Use the command "tena config <folder path> 'to configure the location of the templates.
 Example: tena config /home/pedro/Documents/templates/

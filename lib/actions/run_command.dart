@@ -13,10 +13,10 @@
 //limitations under the License.
 import 'dart:io';
 
+import 'package:fast/core/process_extension.dart';
 import 'package:path/path.dart';
-import 'package:tena/core/action.dart';
-import 'package:tena/core/tenaz_process.dart';
-import 'package:tena/yaml_manager.dart';
+import 'package:fast/core/action.dart';
+import 'package:fast/yaml_manager.dart';
 
 class RunCommandAction implements Action {
   final String yamlCommandPath;
@@ -35,7 +35,7 @@ class RunCommandAction implements Action {
     var splited = yamlCommand.command.split(' ');
     var name = splited[0];
 
-    await TenazProcessCli().executeProcess(name,
+    await FastProcessCLI().executeProcess(name,
         splited.getRange(1, splited.length).toList(), workingDirectory.path);
   }
 

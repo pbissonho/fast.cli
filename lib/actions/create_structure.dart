@@ -12,9 +12,9 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 import 'dart:io';
-import 'package:tena/core/action.dart';
-import 'package:tena/core/directory/directory.dart';
-import 'package:tena/yaml_manager.dart';
+import 'package:fast/core/action.dart';
+import 'package:fast/core/directory/directory.dart';
+import 'package:fast/yaml_manager.dart';
 
 class CreateScaffoldStructure extends CreateFolderStructure {
   CreateScaffoldStructure(String path, Folder folder) : super(path, folder);
