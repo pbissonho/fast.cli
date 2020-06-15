@@ -143,6 +143,7 @@ Run this command for your application to be created.
 fast create --name <app_name> --scafoold <scafoold_name> 
 
 run on cmd:
+
 fast create --name myapp --scafoold sample
 
 ### Result 
@@ -168,6 +169,7 @@ commands:
 fast run <command_name>
 
 Example:
+
 fast run runner
 
 
@@ -185,18 +187,22 @@ pub global activate fast
 
 Before using the CLI, it is necessary to configure where your templates, commands and scaffolds are. Once this configuration is made, you only need to add new resources.
 If these paths are not defined, the CLI will not work correctly, because by default the CLI does not come with resources, it is necessary to create new ones or use resources already created by the community.
-In the [resources repository](https://github.com/pbissonho/fast) you can download a set of resources already created.
+In the [resources repository](https://github.com/pbissonho/fast_resources) you can download a set of resources already created.
 
 Configure the path of the templates that will be used by the CLI.
 
-run on cmd: 
+run on cmd:
 fast config templates <templates_path>
+
 fast config scaffolds <scaffolds_path>
+
 fast config commands <commands_yaml_file_path>
 
 Example: 
 fast config templates /home/pedro/Documentos/fast_resources/templates/
+
 fast config scaffolds /home/pedro/Documentos/fast_resources/scaffolds/
+
 fast config commands /home/pedro/Documentos/fast_resources/
 
 ![alt-text](resources.gif)
