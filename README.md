@@ -155,7 +155,7 @@ fast create --name myapp --scafoold sample
 
 An application created with structure and dependencies selects no sample of scaffolding.
 
-![alt text](scaffold.png)
+![alt text](https://github.com/pbissonho/fast.cli/blob/master/scaffold.png)
 
 ## Commands example 
 
@@ -210,7 +210,7 @@ fast config scaffolds /home/pedro/Documentos/fast_resources/scaffolds/
 
 fast config commands /home/pedro/Documentos/fast_resources/
 
-![alt-text](resources.gif)
+![alt-text](https://github.com/pbissonho/fast.cli/blob/master/resources.gif)
 
 # License
 

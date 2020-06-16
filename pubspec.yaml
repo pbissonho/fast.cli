@@ -1,7 +1,7 @@
 name: fast
 description: A sample command-line application.
-version: 0.0.9
-# homepage: https://www.example.com
+version: 0.1.0
+homepage: https://github.com/pbissonho/fast.cli
 # author: Pedro Bissonho <pedro.bissonho@gmail.com>
 
 # Add the bin/stagehand.dart script to the scripts pub installs.
@@ -15,8 +15,7 @@ dependencies:
   path: ^1.6.4
   args: ^1.5.2
   logger: ^0.7.0+2
-  flunt_dart: 
-    git: https://github.com/PedroBissonho/flunt-dart.git
+  flunt_dart: ^0.4.0
   process_run: ^0.10.3
   yaml: ^2.2.1  
   http: ^0.12.1
