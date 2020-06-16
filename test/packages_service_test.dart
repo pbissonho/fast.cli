@@ -8,4 +8,11 @@ void main() {
     expect(package, isNotNull);
     expect(package.name, 'koin');
   });
+
+  test('shoud not get a package that does not exist', () async {
+    var packagesService = await PackagesService();
+
+    expect(() => packagesService.fetchPackage('fdsfsdf'),
+        throwsA((value) => value is Exception));
+  });
 }

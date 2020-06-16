@@ -1,7 +1,7 @@
 # FAST CLI
 
-[![Build Status](https://travis-ci.org/pbissonho/fast.cli.dart.svg?branch=master)](https://travis-ci.org/pbissonho/koin.dart)
-[![codecov](https://codecov.io/gh/pbissonho/fast.cli.dart/branch/master/graph/badge.svg)](https://codecov.io/gh/pbissonho/koin.dart)
+[![Build Status](https://travis-ci.org/pbissonho/fast.cli.svg?branch=master)](https://travis-ci.org/github/pbissonho/fast.cli)
+[![codecov](https://codecov.io/gh/pbissonho/fast.cli/branch/master/graph/badge.svg)](https://codecov.io/gh/pbissonho/fast.cli)
 [![pub package](https://img.shields.io/pub/v/fast.svg)](https://pub.dev/packages/fast)
 
 An incredible command line interface for Flutter.
