@@ -15,6 +15,11 @@ That way you are not forced to use the project structure set by someone else and
 - Standard line commands (Some commands already included in the CLI)
     - install (Add a package to the project dependencies)
 
+## Table Of Contents 
+- [Template generator example](#templategeneratorexample)
+- [Scaffold generator exemple](#scaffoldgeneratorexemple)
+- [Commands example](#commandsexample)
+- [Installation](#installation)
 
 ## Template generator example
 
@@ -173,7 +178,7 @@ Example:
 fast run runner
 
 
-# Setup
+# Installation
 
 ## Install
 
