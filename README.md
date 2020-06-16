@@ -16,9 +16,9 @@ That way you are not forced to use the project structure set by someone else and
     - install (Add a package to the project dependencies)
 
 ## Table Of Contents 
-- [Template generator example](#templategeneratorexample)
-- [Scaffold generator exemple](#scaffoldgeneratorexemple)
-- [Commands example](#commandsexample)
+- [Template generator example](#template-generator-example)
+- [Scaffold generator Example](#scaffold-generator-example)
+- [Commands example](#commands-example)
 - [Installation](#installation)
 
 ## Template generator example
@@ -74,7 +74,7 @@ Run this command so that your template is generated.
 
 fast <template_name>  <templates_arg1, templates_arg2, templates_arg3....>
 
-Example:
+example:
 run on cmd:
 fast page --name home
 
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
 }
 ```
 
-## Scaffold generator exemple
+## Scaffold generator example
 
 ### Scaffold example:
 
@@ -173,7 +173,7 @@ commands:
 
 fast run <command_name>
 
-Example:
+example:
 
 fast run runner
 
@@ -202,7 +202,7 @@ fast config scaffolds <scaffolds_path>
 
 fast config commands <commands_yaml_file_path>
 
-#### Example
+#### example
 
 fast config templates /home/pedro/Documentos/fast_resources/templates/
 
