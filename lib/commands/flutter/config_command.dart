@@ -55,7 +55,7 @@ class ConfigProjectsPathCommand extends CommandBase {
   @override
   String get description => 'Config the template path.';
   @override
-  String get name => 'scaffold';
+  String get name => 'scaffolds';
 
   @override
   Future<void> run() async {
