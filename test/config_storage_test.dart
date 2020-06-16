@@ -11,5 +11,5 @@ void main() {
     var getConfig = await configStorage.getConfig();
 
     print(getConfig);
-  });
+  }, skip: true);
 }

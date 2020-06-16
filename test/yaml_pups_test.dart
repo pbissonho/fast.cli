@@ -22,5 +22,5 @@ void main() {
     var yamlData = finalYaml.toYamlString();
 
     pubspecFile.writeAsString(yamlData);
-  });
+  }, skip: true);
 }

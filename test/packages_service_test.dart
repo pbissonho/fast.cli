@@ -2,9 +2,10 @@ import 'package:fast/services/packages_service.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('Pub test', () async {
-    var package = await PackagesService().fetchPackage('tutuca');
+  test('shoud get a package', () async {
+    var package = await PackagesService().fetchPackage('koin');
 
-    print(package);
+    expect(package, isNotNull);
+    expect(package.name, 'koin');
   });
 }

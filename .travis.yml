@@ -1,0 +1,22 @@
+language: dart
+os:
+  - linux
+sudo: required
+dist: trusty
+dart:
+  - stable
+
+install:
+  - echo 'Avoid default Travis CI install step' # this is to avoid an error with pub in Travis
+
+script:
+  - ls
+  - pub get
+  - pub run test_coverage
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+cache:
+  directories:
+    - $HOME/.pub-cache
