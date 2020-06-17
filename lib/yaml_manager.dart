@@ -125,10 +125,11 @@ class Template {
 }
 
 class Scaffold {
+  final String name;
   final Structure structure;
   final Structure testStructure;
 
-  Scaffold({this.structure, this.testStructure});
+  Scaffold({this.structure, this.testStructure, this.name});
 }
 
 class YamlManager {
@@ -182,11 +183,12 @@ class YamlManager {
 
     structureData = yamldata[YamlScaffoldKeys.structureKey];
     var structure = Structure(structureData);
-
+    var name = yamldata['name'];
     var testStructureData = yamldata[YamlScaffoldKeys.testStructureKey];
     var testStructure = Structure(testStructureData);
 
     return Scaffold(
+      name: name,
       structure: structure,
       testStructure: testStructure,
     );

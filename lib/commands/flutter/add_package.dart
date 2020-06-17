@@ -32,7 +32,7 @@ class InstallPackageCommand extends CommandBase {
   @override
   Future<void> run() async {
     var packageName = argResults.rest[0];
-    // var packageVersion = argResults['version'];
+    var packageVersion = argResults['version'];
 
     var addPackageAction = AddPackage(packageName, 'pubspec.yaml', '');
     await addPackageAction.execute();

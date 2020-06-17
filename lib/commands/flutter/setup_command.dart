@@ -23,12 +23,11 @@ import '../command_base.dart';
 
 class SetupComand extends CommandBase {
   @override
-  String get description => 'Create the app and folder structure';
+  String get description =>
+      'Create the folder structure and configure the dependencies.';
 
   @override
   String get name => 'setup';
-
-  String get finishedDescription => 'Create the app and folder structure';
 
   SetupComand() {
     argParser.addFlag('force',
@@ -43,8 +42,9 @@ class SetupComand extends CommandBase {
     var scaffoldName = argResults['scaffold'];
 
     var scaffoldsPath =
-        ConfigStorage().getConfigByKeyOrBlank(ConfigKeys.scaffoldsPath);
-    var scaffold = YamlManager.loadScaffold('$scaffoldsPath/$scaffoldName');
+        await ConfigStorage().getConfigByKeyOrBlank(ConfigKeys.scaffoldsPath);
+    var scaffold =
+        await YamlManager.loadScaffold('$scaffoldsPath/$scaffoldName');
 
     await SetupAction(Directory.current.path, force, scaffold).execute();
     await ShowFolderStructure(scaffold.structure.mainFolder).execute();
