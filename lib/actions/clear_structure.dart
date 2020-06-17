@@ -27,5 +27,5 @@ class ClearScaffoldStructure implements Action {
   }
 
   @override
-  String get actionName => 'Clear project structure';
+  String get succesMessage => 'Cleaned ${path} folder.';
 }

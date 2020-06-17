@@ -40,5 +40,5 @@ class RunCommandAction implements Action {
   }
 
   @override
-  String get actionName => 'Run command.';
+  String get succesMessage => 'Run command.';
 }

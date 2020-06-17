@@ -12,6 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+import 'package:fast/actions/builder_action.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 import 'package:path/path.dart';
 import 'package:fast/yaml_manager.dart';
@@ -58,8 +59,7 @@ class FlutterCreaterComand extends CommandBase {
   FlutterCreaterComand() {
     argParser.addOption('name', abbr: 'n', help: 'Project name.');
     argParser.addOption('scaffold', abbr: 's', help: 'Scaffold template name.');
-    argParser.addOption('description',
-        abbr: 'd', help: 'Project descritiopn.');
+    argParser.addOption('description', abbr: 'd', help: 'Project descritiopn.');
     argParser.addFlag('kotlin', abbr: 'a', help: 'User kotlin.');
     argParser.addFlag('swift', abbr: 'i', help: 'User Swift.');
     argParser.addFlag('androidx', abbr: 'x', help: 'Use AndroidX.');
@@ -89,49 +89,24 @@ class FlutterCreaterComand extends CommandBase {
     validate(
         Contract<FlutterAppArgs>(flutterScaffoldArgs, 'FlutterScaffoldArgs'));
 
-    // Create Flutter App
-    var createFlutter =
-        CreaterFlutterAction(appName, flutterScaffoldArgs, FastProcessCLI());
-    await createFlutter.execute();
-    logger.d('Action: ${createFlutter.actionName}');
+    await CreaterFlutterAction(appName, flutterScaffoldArgs, FastProcessCLI())
+        .execute();
 
-    // Clear Flutter lib and test folders.
-    var clearLibFolder = ClearScaffoldStructure('$appName/lib');
-    var clearTestFolder = ClearScaffoldStructure('$appName/test');
-    await clearLibFolder.execute();
-    await clearTestFolder.execute();
-    logger.d('Action: ${clearLibFolder.actionName}');
-    logger.d('Action: ${clearTestFolder.actionName}');
+    var actionBuilder = ActionBuilder([
+      ClearScaffoldStructure('$appName/lib'),
+      ClearScaffoldStructure('$appName/test'),
+      CreateFolderStructure('$appName/lib', Scaffold.structure.mainFolder,
+          'Created /lib folder structure.'),
+      ShowFolderStructure(Scaffold.structure.mainFolder),
+      CreateFolderStructure('$appName/test', Scaffold.testStructure.mainFolder,
+          'Created /test folder structure.'),
+      ShowFolderStructure(Scaffold.testStructure.mainFolder),
+      SetupYaml('$appName/pubspec.yaml',
+          normalize('$ScaffoldsPath/$scaffoldName/scaffold.yaml'))
+    ]);
 
-    // Scaffold Structure
-    var createScaffoldStructure =
-        CreateScaffoldStructure('$appName/lib', Scaffold.structure.mainFolder);
+    await actionBuilder.execute();
 
-    var showScaffoldStructure =
-        ShowFolderStructure(Scaffold.structure.mainFolder);
-
-    await createScaffoldStructure.execute();
-    logger.d('Action: ${createScaffoldStructure.actionName}');
-    await showScaffoldStructure.execute();
-    logger.d('Action: ${showScaffoldStructure.actionName}');
-
-    // Test Structure
-    var createTestStructure = CreateFolderStructure(
-        '$appName/test', Scaffold.testStructure.mainFolder);
-    var showTestStructure =
-        ShowFolderStructure(Scaffold.testStructure.mainFolder);
-    await createTestStructure.execute();
-    logger.d('Action: ${createTestStructure.actionName}');
-    await showTestStructure.execute();
-    logger.d('Action: ${showTestStructure.actionName}');
-
-    // Setup YAML
-    var setupYaml = SetupYaml('$appName/pubspec.yaml',
-        normalize('$ScaffoldsPath/$scaffoldName/scaffold.yaml'));
-    await setupYaml.execute();
-    logger.d('Action: ${setupYaml.actionName}');
-
-    logger.d('${runtimeType.toString()} finished. - $finishedDescription');
+    logger.d('All done. Application created and configured.');
   }
 }
-

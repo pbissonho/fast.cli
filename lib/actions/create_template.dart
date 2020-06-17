@@ -117,5 +117,5 @@ class CreateTemplateAction implements Action {
   }
 
   @override
-  String get actionName => 'Create template action.';
+  String get succesMessage => 'Create template action.';
 }

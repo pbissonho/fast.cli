@@ -15,32 +15,30 @@ import 'package:fast/core/action.dart';
 import 'package:fast/logger.dart';
 
 class ActionBuilder implements Action {
-  List<Action> internalActions;
+  List<Action> _actions;
 
-  @override
-  String actionName = 'ActionBuilder';
+  List<Action> get actions => _actions;
 
-  ActionBuilder([List<Action> actions]) {
-    if (actions == null) {
-      internalActions = <Action>[];
-    } else {
-      internalActions = actions;
-    }
+  ActionBuilder([this._actions]) {
+    _actions ??= <Action>[];
   }
 
   void add(Action action) {
-    internalActions.add(action);
+    _actions.add(action);
+  }
+
+  void addAll(List<Action> actions) {
+    _actions.addAll(actions);
   }
 
   @override
   Future<void> execute() async {
-    try {
-      internalActions.forEach((f) async {
-        await f.execute();
-        logger.d("Action:'${f.actionName}");
-      });
-    } catch (e) {
-      rethrow;
+    for (var action in actions) {
+      await action.execute();
+      logger.d(action.succesMessage);
     }
   }
+
+  @override
+  String get succesMessage => 'Actino builder.';
 }

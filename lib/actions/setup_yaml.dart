@@ -79,5 +79,5 @@ class SetupYaml implements Action {
   }
 
   @override
-  String get actionName => 'Setup pubspec.yaml';
+  String get succesMessage => 'Configured pubspec.yaml with dependencies and dev_dependencies.';
 }

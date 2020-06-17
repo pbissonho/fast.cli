@@ -19,11 +19,8 @@ import '../logger.dart';
 
 abstract class CommandBase<T> extends Command<T> {
   void validate(Contract contract) async {
-    var comandName = runtimeType.toString();
-    logger.d('$comandName triggered.');
     if (contract.invalid) {
-      logger.e('The past arguments are valid..');
-
+      logger.e('Arguments passed are invalid..');
       logger.w('---Causes---\n');
       contract.notifications.forEach((notification) {
         logger.w(
@@ -31,7 +28,5 @@ abstract class CommandBase<T> extends Command<T> {
       });
       exit(168);
     }
-    logger.d('Past arguments are valid.');
-    logger.d('Initializing $comandName command...');
   }
 }

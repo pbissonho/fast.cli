@@ -23,7 +23,7 @@ class ShowFolderStructure implements Action {
 
   @override
   Future<void> execute() async {
-    logger.d('Folder structure: ');
+    logger.d('Structure: \n-----------');
 
     folder.subFolders.forEach((folder) {
       exibirFolders(2, folder);
@@ -39,5 +39,5 @@ class ShowFolderStructure implements Action {
   }
 
   @override
-  String get actionName => 'Show folder structure.';
+  String get succesMessage => '-----------';
 }

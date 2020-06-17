@@ -51,5 +51,5 @@ class AddPackage implements Action {
   }
 
   @override
-  String get actionName => 'Add a package to project.';
+  String get succesMessage => 'Add a package to project.';
 }

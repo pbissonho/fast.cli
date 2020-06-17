@@ -14,5 +14,5 @@
 
 abstract class Action {
   Future<void> execute();
-  String get actionName;
+  String get succesMessage;
 }

@@ -42,5 +42,5 @@ class CreaterFlutterAction implements Action {
   }
 
   @override
-  String get actionName => 'Create flutter app.';
+  String get succesMessage => 'Create flutter app.';
 }

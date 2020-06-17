@@ -16,18 +16,12 @@ import 'package:fast/core/action.dart';
 import 'package:fast/core/directory/directory.dart';
 import 'package:fast/yaml_manager.dart';
 
-class CreateScaffoldStructure extends CreateFolderStructure {
-  CreateScaffoldStructure(String path, Folder folder) : super(path, folder);
-
-  @override
-  String get actionName => 'Create Scaffold structure.';
-}
-
 class CreateFolderStructure implements Action {
   final String path;
   final Folder folder;
+  final String message;
 
-  CreateFolderStructure(this.path, this.folder);
+  CreateFolderStructure(this.path, this.folder, this.message);
 
   @override
   Future<void> execute() async {
@@ -53,5 +47,5 @@ class CreateFolderStructure implements Action {
   }
 
   @override
-  String get actionName => 'Create folder structure.';
+  String get succesMessage => message;
 }

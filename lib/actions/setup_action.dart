@@ -33,7 +33,7 @@ class SetupAction implements Action {
   Future<void> execute() async {
     var libPath = '$path/lib';
     var createStructAction =
-        CreateScaffoldStructure(libPath, project.structure.mainFolder);
+        CreateFolderStructure(libPath, project.structure.mainFolder, 'Created /lib structure.');
 
     if (await Directory(libPath).existsFiles()) {
       if (force) {
@@ -53,5 +53,5 @@ ${runtimeType.toString()} failed. - Lib folder has data. Use --force to allow th
   }
 
   @override
-  String get actionName => 'Setup';
+  String get succesMessage => 'Setup';
 }
