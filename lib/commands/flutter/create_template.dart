@@ -15,6 +15,7 @@
 import 'dart:io';
 
 import 'package:fast/actions/create_template.dart';
+import '../../replacer.dart';
 import '../../yaml_manager.dart';
 import '../command_base.dart';
 

@@ -120,8 +120,27 @@ class Template {
   final String description;
   final String to;
   final List<String> args;
+  final List<TemplateSnippet> templateSnippets;
 
-  Template({this.description, this.name, this.to, this.args});
+  bool hasSnippets() {
+    return templateSnippets != null;
+  }
+
+  Template({
+    this.description,
+    this.name,
+    this.to,
+    this.args,
+    this.templateSnippets,
+  });
+}
+
+class TemplateSnippet {
+  final String fileName;
+  final String prefix;
+  final List<int> excludeLines;
+
+  TemplateSnippet({this.fileName, this.prefix, this.excludeLines});
 }
 
 class Scaffold {
@@ -208,12 +227,39 @@ class YamlTemplateReader {
       var yamlData = yamlReader.reader();
       var args =
           (yamlData['args'] as YamlList).map((value) => '$value').toList();
+
+      YamlList snippetsData;
+      var snippets = <TemplateSnippet>[];
+
+      try {
+        snippetsData = (yamlData['snippets'] as YamlList);
+        var listSnippetsData = snippetsData.toList();
+
+        for (var item in listSnippetsData) {
+          var mapData = (item as YamlMap);
+          var templateSnippet = TemplateSnippet(
+              fileName: mapData['file'],
+              prefix: mapData['prefix'],
+              excludeLines: (mapData['excluded'] as YamlList)
+                  .map<int>((f) => f)
+                  .toList());
+          snippets.add(templateSnippet);
+        }
+      } catch (erro) {
+        return Template(
+          name: yamlData['name'],
+          to: yamlData['to'],
+          args: args,
+          description: yamlData['description'],
+        );
+      }
+
       return Template(
-        name: yamlData['name'],
-        to: yamlData['to'],
-        args: args,
-        description: yamlData['description'],
-      );
+          name: yamlData['name'],
+          to: yamlData['to'],
+          args: args,
+          description: yamlData['description'],
+          templateSnippets: snippets);
     } catch (error) {
       throw FastException('''
 An error occurred while reading the template $path's file.

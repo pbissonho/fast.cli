@@ -16,6 +16,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'core/exceptions.dart';
+import 'core/home_path.dart';
 
 class ConfigKeys {
   static const String templatesPath = 'templatesPath';
@@ -33,7 +34,7 @@ class FastConfig {
   FastConfig._fromJson(Map<String, dynamic> json) {
     templatesPath = json[ConfigKeys.templatesPath];
     commandsFilePath = json[ConfigKeys.commandsFilePath];
-    templatesPath = json[ConfigKeys.templatesPath];
+    scaffoldsPath = json[ConfigKeys.scaffoldsPath];
   }
 
   Map<String, dynamic> _toJson() {
@@ -46,6 +47,12 @@ class FastConfig {
 }
 
 class ConfigStorage {
+  String _filePath = '${homePath}/.fast.json';
+
+  ConfigStorage([String filePath]) {
+    if (filePath != null) _filePath = filePath;
+  }
+
   Future setConfig(FastConfig tenazConfig) async {
     await _updateFile(tenazConfig._toJson());
   }
@@ -56,7 +63,7 @@ class ConfigStorage {
   }
 
   Future<String> getConfigByKeyOrBlank(String key) async {
-    var file = File('${_homePath()}/.fast.json');
+    var file = File(_filePath);
     dynamic data;
     if (!await file.exists() || await file.readAsString.toString().isEmpty) {
       return '';
@@ -70,21 +77,8 @@ class ConfigStorage {
     }
   }
 
-  String _homePath() {
-    String home;
-    var envVars = Platform.environment;
-    if (Platform.isMacOS) {
-      home = envVars['HOME'];
-    } else if (Platform.isLinux) {
-      home = envVars['HOME'];
-    } else if (Platform.isWindows) {
-      home = envVars['UserProfile'];
-    }
-    return home;
-  }
-
   Future _updateFile(Map<String, dynamic> data) async {
-    var file = File('${_homePath()}/.fast.json');
+    var file = File(_filePath);
     bool exists;
 
     exists = await file.exists();
@@ -100,7 +94,7 @@ class ConfigStorage {
   }
 
   Future<Map<String, dynamic>> _readFile() async {
-    var file = File('${_homePath()}/.fast.json');
+    var file = File(_filePath);
 
     if (!await file.exists() || await file.readAsString.toString().isEmpty) {
       throw NotFounfFastConfigException('''

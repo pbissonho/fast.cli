@@ -71,7 +71,7 @@ class Package {
 
 class Version {
   String version;
-  Pubspec pubspec;
+//  Pubspec pubspec;
   String archiveUrl;
   String published;
 
@@ -79,13 +79,14 @@ class Version {
 
   Version.fromJson(Map<String, dynamic> json) {
     version = json['version'];
-    pubspec =
-        json['pubspec'] != null ? Pubspec.fromJson(json['pubspec']) : null;
+//    pubspec =
+//       json['pubspec'] != null ? Pubspec.fromJson(json['pubspec']) : null;
     archiveUrl = json['archive_url'];
     published = json['published'];
   }
 }
 
+/*
 class Pubspec {
   String name;
   String description;
@@ -195,4 +196,4 @@ class PubspecX {
         ? DevDependencies.fromJson(json['dev_dependencies'])
         : null;
   }
-}
+}*/
