@@ -57,12 +57,24 @@ class ConfigStorage {
     await _updateFile(tenazConfig._toJson());
   }
 
+  Future setValue(String key, String value) async {
+    var file = File(_filePath);
+    dynamic data;
+    if (!await file.exists() || await file.readAsString.toString().isEmpty) {
+      data = {};
+    }
+    var fileContents = await file.readAsString();
+    data = await json.decode(fileContents) as Map;
+    data[key] = value;
+    await _updateFile(data);
+  }
+
   Future<FastConfig> getConfig() async {
     var data = await _readFile();
     return FastConfig._fromJson(data);
   }
 
-  Future<String> getConfigByKeyOrBlank(String key) async {
+  Future<String> getValueByKeyOrBlank(String key) async {
     var file = File(_filePath);
     dynamic data;
     if (!await file.exists() || await file.readAsString.toString().isEmpty) {
@@ -80,16 +92,12 @@ class ConfigStorage {
   Future _updateFile(Map<String, dynamic> data) async {
     var file = File(_filePath);
     bool exists;
-
     exists = await file.exists();
-
     if (!exists) {
-      print(file);
       await file.create();
     }
 
     var writeData = json.encode(data);
-
     await file.writeAsString(writeData);
   }
 

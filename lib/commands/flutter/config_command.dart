@@ -41,13 +41,7 @@ class ConfigTemplatesPathCommand extends CommandBase {
     validate(Contract('', ''));
     var templatesPath = argResults.rest[0];
     var configStorage = ConfigStorage();
-
-    await ConfigStorage().setConfig(FastConfig(
-        scaffoldsPath:
-            await configStorage.getConfigByKeyOrBlank(ConfigKeys.scaffoldsPath),
-        templatesPath: templatesPath,
-        commandsFilePath: await configStorage
-            .getConfigByKeyOrBlank(ConfigKeys.commandsFilePath)));
+    await configStorage.setValue(ConfigKeys.templatesPath, templatesPath);
   }
 }
 
@@ -62,13 +56,7 @@ class ConfigProjectsPathCommand extends CommandBase {
     validate(Contract('', ''));
     var scaffoldPath = argResults.rest[0];
     var configStorage = ConfigStorage();
-
-    await ConfigStorage().setConfig(FastConfig(
-        scaffoldsPath: scaffoldPath,
-        templatesPath:
-            await configStorage.getConfigByKeyOrBlank(ConfigKeys.templatesPath),
-        commandsFilePath: await configStorage
-            .getConfigByKeyOrBlank(ConfigKeys.commandsFilePath)));
+    await configStorage.setValue(ConfigKeys.scaffoldsPath, scaffoldPath);
   }
 }
 
@@ -83,12 +71,6 @@ class ConfigCommandsPathCommand extends CommandBase {
     validate(Contract('', ''));
     var configStorage = ConfigStorage();
     var commandsPath = argResults.rest[0];
-
-    await ConfigStorage().setConfig(FastConfig(
-        scaffoldsPath:
-            await configStorage.getConfigByKeyOrBlank(ConfigKeys.scaffoldsPath),
-        templatesPath:
-            await configStorage.getConfigByKeyOrBlank(ConfigKeys.templatesPath),
-        commandsFilePath: commandsPath));
+    await configStorage.setValue(ConfigKeys.commandsFilePath, commandsPath);
   }
 }
