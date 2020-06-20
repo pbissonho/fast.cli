@@ -13,6 +13,7 @@
 //limitations under the License.
 
 import 'package:fast/core/home_path.dart';
+import 'package:fast/logger.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 import '../../config_storage.dart';
 import '../../snippet_manager.dart';
@@ -41,5 +42,7 @@ class SnippetsCommand extends CommandBase {
             config.templatesPath,
             globalSnippetsPath)
         .generateSnippedFile();
+
+     logger.d('Snippets successfully created');
   }
 }

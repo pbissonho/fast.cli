@@ -14,6 +14,7 @@
 
 import 'dart:io';
 
+import 'package:fast/logger.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 import 'package:fast/actions/run_command.dart';
 import 'package:fast/config_storage.dart';
@@ -22,11 +23,11 @@ import '../command_base.dart';
 
 class RunComand extends CommandBase {
   @override
-  String get description => 'Run a project command.';
+  String get description => 'Run a command.';
   @override
   String get name => 'run';
 
-  String get finishedDescription => 'Run a project command.';
+  String get finishedDescription => 'Run a command.';
 
   @override
   Future<void> run() async {
@@ -34,8 +35,10 @@ class RunComand extends CommandBase {
     var configStorage = await ConfigStorage().getConfig();
     var name = argResults.rest[0];
     var workingDirectory = Directory.current;
+    logger.d('Running the $name command...');
     await RunCommandAction(
             workingDirectory, name, configStorage.commandsFilePath)
         .execute();
+    logger.d('Command successfully executed.');    
   }
 }

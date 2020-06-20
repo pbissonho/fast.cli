@@ -15,6 +15,7 @@
 import 'package:flunt_dart/flunt_dart.dart';
 import 'package:fast/config_storage.dart';
 
+import '../../logger.dart';
 import '../command_base.dart';
 
 class ConfigCommand extends CommandBase {
@@ -42,12 +43,13 @@ class ConfigTemplatesPathCommand extends CommandBase {
     var templatesPath = argResults.rest[0];
     var configStorage = ConfigStorage();
     await configStorage.setValue(ConfigKeys.templatesPath, templatesPath);
+    logger.d('Path to templates successfully configured.');
   }
 }
 
 class ConfigProjectsPathCommand extends CommandBase {
   @override
-  String get description => 'Config the template path.';
+  String get description => 'Config the scaffolds path.';
   @override
   String get name => 'scaffolds';
 
@@ -57,12 +59,13 @@ class ConfigProjectsPathCommand extends CommandBase {
     var scaffoldPath = argResults.rest[0];
     var configStorage = ConfigStorage();
     await configStorage.setValue(ConfigKeys.scaffoldsPath, scaffoldPath);
+    logger.d('Path to scaffolds successfully configured.');
   }
 }
 
 class ConfigCommandsPathCommand extends CommandBase {
   @override
-  String get description => 'Config the template path.';
+  String get description => 'Config the commands file path.';
   @override
   String get name => 'commands';
 
@@ -72,5 +75,6 @@ class ConfigCommandsPathCommand extends CommandBase {
     var configStorage = ConfigStorage();
     var commandsPath = argResults.rest[0];
     await configStorage.setValue(ConfigKeys.commandsFilePath, commandsPath);
+    logger.d('Path to commands file successfully configured.');
   }
 }

@@ -12,7 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-import 'package:fast/commands/flutter/add_package.dart';
+import 'package:fast/commands/flutter/install_package.dart';
 import 'package:fast/commands/flutter/clear_command.dart';
 import 'package:fast/commands/flutter/config_command.dart';
 import 'package:fast/commands/flutter/create_flutter_comand.dart';

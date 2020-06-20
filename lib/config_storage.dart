@@ -47,7 +47,7 @@ class FastConfig {
 }
 
 class ConfigStorage {
-  String _filePath = '${homePath}/.fast.json';
+  String _filePath = '${homePath()}/.fast.json';
 
   ConfigStorage([String filePath]) {
     if (filePath != null) _filePath = filePath;
@@ -106,9 +106,7 @@ class ConfigStorage {
 
     if (!await file.exists() || await file.readAsString.toString().isEmpty) {
       throw NotFounfFastConfigException('''
-Before using the CLI, you must configure the templates folder path.
-Use the command "tena config <folder path> 'to configure the location of the templates.
-Example: tena config /home/pedro/Documents/templates/
+Before using the CLI, you must configure the templates/scaffolds and commands path.
           ''');
     }
     try {
@@ -116,11 +114,8 @@ Example: tena config /home/pedro/Documents/templates/
       return json.decode(fileContents);
     } catch (error) {
       throw StorageException('''
-An error occurred while reading the CLI settings.
-Please make sure you have set a valid value for the folder path of the tamplates.
-
-Use the command "tena config <folder path> 'to configure the location of the templates.
-Example: tena config /home/pedro/Documents/templates/
+An error occurred while decode the CLI settings file.
+Please make sure you have set a valid value for the config file.
           ''');
     }
   }

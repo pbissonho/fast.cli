@@ -33,17 +33,11 @@ class ClearCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    var dir = 'lib';
-    logger.d('Action: Clear');
-    logger.d('dir: $dir');
-
     var directory = Directory('lib');
-    logger.d('dir: ${directory.absolute}${directory.path}');
     await directory.clear();
     await Directory('test').clear();
-
     validate(Contract('', ''));
 
-    logger.d('${runtimeType.toString()} finished. - $finishedDescription');
+    logger.d('Cleaned the lib and test folders.');
   }
 }

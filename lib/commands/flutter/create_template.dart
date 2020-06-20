@@ -15,6 +15,7 @@
 import 'dart:io';
 
 import 'package:fast/actions/create_template.dart';
+import 'package:fast/logger.dart';
 import '../../replacer.dart';
 import '../../yaml_manager.dart';
 import '../command_base.dart';
@@ -65,5 +66,7 @@ class CreateTemplateCommand extends CommandBase {
         file.writeAsString(f.content);
       }
     });
+
+    logger.d('Template created successfully.');
   }
 }
