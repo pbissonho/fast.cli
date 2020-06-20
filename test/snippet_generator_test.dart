@@ -1,17 +1,16 @@
-import 'package:fast/config_storage.dart';
-import 'package:fast/core/home_path.dart';
 import 'package:fast/snippet_manager.dart';
 import 'package:fast/yaml_manager.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('shoud create snippets global file', () async {
-    var config = await ConfigStorage().getConfig();
-    var templates = await YamlManager.loadTemplates(config.templatesPath);
+    var templates = await YamlManager.loadTemplates('test/resources/templates');
+    //final globalSnippetsPath =
+    //     '${homePath()}/.config/Code/User/snippets/created.code-snippets';
 
-    final globalSnippetsPath =
-        '${homePath()}/.config/Code/User/snippets/created.code-snippets';
-    await SnippetGenerator(templates, config, globalSnippetsPath)
+    final globalSnippetsPath = 'test/resources/snippets.json';
+    await SnippetGenerator(templates.where((temp) => temp.hasSnippets()).toList(),
+            'test/resources/templates', globalSnippetsPath)
         .generateSnippedFile();
   }, timeout: Timeout(Duration(minutes: 10)));
 }

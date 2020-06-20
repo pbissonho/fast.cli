@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:fast/config_storage.dart';
 import 'package:fast/yaml_manager.dart';
 import 'package:path/path.dart';
 import 'core/directory/directory.dart';
@@ -109,11 +108,11 @@ class SnippetFile {
 
 class SnippetGenerator {
   final List<Template> templates;
-  final FastConfig config;
+  final String templatesPath;
   final String globalSnippetsPath;
   final Map<dynamic, dynamic> _snippetsData = {};
 
-  SnippetGenerator(this.templates, this.config, this.globalSnippetsPath);
+  SnippetGenerator(this.templates, this.templatesPath, this.globalSnippetsPath);
 
   void generateSnippedFile() async {
     await _createSnippets();
@@ -128,7 +127,7 @@ class SnippetGenerator {
 
   Future<List<SnippetFile>> _loadSnippetFiles(Template template) async {
     var dir = Directory(
-        normalize('${config.templatesPath}/${template.name}_template'));
+        normalize('${templatesPath}/${template.name}_template'));
     var files = await dir.getAllSystemFiles();
     final snippetFiles = <SnippetFile>[];
 

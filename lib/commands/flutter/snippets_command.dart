@@ -38,7 +38,7 @@ class SnippetsCommand extends CommandBase {
         '${homePath()}/.config/Code/User/snippets/created.code-snippets';
     await SnippetGenerator(
             templates.where((template) => template.hasSnippets()).toList(),
-            config,
+            config.templatesPath,
             globalSnippetsPath)
         .generateSnippedFile();
   }
