@@ -1,0 +1,15 @@
+name: page
+description: Create a flutter page.
+to: lib/ui/pages/@name
+args:
+  - name
+  - msg
+ 
+snippets:
+  - file: '@name_page.dart'
+    prefix: page
+    excluded:
+      - 0
+      - 1
+
+    

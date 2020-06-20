@@ -1,15 +1,34 @@
-void main() {}
+import 'package:fast/yaml_manager.dart';
+import 'package:test/test.dart';
 
-/* 
 void main() {
-  test('Yaml Template', () {
-    var yamlTemplate = YamlTemplateReader('test/bloc_template/template.yaml');
+  test('shoud reader yaml template file', ()async {
+    var yamlTemplate = await YamlTemplateReader('test/resources/template.yaml');
     var template = yamlTemplate.reader();
 
     print(template);
-  }, skip: true);
+  });
 
-  test('test replacer', () {
+  test('shoud load all templates', () async{
+    var templates = await YamlManager.loadTemplates('test/resources/templates/');
+
+    expect(templates.length, 2);
+  });
+
+  test('shoud not have snippets', () async {
+    var templates = await YamlManager.loadTemplates('test/resources/templates/');
+
+    expect(false, templates.firstWhere((tem) => tem.name == 'bloc').hasSnippets());
+  });
+
+  test('shoud have snippets', () async {
+    var templates = await YamlManager.loadTemplates('test/resources/templates/');
+
+    expect(true, templates.firstWhere((tem) => tem.name == 'page').hasSnippets());
+  });
+
+  /*
+  test('shoud load all templates', () {
     var yamlTemplate = YamlTemplateReader('test/bloc_template/template.yaml');
     var template = yamlTemplate.reader();
 
@@ -31,8 +50,10 @@ void main() {
     }
 
     print(myString);
-  }, skip: true);
+  });*/
+}
 
+/* 
   test('Create tample teste', () async {
     var tamplates = await YamlManager.loadTemplates(tamplatesFolder);
 
