@@ -18,6 +18,7 @@ import 'package:fast/commands/flutter/config_command.dart';
 import 'package:fast/commands/flutter/create_flutter_comand.dart';
 import 'package:fast/commands/flutter/run_command.dart';
 import 'package:fast/commands/flutter/setup_command.dart';
+import 'package:fast/commands/flutter/snippets_command.dart';
 import 'package:fast/fast.dart';
 
 void main(List<String> arguments) async {
@@ -30,7 +31,7 @@ void main(List<String> arguments) async {
     RunComand(),
     InstallPackageCommand(),
     ConfigCommand(),
-    // CleateTemplate(logger)
+    SnippetsCommand(),
   ]);
   fastzCLI.run(arguments);
 }
