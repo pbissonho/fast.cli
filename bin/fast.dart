@@ -22,9 +22,9 @@ import 'package:fast/commands/flutter/snippets_command.dart';
 import 'package:fast/fast.dart';
 
 void main(List<String> arguments) async {
-  var fastzCLI = fastCLI();
+  var fastzCLI = FastCLI();
   await fastzCLI.setupCommandRunner();
-  fastzCLI.configCommands([
+  fastzCLI.addCommands([
     FlutterCreaterComand(),
     ClearCommand(),
     SetupComand(),
@@ -33,5 +33,5 @@ void main(List<String> arguments) async {
     ConfigCommand(),
     SnippetsCommand(),
   ]);
-  fastzCLI.run(arguments);
+  await fastzCLI.run(arguments);
 }

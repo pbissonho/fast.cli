@@ -23,20 +23,20 @@ class InstallPackageCommand extends CommandBase {
   @override
   String get name => 'install';
 
-  String get finishedDescription => 'Adds a package to the dependencies.';
-
   InstallPackageCommand() {
     argParser.addOption('version', abbr: 'v', help: 'Package version.');
+    argParser.addFlag('dev', abbr: 'd', help: 'Add to dev_dependencies');
   }
 
   @override
   Future<void> run() async {
     var packageName = argResults.rest[0];
     var packageVersion = argResults['version'];
+    var isDev = argResults['dev'];
 
-    var addPackageAction = AddPackage(packageName, 'pubspec.yaml', '');
+    var addPackageAction =
+        AddPackage(packageName, 'pubspec.yaml', isDev, packageVersion);
     await addPackageAction.execute();
-
-    logger.d('${runtimeType.toString()} finished. - $finishedDescription');
+    await logger.d(addPackageAction.succesMessage);
   }
 }

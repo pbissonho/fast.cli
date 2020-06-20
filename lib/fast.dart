@@ -23,25 +23,22 @@ import 'package:fast/logger.dart';
 import 'package:fast/yaml_manager.dart';
 import 'commands/flutter/create_template.dart';
 
-class fastCLI {
+class FastCLI {
   final String _cliName = 'Fast CLI';
   final String _cliDescription = 'An incredible Dart CLI.';
-  CommandRunner _commandRunner;
-
-  fastCLI();
+  CommandRunner commandRunner;
 
   Future<void> setupCommandRunner() async {
     FastConfig fastzConfig;
+    commandRunner = CommandRunner(_cliName, _cliDescription);
 
     try {
-      _commandRunner = CommandRunner(_cliName, _cliDescription);
-
       try {
         fastzConfig = await ConfigStorage().getConfig();
         var templates = YamlManager.loadTemplates(fastzConfig.templatesPath);
 
         templates.forEach((template) {
-          _commandRunner.addCommand(CreateTemplateCommand(
+          commandRunner.addCommand(CreateTemplateCommand(
               template: template,
               templateFolderPath: normalize(
                   '${fastzConfig.templatesPath}/${template.name}_template'),
@@ -66,21 +63,28 @@ class fastCLI {
     }
   }
 
-  void run(List<String> arguments) {
+  Future<void> run(List<String> arguments) async {
     try {
-      _commandRunner.run(arguments);
+      await commandRunner.run(arguments);
     } on StorageException catch (erro) {
       logger.e(erro.msg);
+    } on FastException catch (erro) {
+      logger.d(erro.msg);
+      exit(64);
     } catch (error) {
-      if (error is! UsageException) rethrow;
-      print(error);
+      // if (error is! UsageException) rethrow;
+      // print(error);
       exit(64);
     }
   }
 
-  void configCommands(List<Command> comands) {
+  void addCommands(List<Command> comands) {
     comands.forEach((command) {
-      _commandRunner.addCommand(command);
+      commandRunner.addCommand(command);
     });
+  }
+
+  void addCommand(Command comand) {
+    commandRunner.addCommand(comand);
   }
 }

@@ -21,29 +21,42 @@ import 'package:fast/services/packages_service.dart';
 class AddPackage implements Action {
   final String name;
   final String version;
+  final bool isDev;
   final String yamlPath;
+  Optional _optionalVersion;
+  Package _package;
 
-  AddPackage(this.name, this.yamlPath, [this.version = '']);
+  AddPackage(this.name, this.yamlPath, this.isDev, [this.version]);
 
   @override
   Future<void> execute() async {
     var pubspecFile = File(yamlPath);
-    Optional optionalVersion;
+    PubspecYaml finalYaml;
 
-    final pubsYaml = pubspecFile.readAsStringSync().toPubspecYaml();
+    final pubsYamlFileData = await pubspecFile.readAsString();
+    final pubsYaml = pubsYamlFileData.toPubspecYaml();
 
-    if (version.isEmpty) {
-      var package = await PackagesService().fetchPackage(name);
-      optionalVersion = Optional<String>('^${package.latest.version}');
+    _package = await PackagesService().fetchPackage(name);
+
+    if (version == null) {
+      _optionalVersion = Optional<String>('^${_package.latest.version}');
     } else {
-      optionalVersion = Optional<String>(version);
+      _optionalVersion = Optional<String>('^$version');
     }
 
-    var finalYaml = pubsYaml.copyWith(dependencies: [
-      ...pubsYaml.dependencies,
-      PackageDependencySpec.hosted(
-          HostedPackageDependencySpec(package: name, version: optionalVersion))
-    ]);
+    if (isDev) {
+      finalYaml = pubsYaml.copyWith(devDependencies: [
+        ...pubsYaml.devDependencies,
+        PackageDependencySpec.hosted(HostedPackageDependencySpec(
+            package: name, version: _optionalVersion))
+      ]);
+    } else {
+      finalYaml = pubsYaml.copyWith(dependencies: [
+        ...pubsYaml.dependencies,
+        PackageDependencySpec.hosted(HostedPackageDependencySpec(
+            package: name, version: _optionalVersion))
+      ]);
+    }
 
     var yamlData = finalYaml.toYamlString();
 
@@ -51,5 +64,6 @@ class AddPackage implements Action {
   }
 
   @override
-  String get succesMessage => 'Add a package to project.';
+  String get succesMessage =>
+      'Package $name at ${_optionalVersion.valueOr(() => '')} version added to the ${isDev ? 'devDependencies' : 'dependencies'}.';
 }

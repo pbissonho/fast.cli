@@ -12,6 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+import 'package:fast/core/exceptions.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -31,12 +32,11 @@ class PackagesService {
         var map = data as Map;
         return Package.fromJson(map);
       }
-      throw Exception('Not found package.');
+      throw FastException('Not found package.');
     } catch (e) {
-      throw Exception(
+      throw FastException(
           '''An error occurs when picking up the package $packageName 
 Check that the package name is valid.
-Erro: $e
 ''');
     }
   }
