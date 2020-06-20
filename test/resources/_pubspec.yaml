@@ -6,12 +6,14 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_mobx: ^1.1.0
+  koin: ^0.9.1
   mobx: ^1.2.1
   mobx_codegen: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  koin: ^0.9.1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
