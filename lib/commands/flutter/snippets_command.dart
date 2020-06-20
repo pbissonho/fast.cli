@@ -25,7 +25,7 @@ class SnippetsCommand extends CommandBase {
   String get description => 'Create Visual Studio Code Snippets';
 
   @override
-  String get name => 'snip';
+  String get name => 'snippets';
 
   SnippetsCommand();
 

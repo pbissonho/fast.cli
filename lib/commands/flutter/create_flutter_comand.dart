@@ -81,10 +81,10 @@ class FlutterCreaterComand extends CommandBase {
         useKotlin: useKotlin,
         useSwift: useSwift);
 
-    var ScaffoldsPath =
+    var scaffoldsPath =
         await ConfigStorage().getValueByKeyOrBlank(ConfigKeys.scaffoldsPath);
-    var Scaffold =
-        YamlManager.loadScaffold(normalize('$ScaffoldsPath/$scaffoldName'));
+    var scaffold =
+        YamlManager.loadScaffold(normalize('$scaffoldsPath/$scaffoldName'));
 
     validate(
         Contract<FlutterAppArgs>(flutterScaffoldArgs, 'FlutterScaffoldArgs'));
@@ -95,14 +95,14 @@ class FlutterCreaterComand extends CommandBase {
     var actionBuilder = ActionBuilder([
       ClearScaffoldStructure('$appName/lib'),
       ClearScaffoldStructure('$appName/test'),
-      CreateFolderStructure('$appName/lib', Scaffold.structure.mainFolder,
+      CreateFolderStructure('$appName/lib', scaffold.structure.mainFolder,
           'Created /lib folder structure.'),
-      ShowFolderStructure(Scaffold.structure.mainFolder),
-      CreateFolderStructure('$appName/test', Scaffold.testStructure.mainFolder,
+      ShowFolderStructure(scaffold.structure.mainFolder),
+      CreateFolderStructure('$appName/test', scaffold.testStructure.mainFolder,
           'Created /test folder structure.'),
-      ShowFolderStructure(Scaffold.testStructure.mainFolder),
+      ShowFolderStructure(scaffold.testStructure.mainFolder),
       SetupYaml('$appName/pubspec.yaml',
-          normalize('$ScaffoldsPath/$scaffoldName/scaffold.yaml'))
+          normalize('$scaffoldsPath/$scaffoldName/scaffold.yaml'))
     ]);
 
     await actionBuilder.execute();

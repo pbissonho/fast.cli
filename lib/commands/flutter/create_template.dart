@@ -68,5 +68,6 @@ class CreateTemplateCommand extends CommandBase {
     });
 
     logger.d('Template created successfully.');
+    logger.d('Created in ${directory.path}.');
   }
 }

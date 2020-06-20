@@ -12,19 +12,21 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-import 'dart:io';
-
+import 'package:fast/actions/builder_action.dart';
+import 'package:fast/actions/create_structure.dart';
+import 'package:fast/actions/setup_yaml.dart';
 import 'package:flunt_dart/flunt_dart.dart';
-import 'package:fast/actions/setup_action.dart';
 import 'package:fast/actions/show_folder_structure.dart';
+import 'package:path/path.dart';
 import '../../config_storage.dart';
+import '../../logger.dart';
 import '../../yaml_manager.dart';
 import '../command_base.dart';
 
 class SetupComand extends CommandBase {
   @override
   String get description =>
-      'Create the folder structure and configure the dependencies.';
+      'Create the scaffold within a flutter project already created. Keep existing files.';
 
   @override
   String get name => 'setup';
@@ -38,15 +40,28 @@ class SetupComand extends CommandBase {
   @override
   Future<void> run() async {
     validate(Contract('', ''));
-    var force = argResults.wasParsed('force');
     var scaffoldName = argResults['scaffold'];
 
     var scaffoldsPath =
         await ConfigStorage().getValueByKeyOrBlank(ConfigKeys.scaffoldsPath);
     var scaffold =
-        await YamlManager.loadScaffold('$scaffoldsPath/$scaffoldName');
+        YamlManager.loadScaffold(normalize('$scaffoldsPath/$scaffoldName'));
 
-    await SetupAction(Directory.current.path, force, scaffold).execute();
-    await ShowFolderStructure(scaffold.structure.mainFolder).execute();
+    validate(Contract('', 'FlutterScaffoldArgs'));
+
+    var actionBuilder = ActionBuilder([
+      CreateFolderStructure('lib', scaffold.structure.mainFolder,
+          'Created /lib folder structure.'),
+      ShowFolderStructure(scaffold.structure.mainFolder),
+      CreateFolderStructure('test', scaffold.testStructure.mainFolder,
+          'Created /test folder structure.'),
+      ShowFolderStructure(scaffold.testStructure.mainFolder),
+      SetupYaml('pubspec.yaml',
+          normalize('$scaffoldsPath/$scaffoldName/scaffold.yaml'))
+    ]);
+
+    await actionBuilder.execute();
+
+    logger.d('All done. Application configured.');
   }
 }

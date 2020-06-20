@@ -72,8 +72,12 @@ class FastCLI {
       logger.d(erro.msg);
       exit(64);
     } catch (error) {
-      // if (error is! UsageException) rethrow;
-      // print(error);
+      if (error is! UsageException) {
+        logger.d('''An unknown error occurred. 
+Please report creating a issue at https://github.com/pbissonho/fast.cli.''');
+        logger.e(error.toString());
+        rethrow;
+      }
       exit(64);
     }
   }
