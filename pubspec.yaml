@@ -1,6 +1,6 @@
 name: fast
 description: A sample command-line application.
-version: 0.3.0
+version: 0.3.2
 homepage: https://github.com/pbissonho/fast.cli
 # author: Pedro Bissonho <pedro.bissonho@gmail.com>
 

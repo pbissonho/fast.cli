@@ -15,6 +15,7 @@ That way you are not forced to use the project structure set by someone else and
 ## Features
 - Templates generator
 - Aplication Scaffold generator
+- Snippet generator for Visual Studio Code
 - Custom commands
 - Standard line commands (Some commands already included in the CLI)
     - install (Add a package to the project dependencies)

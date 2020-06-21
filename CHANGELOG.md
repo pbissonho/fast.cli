@@ -1,3 +1,8 @@
+## 0.3.2
+- Fixed an error when using the create command in Windows.
+- Fixed an error when using the snippets command in Windows.
+- Updated readme
+
 ## 0.3.0
 - Updated readme
 - Improved commands information messages
