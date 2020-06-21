@@ -21,7 +21,7 @@ That way you are not forced to use the project structure set by someone else and
 
 ## Table Of Contents 
 - [Template generator example](#template-generator-example)
-- [Snippet generator](#template-generator-example)
+- [Snippet generator](#snippets-generator)
 - [Scaffold generator Example](#scaffold-generator-example)
 - [Commands example](#commands-example)
 - [Installation](#installation)
@@ -113,9 +113,10 @@ class _HomePageState extends State<HomePage> {
 A command to generate snippets for the VC Code based on the template files.
 Reuse the code inserted in the template files to generate snippets for Visual Studio Code.
 
-## Exemplo
+## Example
 
 First we create the template file and template.yaml.
+And then set a snippe to be generated.
 
 file: @name_page.dart
 ```dart
@@ -137,8 +138,6 @@ class _@NamePageState extends State<@NamePage> {
   }
 }
 ```
-In the same folder as the file above we have the yaml file that defines how the template should be created.
-
 file: template.yaml
 ```yaml
 
@@ -183,6 +182,7 @@ fast snippets
 
 It will be possible to use the generated snippet.
 
+![alt-text](https://github.com/pbissonho/fast.cli/blob/master/page.gif)
 
 
 
