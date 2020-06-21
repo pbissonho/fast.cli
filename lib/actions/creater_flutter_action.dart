@@ -43,7 +43,7 @@ class CreaterFlutterAction implements Action {
       args.addAll(['--description', flutterProjectArgs.description]);
     }
 
-    args.add(normalize('/$path'));
+    args.add(path);
     logger.d('Creating the flutter application...');
     await process.executeProcessShellPath('flutter', args, path);
   }
