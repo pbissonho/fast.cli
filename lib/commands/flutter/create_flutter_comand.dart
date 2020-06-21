@@ -48,6 +48,8 @@ class FlutterAppArgs {
 }
 
 class FlutterCreaterComand extends CommandBase {
+  final ConfigStorage configStorage;
+
   @override
   String get description => 'Create the app and folder structure';
 
@@ -56,7 +58,7 @@ class FlutterCreaterComand extends CommandBase {
 
   String get finishedDescription => 'Create the app and folder structure';
 
-  FlutterCreaterComand() {
+  FlutterCreaterComand(this.configStorage) {
     argParser.addOption('name', abbr: 'n', help: 'Project name.');
     argParser.addOption('scaffold', abbr: 's', help: 'Scaffold template name.');
     argParser.addOption('description', abbr: 'd', help: 'Project descritiopn.');
@@ -81,8 +83,7 @@ class FlutterCreaterComand extends CommandBase {
         useKotlin: useKotlin,
         useSwift: useSwift);
 
-    var scaffoldsPath =
-        await ConfigStorage().getValue(ConfigKeys.scaffoldsPath);
+    var scaffoldsPath = await configStorage.getValue(ConfigKeys.scaffoldsPath);
     var scaffold =
         YamlManager.loadScaffold(normalize('$scaffoldsPath/$scaffoldName'));
 

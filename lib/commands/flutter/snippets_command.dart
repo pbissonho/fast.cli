@@ -12,10 +12,12 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+import 'dart:io';
 import 'package:fast/core/home_path.dart';
 import 'package:fast/logger.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 import '../../config_storage.dart';
+import '../../core/exceptions.dart';
 import '../../snippet_manager.dart';
 import '../../yaml_manager.dart';
 import '../command_base.dart';
@@ -36,8 +38,16 @@ class SnippetsCommand extends CommandBase {
         await ConfigStorage().getValue(ConfigKeys.templatesPath);
     var templates = await YamlManager.loadTemplates(templatesPath);
 
-    final globalSnippetsPath =
-        '${homePath()}/.config/Code/User/snippets/created.code-snippets';
+    String globalSnippetsPath;
+    if (Platform.isLinux || Platform.isMacOS) {
+      globalSnippetsPath =
+          '${homePath()}/.config/Code/User/snippets/created.code-snippets';
+    } else if (Platform.isWindows) {
+      globalSnippetsPath =
+          '${homePath()}/AppData/Roaming/Code/User/snippets/created.code-snippets';
+    } else {
+      throw FastException('Platform not support VS Code Generators');
+    }
     await SnippetGenerator(
             templates.where((template) => template.hasSnippets()).toList(),
             templatesPath,

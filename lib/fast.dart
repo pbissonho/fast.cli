@@ -16,7 +16,6 @@ library fast;
 
 import 'dart:io';
 import 'package:args/command_runner.dart';
-import 'package:path/path.dart';
 import 'package:fast/config_storage.dart';
 import 'package:fast/core/exceptions.dart';
 import 'package:fast/logger.dart';
@@ -24,19 +23,16 @@ import 'package:fast/yaml_manager.dart';
 import 'commands/flutter/create_template.dart';
 
 class FastCLI {
-  final String _cliName = 'Fast CLI';
-  final String _cliDescription = 'An incredible Dart CLI.';
-  CommandRunner commandRunner;
+  final ConfigStorage configStorage;
+  final CommandRunner commandRunner;
+
+  FastCLI(this.configStorage, this.commandRunner);
 
   Future<void> setupCommandRunner(bool isConfigCommand) async {
-    ConfigStorage fastStorage;
-    commandRunner = CommandRunner(_cliName, _cliDescription);
-
     if (!isConfigCommand) {
       try {
-        fastStorage = ConfigStorage();
         var templatesPath =
-            await fastStorage.getValue(ConfigKeys.templatesPath);
+            await configStorage.getValue(ConfigKeys.templatesPath);
         var templates = YamlManager.loadTemplates(templatesPath);
 
         templates.forEach((template) {

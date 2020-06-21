@@ -14,7 +14,9 @@
 
 import 'package:fast/commands/flutter/create_flutter_comand.dart';
 import 'package:fast/core/action.dart';
-import 'package:fast/core/process_extension.dart';
+import 'package:fast/logger.dart';
+import 'package:path/path.dart';
+import '../core/process_extension.dart';
 
 class CreaterFlutterAction implements Action {
   final String path;
@@ -33,11 +35,16 @@ class CreaterFlutterAction implements Action {
     args.addAll([
       '--project-name',
       flutterProjectArgs.name,
-      '--description',
-      flutterProjectArgs.description
     ]);
 
-    args.add(path);
+    if (flutterProjectArgs.description.isEmpty) {
+      args.addAll(['--description','An application created with the FAST CLI.']);
+    } else {
+      args.addAll(['--description', flutterProjectArgs.description]);
+    }
+
+    args.add(normalize('/$path'));
+    logger.d('Creating the flutter application...');
     await process.executeProcessShellPath('flutter', args, path);
   }
 

@@ -12,7 +12,6 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-
 import 'dart:io';
 
 class FastProcess {
@@ -27,7 +26,7 @@ class FastProcess {
 
   Future<bool> executeProcessShellPath(
       String name, List<String> args, String path) async {
-    var process = await Process.start(name, args, runInShell: true);
+    var process = await Process.start(name, args, runInShell: false);
     var result = await process.exitCode;
     if (result == 0) return true;
     return false;
@@ -38,12 +37,15 @@ class FastProcessCLI implements FastProcess {
   @override
   Future<bool> executeProcess(
       String name, List<String> args, String path) async {
-    var process = await Process.start(name, args,
-        runInShell: true, workingDirectory: path);
-    await stdout.addStream(process.stdout);
-    await stderr.addStream(process.stderr);
+    var process =
+        await Process.start(name, args, runInShell: true).then((result) async {
+      await stdout.addStream(result.stdout);
+      await stderr.addStream(result.stderr);
+      return result;
+    });
 
     var result = await process.exitCode;
+
     if (result == 0) return true;
     return false;
   }
@@ -51,11 +53,15 @@ class FastProcessCLI implements FastProcess {
   @override
   Future<bool> executeProcessShellPath(
       String name, List<String> args, String path) async {
-    var process = await Process.start(name, args, runInShell: true);
-    await stdout.addStream(process.stdout);
-    await stderr.addStream(process.stderr);
+    var process =
+        await Process.start(name, args, runInShell: true).then((result) async {
+      await stdout.addStream(result.stdout);
+      await stderr.addStream(result.stderr);
+      return result;
+    });
 
     var result = await process.exitCode;
+
     if (result == 0) return true;
     return false;
   }

@@ -12,6 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+import 'package:args/command_runner.dart';
 import 'package:fast/commands/flutter/install_package.dart';
 import 'package:fast/commands/flutter/clear_command.dart';
 import 'package:fast/commands/flutter/config_command.dart';
@@ -19,14 +20,20 @@ import 'package:fast/commands/flutter/create_flutter_comand.dart';
 import 'package:fast/commands/flutter/run_command.dart';
 import 'package:fast/commands/flutter/setup_command.dart';
 import 'package:fast/commands/flutter/snippets_command.dart';
+import 'package:fast/config_storage.dart';
 import 'package:fast/fast.dart';
 
 void main(List<String> arguments) async {
-  var fastzCLI = FastCLI();
+  var commandRunner = CommandRunner('Fast CLI', 'An incredible Dart CLI.');
+  var storage = ConfigStorage();
+  var fastzCLI = FastCLI(
+    ConfigStorage(),
+    commandRunner,
+  );
   var isConfig = arguments.contains('config');
   await fastzCLI.setupCommandRunner(isConfig);
   fastzCLI.addCommands([
-    FlutterCreaterComand(),
+    FlutterCreaterComand(storage),
     ClearCommand(),
     SetupComand(),
     RunComand(),
