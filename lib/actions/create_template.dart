@@ -44,13 +44,13 @@ class CreateTemplateAction implements Action {
     var templateFiles = await readerTemplatesFiles();
     replacerTemplatesFile(argsMap, templateFiles);
 
-    templateFiles.forEach((template) async {
+    for (var template in templateFiles) {
       if (template.extension.toLowerCase() != '.yaml') {
         var file = File(template.path);
         await file.create(recursive: true);
         await file.writeAsString(template.content);
       }
-    });
+    }
   }
 
   Future<List<TemplateFile>> readerTemplatesFiles() async {

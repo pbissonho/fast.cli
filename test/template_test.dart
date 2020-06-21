@@ -40,5 +40,5 @@ void main() {
         CreateTemplateAction(tamplate, path, {'name': 'counter'});
 
     await createTamplate.execute();
-  }, timeout: Timeout(Duration(minutes: 10)));
+  });
 }
