@@ -15,24 +15,77 @@
 import 'dart:io';
 import 'package:fast/core/action.dart';
 import 'package:fast/yaml_manager.dart';
+import 'package:path/path.dart';
 
+import '../core/directory/directory.dart';
 import '../replacer.dart';
+
+class TemplateFile {
+  String name;
+  String content;
+  String extension;
+  String path;
+
+  TemplateFile({this.name, this.path, this.content, this.extension});
+}
 
 class CreateTemplateAction implements Action {
   final Template template;
-  Directory _templateFolderPath;
+  Directory _templateFolderDirectory;
   final Map<String, String> argsMap;
-
   List<TemplateFile> templateFiles;
-
-  CreateTemplateAction(this.template, String templateFolderPath, this.argsMap) {
-    _templateFolderPath = Directory(templateFolderPath);
+  String templateFolderPath;
+  CreateTemplateAction(this.template, this.templateFolderPath, this.argsMap) {
+    _templateFolderDirectory = Directory(templateFolderPath);
   }
 
   @override
   Future<void> execute() async {
-    templateFiles =
-        await createTemplatesReplacedsFile(argsMap, _templateFolderPath);
+    var templateFiles = await readerTemplatesFiles();
+    replacerTemplatesFile(argsMap, templateFiles);
+
+    templateFiles.forEach((template) async {
+      if (template.extension.toLowerCase() != '.yaml') {
+        var file = File(template.path);
+        await file.create(recursive: true);
+        await file.writeAsString(template.content);
+      }
+    });
+  }
+
+  Future<List<TemplateFile>> readerTemplatesFiles() async {
+    var templatesFile = <TemplateFile>[];
+    var systemFiles = await _templateFolderDirectory.getAllSystemFiles();
+
+    for (var systemFile in systemFiles) {
+      if (systemFile is File) {
+        var content = await systemFile.readAsString();
+
+        var relativePath = relative(systemFile.path, from: templateFolderPath);
+        var filePath = normalize('${template.to}/$relativePath');
+
+        templatesFile.add(TemplateFile(
+            name: split(systemFile.path).last,
+            content: content,
+            path: filePath,
+            extension: extension(systemFile.path)));
+      }
+    }
+    return templatesFile;
+  }
+
+  void replacerTemplatesFile(
+      Map<String, String> argsMap, List<TemplateFile> templateFiles) {
+    var replacers = createReplacers(argsMap);
+
+    for (var templateFile in templateFiles) {
+      for (var replacer in replacers) {
+        templateFile.name = replaceData(templateFile.name, replacer);
+        templateFile.content = replaceData(templateFile.content, replacer);
+        templateFile.path = replaceData(templateFile.path, replacer);
+        templateFile.extension = templateFile.extension;
+      }
+    }
   }
 
   @override

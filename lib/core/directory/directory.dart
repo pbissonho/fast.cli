@@ -73,4 +73,18 @@ extension DirectoryX on Directory {
       return systemFiles;
     }
   }
+
+  Future<List<FileSystemEntity>> getAllSystemFilesNotRecursive() async {
+    var systemFiles = <FileSystemEntity>[];
+
+    if (await exists()) {
+      await list().forEach((
+        fileSystem,
+      ) async {
+        systemFiles.add(fileSystem);
+      });
+
+      return systemFiles;
+    }
+  }
 }

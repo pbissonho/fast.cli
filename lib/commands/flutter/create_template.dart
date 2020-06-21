@@ -56,18 +56,7 @@ class CreateTemplateCommand extends CommandBase {
         CreateTemplateAction(template, templateFolderPath, argsMap);
     await createTamplateAction.execute();
 
-    var directory =
-        Directory(replacerFile(template.to, createReplacers(argsMap)));
-    await directory.createRecursive();
-
-    createTamplateAction.templateFiles.forEach((f) {
-      if (f.extension.toLowerCase() != '.yaml') {
-        var file = File('${directory.path}/${f.name}');
-        file.writeAsString(f.content);
-      }
-    });
-
     logger.d('Template created successfully.');
-    logger.d('Created in ${directory.path}.');
+    logger.d('Created in ${template.to}.');
   }
 }
