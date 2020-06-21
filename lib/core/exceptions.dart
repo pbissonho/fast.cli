@@ -21,15 +21,3 @@ class FastException implements Exception {
     return '$runtimeType: $msg';
   }
 }
-
-class StorageException extends FastException {
-  StorageException(String msg) : super(msg);
-}
-
-class NotFounfFastConfigException extends FastException {
-  NotFounfFastConfigException(String msg) : super(msg);
-}
-
-class YamlTemplateFileException extends FastException {
-  YamlTemplateFileException(String msg) : super(msg);
-}

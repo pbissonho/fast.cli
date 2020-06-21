@@ -23,7 +23,8 @@ import 'package:fast/fast.dart';
 
 void main(List<String> arguments) async {
   var fastzCLI = FastCLI();
-  await fastzCLI.setupCommandRunner();
+  var isConfig = arguments.contains('config');
+  await fastzCLI.setupCommandRunner(isConfig);
   fastzCLI.addCommands([
     FlutterCreaterComand(),
     ClearCommand(),

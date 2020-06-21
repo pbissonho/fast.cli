@@ -32,17 +32,18 @@ class SnippetsCommand extends CommandBase {
   @override
   Future<void> run() async {
     validate(Contract('', ''));
-    var config = await ConfigStorage().getConfig();
-    var templates = await YamlManager.loadTemplates(config.templatesPath);
+    var templatesPath =
+        await ConfigStorage().getValue(ConfigKeys.templatesPath);
+    var templates = await YamlManager.loadTemplates(templatesPath);
 
     final globalSnippetsPath =
         '${homePath()}/.config/Code/User/snippets/created.code-snippets';
     await SnippetGenerator(
             templates.where((template) => template.hasSnippets()).toList(),
-            config.templatesPath,
+            templatesPath,
             globalSnippetsPath)
         .generateSnippedFile();
 
-     logger.d('Snippets successfully created');
+    logger.d('Snippets successfully created');
   }
 }

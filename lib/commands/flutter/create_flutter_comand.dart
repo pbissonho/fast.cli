@@ -82,7 +82,7 @@ class FlutterCreaterComand extends CommandBase {
         useSwift: useSwift);
 
     var scaffoldsPath =
-        await ConfigStorage().getValueByKeyOrBlank(ConfigKeys.scaffoldsPath);
+        await ConfigStorage().getValue(ConfigKeys.scaffoldsPath);
     var scaffold =
         YamlManager.loadScaffold(normalize('$scaffoldsPath/$scaffoldName'));
 

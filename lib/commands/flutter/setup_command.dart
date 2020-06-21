@@ -43,7 +43,7 @@ class SetupComand extends CommandBase {
     var scaffoldName = argResults['scaffold'];
 
     var scaffoldsPath =
-        await ConfigStorage().getValueByKeyOrBlank(ConfigKeys.scaffoldsPath);
+        await ConfigStorage().getValue(ConfigKeys.scaffoldsPath);
     var scaffold =
         YamlManager.loadScaffold(normalize('$scaffoldsPath/$scaffoldName'));
 

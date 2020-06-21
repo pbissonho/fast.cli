@@ -24,28 +24,6 @@ class ConfigKeys {
   static const String commandsFilePath = 'commandsFilePath';
 }
 
-class FastConfig {
-  String templatesPath;
-  String scaffoldsPath;
-  String commandsFilePath;
-
-  FastConfig({this.templatesPath, this.scaffoldsPath, this.commandsFilePath});
-
-  FastConfig._fromJson(Map<String, dynamic> json) {
-    templatesPath = json[ConfigKeys.templatesPath];
-    commandsFilePath = json[ConfigKeys.commandsFilePath];
-    scaffoldsPath = json[ConfigKeys.scaffoldsPath];
-  }
-
-  Map<String, dynamic> _toJson() {
-    final data = <String, dynamic>{};
-    data[ConfigKeys.templatesPath] = templatesPath;
-    data[ConfigKeys.commandsFilePath] = commandsFilePath;
-    data[ConfigKeys.scaffoldsPath] = scaffoldsPath;
-    return data;
-  }
-}
-
 class ConfigStorage {
   String _filePath = '${homePath()}/.fast.json';
 
@@ -53,39 +31,44 @@ class ConfigStorage {
     if (filePath != null) _filePath = filePath;
   }
 
-  Future setConfig(FastConfig tenazConfig) async {
-    await _updateFile(tenazConfig._toJson());
-  }
-
   Future setValue(String key, String value) async {
     var file = File(_filePath);
-    dynamic data;
-    if (!await file.exists() || await file.readAsString.toString().isEmpty) {
+    Map<String, dynamic> data;
+    if (!await file.exists()) {
       data = {};
+    } else {
+      var fileContents = await file.readAsString();
+      if (fileContents.isEmpty) {
+        data = {};
+      } else {
+        data = await json.decode(fileContents) as Map;
+      }
     }
-    var fileContents = await file.readAsString();
-    data = await json.decode(fileContents) as Map;
     data[key] = value;
     await _updateFile(data);
   }
 
-  Future<FastConfig> getConfig() async {
-    var data = await _readFile();
-    return FastConfig._fromJson(data);
-  }
-
-  Future<String> getValueByKeyOrBlank(String key) async {
+  Future<String> getValue(String key) async {
     var file = File(_filePath);
     dynamic data;
     if (!await file.exists() || await file.readAsString.toString().isEmpty) {
-      return '';
+      throw FastException('''
+Before using you must configure the paths of the resources.
+It is necessary to configure the paths of the resources correctly.
+Visit https://github.com/pbissonho/fast.cli#config to learn how to configure.
+          ''');
     }
     try {
       var fileContents = await file.readAsString();
       data = await json.decode(fileContents);
       return data[key];
     } catch (error) {
-      return '';
+      throw FastException('''
+An error occurred while decode $key value.
+It is necessary to configure the paths of the resources correctly.
+Please make sure you have set a valid value for $key.
+Visit https://github.com/pbissonho/fast.cli#config to learn how to configure.
+          ''');
     }
   }
 
@@ -99,24 +82,5 @@ class ConfigStorage {
 
     var writeData = json.encode(data);
     await file.writeAsString(writeData);
-  }
-
-  Future<Map<String, dynamic>> _readFile() async {
-    var file = File(_filePath);
-
-    if (!await file.exists() || await file.readAsString.toString().isEmpty) {
-      throw NotFounfFastConfigException('''
-Before using the CLI, you must configure the templates/scaffolds and commands path.
-          ''');
-    }
-    try {
-      var fileContents = await file.readAsString();
-      return json.decode(fileContents);
-    } catch (error) {
-      throw StorageException('''
-An error occurred while decode the CLI settings file.
-Please make sure you have set a valid value for the config file.
-          ''');
-    }
   }
 }

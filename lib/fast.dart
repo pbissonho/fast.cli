@@ -28,49 +28,42 @@ class FastCLI {
   final String _cliDescription = 'An incredible Dart CLI.';
   CommandRunner commandRunner;
 
-  Future<void> setupCommandRunner() async {
-    FastConfig fastzConfig;
+  Future<void> setupCommandRunner(bool isConfigCommand) async {
+    ConfigStorage fastStorage;
     commandRunner = CommandRunner(_cliName, _cliDescription);
 
-    try {
+    if (!isConfigCommand) {
       try {
-        fastzConfig = await ConfigStorage().getConfig();
-        var templates = YamlManager.loadTemplates(fastzConfig.templatesPath);
+        fastStorage = ConfigStorage();
+        var templatesPath =
+            await fastStorage.getValue(ConfigKeys.templatesPath);
+        var templates = YamlManager.loadTemplates(templatesPath);
 
         templates.forEach((template) {
           commandRunner.addCommand(CreateTemplateCommand(
               template: template,
-              templateFolderPath: normalize(
-                  '${fastzConfig.templatesPath}/${template.name}_template'),
+              templateFolderPath:
+                  normalize('${templatesPath}/${template.name}_template'),
               templateYamlPath: normalize(
-                  '${fastzConfig.templatesPath}/${template.name}_template/template.yaml')));
+                  '${templatesPath}/${template.name}_template/template.yaml')));
         });
-      } on NotFounfFastConfigException catch (erro) {
-        logger.e('Warning: ${erro.msg}');
-      } catch (erro) {
-        rethrow;
+      } catch (error) {
+
+        if (error is FastException) {
+          logger.d(error.msg);
+          exit(64);
+        }
+
+        if (error is! UsageException) rethrow;
+        print(error);
+        exit(64);
       }
-    } on StorageException catch (erro) {
-      logger.d(erro.msg);
-      exit(64);
-    } on FastException catch (erro) {
-      logger.d(erro.msg);
-      exit(64);
-    } catch (error) {
-      if (error is! UsageException) rethrow;
-      print(error);
-      exit(64);
     }
   }
 
   Future<void> run(List<String> arguments) async {
     try {
       await commandRunner.run(arguments);
-    } on StorageException catch (erro) {
-      logger.e(erro.msg);
-    } on FastException catch (erro) {
-      logger.d(erro.msg);
-      exit(64);
     } catch (error) {
       if (error is! UsageException) {
         logger.d('''An unknown error occurred. 

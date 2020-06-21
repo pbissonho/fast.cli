@@ -32,13 +32,12 @@ class RunComand extends CommandBase {
   @override
   Future<void> run() async {
     validate(Contract('', ''));
-    var configStorage = await ConfigStorage().getConfig();
+    var commandsFilePath =
+        await ConfigStorage().getValue(ConfigKeys.commandsFilePath);
     var name = argResults.rest[0];
     var workingDirectory = Directory.current;
     logger.d('Running the $name command...');
-    await RunCommandAction(
-            workingDirectory, name, configStorage.commandsFilePath)
-        .execute();
-    logger.d('Command successfully executed.');    
+    await RunCommandAction(workingDirectory, name, commandsFilePath).execute();
+    logger.d('Command successfully executed.');
   }
 }
