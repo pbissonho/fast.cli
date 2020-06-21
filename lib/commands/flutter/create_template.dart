@@ -12,29 +12,21 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-import 'dart:io';
-
 import 'package:fast/actions/create_template.dart';
 import 'package:fast/logger.dart';
-import '../../replacer.dart';
 import '../../yaml_manager.dart';
 import '../command_base.dart';
 
-import 'package:fast/core/directory/directory.dart';
-
 class CreateTemplateCommand extends CommandBase {
-  final String templateYamlPath;
-  final String templateFolderPath;
   final Template template;
 
   @override
-  String get description => template.description;
+  String get description => '${template.description}[Template]';
 
   @override
   String get name => template.name;
 
-  CreateTemplateCommand(
-      {this.templateYamlPath, this.templateFolderPath, this.template}) {
+  CreateTemplateCommand({this.template}) {
     template.args.forEach((arg) {
       argParser.addOption(arg);
     });
@@ -52,8 +44,7 @@ class CreateTemplateCommand extends CommandBase {
       }
     });
 
-    var createTamplateAction =
-        CreateTemplateAction(template, templateFolderPath, argsMap);
+    var createTamplateAction = CreateTemplateAction(template, argsMap);
     await createTamplateAction.execute();
 
     logger.d('Template created successfully.');

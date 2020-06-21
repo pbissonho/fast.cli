@@ -1,4 +1,5 @@
 import 'package:fast/actions/create_template.dart';
+import 'package:fast/config_storage.dart';
 import 'package:fast/yaml_manager.dart';
 import 'package:test/test.dart';
 
@@ -36,9 +37,19 @@ void main() {
   test('shoud create template', () async {
     var path = 'test/resources/templates/bloc_template/';
     var tamplate = await YamlTemplateReader('$path/template.yaml').reader();
-    var createTamplate =
-        CreateTemplateAction(tamplate, path, {'name': 'counter'});
-
+    var createTamplate = CreateTemplateAction(tamplate, {'name': 'counter'});
     await createTamplate.execute();
+  });
+
+  test('shoud create', () async {
+    var fastStorage = ConfigStorage();
+    var templatesPath = await fastStorage.getValue(ConfigKeys.templatesPath);
+    var templates = YamlManager.loadTemplates(templatesPath);
+    var actions = <CreateTemplateAction>[];
+    templates.forEach((temp) {
+      actions.add(CreateTemplateAction(temp, {'name': 'counter'}));
+    });
+
+    await actions.first.execute();
   });
 }

@@ -40,23 +40,24 @@ class FastCLI {
         var templates = YamlManager.loadTemplates(templatesPath);
 
         templates.forEach((template) {
-          commandRunner.addCommand(CreateTemplateCommand(
-              template: template,
-              templateFolderPath:
-                  normalize('${templatesPath}/${template.name}_template'),
-              templateYamlPath: normalize(
-                  '${templatesPath}/${template.name}_template/template.yaml')));
+          addCommand(CreateTemplateCommand(
+            template: template,
+          ));
         });
       } catch (error) {
-
-        if (error is FastException) {
-          logger.d(error.msg);
+        if (error is UsageException) {
+          logger.d(error.toString());
           exit(64);
         }
 
-        if (error is! UsageException) rethrow;
-        print(error);
-        exit(64);
+        if (error is FastException) {
+          logger.d(error);
+          exit(64);
+        }
+
+        logger.d('''An unknown error occurred. 
+Please report creating a issue at https://github.com/pbissonho/fast.cli.''');
+        rethrow;
       }
     }
   }
@@ -65,13 +66,19 @@ class FastCLI {
     try {
       await commandRunner.run(arguments);
     } catch (error) {
-      if (error is! UsageException) {
-        logger.d('''An unknown error occurred. 
-Please report creating a issue at https://github.com/pbissonho/fast.cli.''');
-        logger.e(error.toString());
-        rethrow;
+      if (error is UsageException) {
+        logger.d(error.toString());
+        exit(64);
       }
-      exit(64);
+
+      if (error is FastException) {
+        logger.d(error);
+        exit(64);
+      }
+
+      logger.d('''An unknown error occurred. 
+Please report creating a issue at https://github.com/pbissonho/fast.cli.''');
+      rethrow;
     }
   }
 

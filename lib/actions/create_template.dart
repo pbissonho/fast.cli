@@ -34,9 +34,8 @@ class CreateTemplateAction implements Action {
   Directory _templateFolderDirectory;
   final Map<String, String> argsMap;
   List<TemplateFile> templateFiles;
-  String templateFolderPath;
-  CreateTemplateAction(this.template, this.templateFolderPath, this.argsMap) {
-    _templateFolderDirectory = Directory(templateFolderPath);
+  CreateTemplateAction(this.template, this.argsMap) {
+    _templateFolderDirectory = Directory(template.path);
   }
 
   @override
@@ -61,7 +60,7 @@ class CreateTemplateAction implements Action {
       if (systemFile is File) {
         var content = await systemFile.readAsString();
 
-        var relativePath = relative(systemFile.path, from: templateFolderPath);
+        var relativePath = relative(systemFile.path, from: template.path);
         var filePath = normalize('${template.to}/$relativePath');
 
         templatesFile.add(TemplateFile(

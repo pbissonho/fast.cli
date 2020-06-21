@@ -13,6 +13,7 @@
 //limitations under the License.
 
 import 'dart:io';
+import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
 import 'core/exceptions.dart';
 import 'yaml_reader.dart';
@@ -121,12 +122,14 @@ class Template {
   final String to;
   final List<String> args;
   final List<TemplateSnippet> templateSnippets;
+  final String path;
 
   bool hasSnippets() {
     return templateSnippets != null;
   }
 
   Template({
+    this.path,
     this.description,
     this.name,
     this.to,
@@ -247,6 +250,7 @@ class YamlTemplateReader {
         }
       } catch (erro) {
         return Template(
+          path: dirname(path),
           name: yamlData['name'],
           to: yamlData['to'],
           args: args,
@@ -255,6 +259,7 @@ class YamlTemplateReader {
       }
 
       return Template(
+          path: dirname(path),
           name: yamlData['name'],
           to: yamlData['to'],
           args: args,
