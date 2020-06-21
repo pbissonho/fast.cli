@@ -21,6 +21,7 @@ That way you are not forced to use the project structure set by someone else and
 
 ## Table Of Contents 
 - [Template generator example](#template-generator-example)
+- [Snippet generator](#template-generator-example)
 - [Scaffold generator Example](#scaffold-generator-example)
 - [Commands example](#commands-example)
 - [Installation](#installation)
@@ -105,6 +106,85 @@ class _HomePageState extends State<HomePage> {
   }
 }
 ```
+
+
+## Snippets generator 
+
+A command to generate snippets for the VC Code based on the template files.
+Reuse the code inserted in the template files to generate snippets for Visual Studio Code.
+
+## Exemplo
+
+First we create the template file and template.yaml.
+
+file: @name_page.dart
+```dart
+import 'package:flutter/material.dart';
+
+class @NamePage extends StatefulWidget {
+  @override
+  _@NamePageState createState() => _@NamePageState();
+}
+
+class _@NamePageState extends State<@NamePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: Text("Hello"),
+      ),
+    );
+  }
+}
+```
+In the same folder as the file above we have the yaml file that defines how the template should be created.
+
+file: template.yaml
+```yaml
+
+name: page
+description: Create_flutter_page.
+to: lib/ui/pages/@name
+# You can define as many arguments as you want.
+args:
+  - name
+
+# Set up a list of snippests.
+snippets:
+  # The file containing the snippet code to be generated
+  # Reuse the code inserted in one of the template files to generate a VC Code snippets.
+  - file: '@name_page.dart'
+    prefix: page
+    #File lines that will not be included in the snippet.
+    excluded:
+      - 0
+      - 1
+# It is possible to create snippests for each template file.
+# - file: '@name_other1.dart'
+#    prefix: other1
+#    excluded:
+#      - 0
+# - file: '@name_other2.dart'
+#    prefix: other2
+#    excluded:
+#      - 0   
+
+```
+
+### Generate snippests
+
+Run the command below to generate the snippets.
+
+fast snippets
+
+
+
+### Result 
+
+It will be possible to use the generated snippet.
+
+
+
 
 ## Scaffold generator example
 
