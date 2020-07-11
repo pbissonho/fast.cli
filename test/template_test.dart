@@ -1,5 +1,7 @@
+import 'package:args/command_runner.dart';
 import 'package:fast/actions/create_template.dart';
 import 'package:fast/config_storage.dart';
+import 'package:fast/fast.dart';
 import 'package:fast/yaml_manager.dart';
 import 'package:test/test.dart';
 
@@ -52,4 +54,12 @@ void main() {
 
     await actions.first.execute();
   }, skip: true);
+
+  test('shoud create a tamplate - FAST CLI', () async {
+    var commandRunner = CommandRunner('Fast CLI', 'An incredible Dart CLI.');
+    var storage = ConfigStorage('test/resources/fast_config.json');
+    var fastzCLI = FastCLI(storage, commandRunner, CliConfigStorage());
+    await fastzCLI.setupCommandRunnerCli(false, 'mvc');
+    await fastzCLI.run(['fast','cli', 'mvc','controller', '--name', 'myController'], true);
+  });
 }

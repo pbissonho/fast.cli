@@ -18,12 +18,13 @@ import 'package:fast/actions/setup_yaml.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 import 'package:fast/actions/show_folder_structure.dart';
 import 'package:path/path.dart';
-import '../../config_storage.dart';
 import '../../logger.dart';
 import '../../yaml_manager.dart';
 import '../command_base.dart';
 
 class SetupComand extends CommandBase {
+  final String scaffoldsPath;
+
   @override
   String get description =>
       'Create the scaffold within a flutter project already created. Keep existing files.';
@@ -31,7 +32,7 @@ class SetupComand extends CommandBase {
   @override
   String get name => 'setup';
 
-  SetupComand() {
+  SetupComand(this.scaffoldsPath) {
     argParser.addFlag('force',
         abbr: 'f', help: 'Create even with data in the lib folder.');
     argParser.addOption('scaffold', abbr: 'p', help: 'scaffold template name.');
@@ -41,9 +42,6 @@ class SetupComand extends CommandBase {
   Future<void> run() async {
     validate(Contract('', ''));
     var scaffoldName = argResults['scaffold'];
-
-    var scaffoldsPath =
-        await ConfigStorage().getValue(ConfigKeys.scaffoldsPath);
     var scaffold =
         YamlManager.loadScaffold(normalize('$scaffoldsPath/$scaffoldName'));
 

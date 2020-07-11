@@ -154,6 +154,14 @@ class Scaffold {
   Scaffold({this.structure, this.testStructure, this.name});
 }
 
+// A predefined set of resources.
+class Cli {
+  final String name;
+  final String description;
+
+  Cli({this.name, this.description});
+}
+
 class YamlManager {
   static List<Template> loadTemplates(String folder) {
     var templates = <Template>[];
@@ -213,6 +221,19 @@ class YamlManager {
       name: name,
       structure: structure,
       testStructure: testStructure,
+    );
+  }
+
+  static Cli readerCliFile(String yamlPath) {
+    var reader = YamlReader(yamlPath);
+    var yamldata = reader.reader();
+
+    var name = yamldata['name'];
+    var description = yamldata['description'];
+
+    return Cli(
+      name: name,
+      description: description,
     );
   }
 }

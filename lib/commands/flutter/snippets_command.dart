@@ -23,13 +23,15 @@ import '../../yaml_manager.dart';
 import '../command_base.dart';
 
 class SnippetsCommand extends CommandBase {
+  final templatesPath;
+
   @override
   String get description => 'Create Visual Studio Code Snippets';
 
   @override
   String get name => 'snippets';
 
-  SnippetsCommand();
+  SnippetsCommand(this.templatesPath);
 
   @override
   Future<void> run() async {

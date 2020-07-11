@@ -17,11 +17,12 @@ import 'dart:io';
 import 'package:fast/logger.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 import 'package:fast/actions/run_command.dart';
-import 'package:fast/config_storage.dart';
 
 import '../command_base.dart';
 
 class RunComand extends CommandBase {
+  RunComand(this.commandsFilePath);
+
   @override
   String get description => 'Run a command.';
   @override
@@ -29,11 +30,11 @@ class RunComand extends CommandBase {
 
   String get finishedDescription => 'Run a command.';
 
+  final String commandsFilePath;
+
   @override
   Future<void> run() async {
     validate(Contract('', ''));
-    var commandsFilePath =
-        await ConfigStorage().getValue(ConfigKeys.commandsFilePath);
     var name = argResults.rest[0];
     var workingDirectory = Directory.current;
     logger.d('Running the $name command...');

@@ -24,7 +24,7 @@ class AddPackage implements Action {
   final bool isDev;
   final String yamlPath;
   Optional _optionalVersion;
-  Package _package;
+  Package _package;    
 
   AddPackage(this.name, this.yamlPath, this.isDev, [this.version]);
 

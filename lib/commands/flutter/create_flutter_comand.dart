@@ -16,7 +16,6 @@ import 'package:fast/actions/builder_action.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 import 'package:path/path.dart';
 import 'package:fast/yaml_manager.dart';
-import '../../config_storage.dart';
 import '../../logger.dart';
 import 'package:fast/actions/clear_structure.dart';
 import 'package:fast/actions/create_structure.dart';
@@ -48,7 +47,7 @@ class FlutterAppArgs {
 }
 
 class FlutterCreaterComand extends CommandBase {
-  final ConfigStorage configStorage;
+  final String scaffoldsPath;
 
   @override
   String get description => 'Create the app and folder structure';
@@ -58,7 +57,7 @@ class FlutterCreaterComand extends CommandBase {
 
   String get finishedDescription => 'Create the app and folder structure';
 
-  FlutterCreaterComand(this.configStorage) {
+  FlutterCreaterComand(this.scaffoldsPath) {
     argParser.addOption('name', abbr: 'n', help: 'Project name.');
     argParser.addOption('scaffold', abbr: 's', help: 'Scaffold template name.');
     argParser.addOption('description', abbr: 'd', help: 'Project descritiopn.');
@@ -83,7 +82,6 @@ class FlutterCreaterComand extends CommandBase {
         useKotlin: useKotlin,
         useSwift: useSwift);
 
-    var scaffoldsPath = await configStorage.getValue(ConfigKeys.scaffoldsPath);
     var scaffold =
         YamlManager.loadScaffold(normalize('$scaffoldsPath/$scaffoldName'));
 

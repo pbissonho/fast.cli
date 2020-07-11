@@ -25,9 +25,11 @@ void main() {
   test('create command', () async {
     var commandRunner = CommandRunner('Fast CLI', 'An incredible Dart CLI.');
     var storage = ConfigStorage('test/resources/fast_config.json');
-    var fastzCLI = FastCLI(storage, commandRunner);
+    var fastzCLI = FastCLI(storage, commandRunner, CliConfigStorage());
     await fastzCLI.setupCommandRunner(false);
-    fastzCLI.addCommand(FlutterCreaterComand(storage));
-    await fastzCLI.run(['create', '--name', 'myapp', '--scaffold', 'mobx']);
+    fastzCLI.addCommand(
+        FlutterCreaterComand(await storage.getValue(ConfigKeys.scaffoldsPath)));
+    await fastzCLI
+        .run(['create', '--name', 'myapp', '--scaffold', 'mobx'], false);
   });
 }
