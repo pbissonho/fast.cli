@@ -155,11 +155,11 @@ class Scaffold {
 }
 
 // A predefined set of resources.
-class Cli {
+class YamlPlugin {
   final String name;
   final String description;
 
-  Cli({this.name, this.description});
+  YamlPlugin({this.name, this.description});
 }
 
 class YamlManager {
@@ -224,14 +224,14 @@ class YamlManager {
     );
   }
 
-  static Cli readerCliFile(String yamlPath) {
+  static YamlPlugin readerYamlPluginFile(String yamlPath) {
     var reader = YamlReader(yamlPath);
     var yamldata = reader.reader();
 
     var name = yamldata['name'];
     var description = yamldata['description'];
 
-    return Cli(
+    return YamlPlugin(
       name: name,
       description: description,
     );

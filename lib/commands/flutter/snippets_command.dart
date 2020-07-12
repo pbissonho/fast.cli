@@ -16,7 +16,6 @@ import 'dart:io';
 import 'package:fast/core/home_path.dart';
 import 'package:fast/logger.dart';
 import 'package:flunt_dart/flunt_dart.dart';
-import '../../config_storage.dart';
 import '../../core/exceptions.dart';
 import '../../snippet_manager.dart';
 import '../../yaml_manager.dart';
@@ -36,8 +35,7 @@ class SnippetsCommand extends CommandBase {
   @override
   Future<void> run() async {
     validate(Contract('', ''));
-    var templatesPath =
-        await ConfigStorage().getValue(ConfigKeys.templatesPath);
+
     var templates = await YamlManager.loadTemplates(templatesPath);
 
     String globalSnippetsPath;

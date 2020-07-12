@@ -13,6 +13,7 @@
 //limitations under the License.
 
 import 'dart:io';
+
 import 'package:args/command_runner.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 import '../logger.dart';
@@ -20,13 +21,12 @@ import '../logger.dart';
 abstract class CommandBase<T> extends Command<T> {
   void validate(Contract contract) async {
     if (contract.invalid) {
-      logger.e('Arguments passed are invalid..');
-      logger.w('---Causes---\n');
+      logger.e('Invalid args:');
       contract.notifications.forEach((notification) {
-        logger.w(
-            'Property: ${notification.property} \nMessage: ${notification.message} ');
+        logger.d('${notification.property} - ${notification.message} ');
       });
-      exit(168);
+      logger.d('\n$usage');
+      exit(64);
     }
   }
 }

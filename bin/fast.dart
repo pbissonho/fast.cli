@@ -13,29 +13,25 @@
 //limitations under the License.
 
 import 'package:args/command_runner.dart';
-import 'package:fast/commands/cli.dart';
 import 'package:fast/commands/flutter/install_package.dart';
 import 'package:fast/commands/flutter/clear_command.dart';
-import 'package:fast/commands/flutter/config_command.dart';
+import 'package:fast/commands/plugin.dart';
 import 'package:fast/config_storage.dart';
 import 'package:fast/fast.dart';
 
 void main(List<String> arguments) async {
   var commandRunner = CommandRunner('Fast CLI', 'An incredible Dart CLI.');
-  var cliConfigStorage = CliConfigStorage();
-  var fastzCLI = FastCLI(ConfigStorage(), commandRunner, cliConfigStorage);
-  final isConfig = arguments.contains('config');
-  final isCli = arguments.first == 'cli';
+  var pluginStorage = PluginStorage();
+  var fastzCLI = FastCLI(commandRunner, pluginStorage);
+  final isPlugin = arguments.first == 'load_plugin';
 
-  if (isCli) {
-    final cliName = arguments[1];
-    await fastzCLI.setupCommandRunnerCli(isConfig, cliName);
+  if (isPlugin) {
+    final pluginName = arguments[1];
+    await fastzCLI.setupCommandRunner(pluginName);
   } else {
-    await fastzCLI.setupCommandRunner(isConfig);
+    await fastzCLI.addCommands(
+        [ClearCommand(), InstallPackageCommand(), PluginCommand()]);
   }
 
-  fastzCLI.addCommands(
-      [ClearCommand(), InstallPackageCommand(), ConfigCommand(), CliCommand()]);
-
-  await fastzCLI.run(arguments, isCli);
+  await fastzCLI.run(arguments, isPlugin);
 }

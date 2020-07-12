@@ -27,95 +27,44 @@ import 'commands/flutter/setup_command.dart';
 import 'commands/flutter/snippets_command.dart';
 
 class FastCLI {
-  final ConfigStorage _configStorage;
-  final CliConfigStorage cliConfigStorage;
+  final PluginStorage pluginStorage;
   final CommandRunner commandRunner;
 
-  FastCLI(this._configStorage, this.commandRunner, this.cliConfigStorage);
+  FastCLI(this.commandRunner, this.pluginStorage);
 
-  Future<void> setupCommandRunner(bool isConfigCommand) async {
-    if (!isConfigCommand) {
-      try {
-        var templatesPath =
-            await _configStorage.getValue(ConfigKeys.templatesPath);
-        var templates = YamlManager.loadTemplates(templatesPath);
+  Future<void> setupCommandRunner(String pluginName) async {
+    var plugin = await pluginStorage.readByName(pluginName);
+    var pluginPath = plugin.path;
 
-        templates.forEach((template) {
-          addCommand(CreateTemplateCommand(
-            template: template,
-          ));
-        });
+    try {
+      var templates = YamlManager.loadTemplates('$pluginPath/templates');
 
-        var commandsFilePath =
-            await _configStorage.getValue(ConfigKeys.commandsFilePath);
-        var scaffoldsPath =
-            await _configStorage.getValue(ConfigKeys.scaffoldsPath);
+      templates.forEach((template) {
+        addCommand(CreateTemplateCommand(
+          template: template,
+        ));
+      });
 
-        addCommand(SnippetsCommand(templatesPath));
-        addCommand(RunComand(commandsFilePath));
-        addCommand(FlutterCreaterComand(scaffoldsPath));
-        addCommand(SetupComand(scaffoldsPath));
-      } catch (error) {
-        if (error is UsageException) {
-          logger.d(error.toString());
-          exit(64);
-        }
-
-        if (error is FastException) {
-          logger.d(error);
-          exit(64);
-        }
-
-        logger.d('''An unknown error occurred. 
-Please report creating a issue at https://github.com/pbissonho/fast.cli.''');
-        rethrow;
+      var plugin = await pluginStorage.readByName(pluginName);
+      var scaffolsPath = '${plugin.path}/scaffolds';
+      addCommand(SnippetsCommand('${plugin.path}/templates'));
+      addCommand(RunComand('${plugin.path}'));
+      addCommand(FlutterCreaterComand(scaffolsPath));
+      addCommand(SetupComand(scaffolsPath));
+    } catch (error) {
+      if (error is UsageException || error is FastException) {
+        logger.d(error.toString());
+        exit(64);
       }
+      logger.d('''An unknown error occurred. 
+Please report creating a issue at https://github.com/pbissonho/fast.cli.''');
+      rethrow;
     }
   }
 
-  Future<void> setupCommandRunnerCli(
-      bool isConfigCommand, String cliName) async {
-    var cliModel = await cliConfigStorage.readByName(cliName);
-    var cliPath = cliModel.path;
-    if (!isConfigCommand) {
-      try {
-        var templates = YamlManager.loadTemplates('$cliPath/templates');
-
-        templates.forEach((template) {
-          addCommand(CreateTemplateCommand(
-            template: template,
-          ));
-        });
-
-        var cliModel = await cliConfigStorage.readByName(cliName);
-        var templatesPath = '${cliModel.path}/templates';
-        var scaffolsPath = '${cliModel.path}/scaffolds';
-        addCommand(SnippetsCommand(templatesPath));
-        addCommand(RunComand('${cliModel.path}'));
-        addCommand(FlutterCreaterComand(scaffolsPath));
-        addCommand(SetupComand(scaffolsPath));
-        
-      } catch (error) {
-        if (error is UsageException) {
-          logger.d(error.toString());
-          exit(64);
-        }
-
-        if (error is FastException) {
-          logger.d(error);
-          exit(64);
-        }
-
-        logger.d('''An unknown error occurred. 
-Please report creating a issue at https://github.com/pbissonho/fast.cli.''');
-        rethrow;
-      }
-    }
-  }
-
-  Future<void> run(List<String> arguments, bool isCli) async {
+  Future<void> run(List<String> arguments, bool isPlugin) async {
     List<String> finalArguments;
-    if (isCli) {
+    if (isPlugin) {
       var lastIndex = arguments.length;
       finalArguments = arguments.getRange(2, lastIndex).toList();
     } else {
@@ -125,13 +74,8 @@ Please report creating a issue at https://github.com/pbissonho/fast.cli.''');
     try {
       await commandRunner.run(finalArguments);
     } catch (error) {
-      if (error is UsageException) {
+      if (error is UsageException || error is FastException) {
         logger.d(error.toString());
-        exit(64);
-      }
-
-      if (error is FastException) {
-        logger.d(error);
         exit(64);
       }
 

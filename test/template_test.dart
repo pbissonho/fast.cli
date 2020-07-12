@@ -43,23 +43,11 @@ void main() {
     await createTamplate.execute();
   });
 
-  test('shoud create', () async {
-    var fastStorage = ConfigStorage();
-    var templatesPath = await fastStorage.getValue(ConfigKeys.templatesPath);
-    var templates = YamlManager.loadTemplates(templatesPath);
-    var actions = <CreateTemplateAction>[];
-    templates.forEach((temp) {
-      actions.add(CreateTemplateAction(temp, {'name': 'counter'}));
-    });
-
-    await actions.first.execute();
-  }, skip: true);
-
   test('shoud create a tamplate - FAST CLI', () async {
     var commandRunner = CommandRunner('Fast CLI', 'An incredible Dart CLI.');
-    var storage = ConfigStorage('test/resources/fast_config.json');
-    var fastzCLI = FastCLI(storage, commandRunner, CliConfigStorage());
-    await fastzCLI.setupCommandRunnerCli(false, 'mvc');
-    await fastzCLI.run(['fast','cli', 'mvc','controller', '--name', 'myController'], true);
+    var fastzCLI = FastCLI(commandRunner, PluginStorage());
+    await fastzCLI.setupCommandRunner('mvc');
+    await fastzCLI.run(
+        ['fast', 'cli', 'mvc', 'controller', '--name', 'myController'], true);
   });
 }

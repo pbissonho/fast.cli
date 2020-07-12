@@ -5,27 +5,64 @@ import 'core/directory/directory.dart';
 
 // Manages the creation of bash executables.
 class BashFileManager {
-  BashFileManager([String filePath]) {
-    if (filePath != null) _filePath = filePath;
+  BashFileManager({this.filePath, this.gitCachePath}) {
+    gitCachePath ??= '${homePath()}/.fastcli/cache/git/';
+    filePath ??= '${homePath()}/.fastcli/bin';
   }
 
-  String _filePath = '${homePath()}/bin';
+  String filePath;
+  String gitCachePath;
 
   // Create a executable named 'name'.
   Future<void> createExecutable(String name) async {
-    var directory = Directory(_filePath);
-    var file = File('$_filePath/$name');
+    var directory = Directory(filePath);
+    var file = File('$filePath/$name');
     if (!await directory.exists()) {
       await directory.createRecursive();
     }
 
     await file.create();
     await file.writeAsString(_createBashFileData(name));
-    var path = '${homePath()}/bin/';
+    var path = '${homePath()}/.fastcli/bin/';
     var result = await configFileAsExecutable('chmod', ['+x', '$name'], path);
   }
 
-  @override
+  Future<void> removeExecutable(String name) async {
+    var file = File('$filePath/$name');
+    await file.delete();
+  }
+
+  Future<bool> cloneRepository(String repositoryUrl, String path) async {
+    // Remove a old version from cache
+    var dire = Directory(path);
+
+    if (await dire.exists()) {
+      await dire.clear();
+    } else {
+      await dire.createRecursive();
+    }
+
+    var process = await Process.start('git', ['clone', repositoryUrl],
+            runInShell: true, workingDirectory: gitCachePath)
+        .then((result) async {
+      await stdout.addStream(result.stdout);
+      await stderr.addStream(result.stderr);
+      return result;
+    });
+
+    var result = await process.exitCode;
+
+    if (result == 0) return true;
+    return false;
+  }
+
+  Future<void> removeCachedRepository(String path) async {
+    var dire = Directory(path);
+    if (await dire.exists()) {
+      await dire.delete(recursive: true);
+    }
+  }
+
   Future<bool> configFileAsExecutable(
       String name, List<String> args, String path) async {
     var process = await Process.start(name, args,
@@ -41,16 +78,11 @@ class BashFileManager {
     return false;
   }
 
-  // Return the bash file to execute a CLI.
+  // Return the bash file data to execute a plugin.
   String _createBashFileData(String name) {
     return ''' 
 #!/bin/bash
-fast cli $name \$1 \$2 \$3 \$4 \$5 \$6 \$7 \$8 \$9
+fast load_plugin $name \$1 \$2 \$3 \$4 \$5 \$6 \$7 \$8 \$9
 ''';
-  }
-
-  Future<void> remove(String name) async {
-    var file = File('$_filePath/$name');
-    await file.delete();
   }
 }

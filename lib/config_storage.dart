@@ -14,47 +14,40 @@
 
 import 'dart:convert';
 import 'dart:io';
-
-import 'core/exceptions.dart';
 import 'core/home_path.dart';
 
-class ConfigKeys {
-  static const String templatesPath = 'templatesPath';
-  static const String scaffoldsPath = 'scaffoldsPath';
-  static const String commandsFilePath = 'commandsFilePath';
-}
-
-class CliModels {
-  List<CliModel> models;
-
-  CliModels({this.models});
-
-  CliModels.fromJson(Map<String, dynamic> json) {
-    if (json['test'] != null) {
-      models = <CliModel>[];
-      json['test'].forEach((v) {
-        models.add(CliModel.fromJson(v));
+class PluginRepository {
+  List<Plugin> getAll(Map<String, dynamic> json) {
+    var models = <Plugin>[];
+    if (json['plugins'] != null) {
+      json['plugins'].forEach((v) {
+        models.add(Plugin.fromJson(v));
       });
     }
+    return models;
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toStorage(List<Plugin> models) {
     final data = <String, dynamic>{};
     if (models != null) {
-      data['test'] = models.map((v) => v.toJson()).toList();
+      data['plugins'] = models.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class CliModel {
+class Plugin {
   String name;
   String path;
   String git;
 
-  CliModel({this.name, this.path, this.git});
+  Plugin({this.name, this.path, this.git});
 
-  CliModel.fromJson(Map<String, dynamic> json) {
+  bool isGit() {
+    return git.isNotEmpty;
+  }
+
+  Plugin.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     path = json['path'];
     git = json['git'];
@@ -69,116 +62,56 @@ class CliModel {
   }
 }
 
-// Manages resources of the CLIs that will be added to the project.
-// Provides methods for adding and removing CLIs.
-class CliConfigStorage {
-  String _filePath = '${homePath()}/.fast_clis.json';
+// Manages resources of the plugins that will be added to the project.
+// Provides methods for adding and removing lugins.
+class PluginStorage {
+  String _filePath = '${homePath()}/.fastcli/plugins.json';
 
-  CliConfigStorage([String filePath]) {
+  PluginStorage([String filePath]) {
     if (filePath != null) _filePath = filePath;
   }
-  
-  Future<CliModel> readByName(String name) async {
-    var models = await read();
-    return models.models.firstWhere((element) => element.name == name);
+
+  Future<Plugin> readByName(String name) async {
+    var plugin = await read();
+    return plugin.firstWhere((element) => element.name == name);
   }
 
-  Future<CliModels> read() async {
+  Future<List<Plugin>> read() async {
     var file = File(_filePath);
     Map<String, dynamic> data;
     if (!await file.exists()) {
-      return CliModels(models: []);
+      return <Plugin>[];
     }
 
     var fileContents = await file.readAsString();
     if (fileContents.isEmpty) {
-      return CliModels(models: []);
+      return <Plugin>[];
     }
 
     data = await json.decode(fileContents);
-    var cliModels = CliModels.fromJson(data);
-    return cliModels;
+    var plugins = PluginRepository().getAll(data);
+    return plugins;
   }
 
-  Future<void> write(CliModels cliModels) async {
+  Future<void> write(List<Plugin> plugin) async {
     var file = File(_filePath);
     if (!await file.exists()) {
       await file.create();
     }
-    await file.writeAsString(json.encode(cliModels.toJson()));
+    var data = PluginRepository().toStorage(plugin);
+    await file.writeAsString(json.encode(data));
   }
 
-  Future<void> addCli(CliModel model) async {
-    var current = await read();
-    current.models.removeWhere((element) => element.name == model.name);
-    current.models.add(model);
-    await write(current);
+  Future<void> add(Plugin model) async {
+    var plugins = await read();
+    plugins.removeWhere((element) => element.name == model.name);
+    plugins.add(model);
+    await write(plugins);
   }
 
-  Future<void> removeCli(String name) async {
-    var current = await read();
-    current.models.removeWhere((element) => element.name == name);
-    await write(current);
-  }
-}
-
-class ConfigStorage {
-  String _filePath = '${homePath()}/.fast.json';
-
-  ConfigStorage([String filePath]) {
-    if (filePath != null) _filePath = filePath;
-  }
-
-  Future setValue(String key, String value) async {
-    var file = File(_filePath);
-    Map<String, dynamic> data;
-    if (!await file.exists()) {
-      data = {};
-    } else {
-      var fileContents = await file.readAsString();
-      if (fileContents.isEmpty) {
-        data = {};
-      } else {
-        data = await json.decode(fileContents) as Map;
-      }
-    }
-    data[key] = value;
-    await _updateFile(data);
-  }
-
-  Future<String> getValue(String key) async {
-    var file = File(_filePath);
-    dynamic data;
-    if (!await file.exists() || await file.readAsString.toString().isEmpty) {
-      throw FastException('''
-Before using you must configure the paths of the resources.
-It is necessary to configure the paths of the resources correctly.
-Visit https://github.com/pbissonho/fast.cli#config to learn how to configure.
-          ''');
-    }
-    try {
-      var fileContents = await file.readAsString();
-      data = await json.decode(fileContents);
-      return data[key];
-    } catch (error) {
-      throw FastException('''
-An error occurred while decode $key value.
-It is necessary to configure the paths of the resources correctly.
-Please make sure you have set a valid value for $key.
-Visit https://github.com/pbissonho/fast.cli#config to learn how to configure.
-          ''');
-    }
-  }
-
-  Future _updateFile(Map<String, dynamic> data) async {
-    var file = File(_filePath);
-    bool exists;
-    exists = await file.exists();
-    if (!exists) {
-      await file.create();
-    }
-
-    var writeData = json.encode(data);
-    await file.writeAsString(writeData);
+  Future<void> remove(String name) async {
+    var plugins = await read();
+    plugins.removeWhere((element) => element.name == name);
+    await write(plugins);
   }
 }

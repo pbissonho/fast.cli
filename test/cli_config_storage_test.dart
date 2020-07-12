@@ -4,34 +4,34 @@ import 'package:fast/config_storage.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('shoud add a cli definition when not have file', () async {
-    var file = File('test/resources/fast_clis.json');
+  test('shoud add a plugin definition when not have file', () async {
+    var file = File('test/resources/plugins.json');
     if (await file.exists()) {
       await file.delete();
     }
 
-    var clIConfigStorage = CliConfigStorage('test/resources/fast_clis.json');
-    await clIConfigStorage.addCli(CliModel(git: '', path: '/test', name: 'clean'));
-    await clIConfigStorage.addCli(CliModel(git: '', path: '/test', name: 'tutuca'));
+    var pluginStorage = PluginStorage('test/resources/plugins.json');
+    await pluginStorage.add(Plugin(git: '', path: '/test', name: 'clean'));
+    await pluginStorage.add(Plugin(git: '', path: '/test', name: 'tutuca'));
 
-    var models = await clIConfigStorage.read();
+    var plugins = await pluginStorage.read();
 
-    expect(models.models.length, 2);
+    expect(plugins.length, 2);
   });
 
-  test('shoud remove a cli definition', () async {
-    var file = File('test/resources/fast_clis.json');
+  test('shoud remove a plugin definition', () async {
+    var file = File('test/resources/plugins.json');
     if (await file.exists()) {
       await file.delete();
     }
 
-    var clIConfigStorage = CliConfigStorage('test/resources/fast_clis.json');
-    await clIConfigStorage.addCli(CliModel(git: '', path: '/test', name: 'clean'));
+    var pluginStorage = PluginStorage('test/resources/plugins.json');
+    await pluginStorage.add(Plugin(git: '', path: '/test', name: 'clean'));
 
-    await clIConfigStorage.removeCli('clean');
+    await pluginStorage.remove('clean');
 
-    var models = await clIConfigStorage.read();
+    var plugins = await pluginStorage.read();
 
-    expect(models.models.length, 0);
+    expect(plugins.length, 0);
   });
 }
