@@ -47,7 +47,7 @@ class FastCLI {
 
       var plugin = await pluginStorage.readByName(pluginName);
       var scaffolsPath = '${plugin.path}/scaffolds';
-      addCommand(SnippetsCommand('${plugin.path}/templates'));
+      addCommand(SnippetsCommand('${plugin.path}/templates', plugin));
       addCommand(RunComand('${plugin.path}'));
       addCommand(FlutterCreaterComand(scaffolsPath));
       addCommand(SetupComand(scaffolsPath));

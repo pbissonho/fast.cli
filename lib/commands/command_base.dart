@@ -13,7 +13,6 @@
 //limitations under the License.
 
 import 'dart:io';
-
 import 'package:args/command_runner.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 import '../logger.dart';

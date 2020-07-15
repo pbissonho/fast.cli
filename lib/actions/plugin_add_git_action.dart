@@ -22,7 +22,7 @@ class PluginAddGitAction implements Action {
     var pathOnlyBaseName = basename(_gitUrl);
     var repositoryName = withoutExtension(pathOnlyBaseName);
     var path = normalize('${bashFileManager.gitCachePath}/$repositoryName/');
-    
+
     await bashFileManager.cloneRepository(_gitUrl, path);
 
     var yamlPlugin = YamlManager.readerYamlPluginFile('$path/plugin.yaml');

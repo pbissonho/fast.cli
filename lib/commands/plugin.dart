@@ -12,9 +12,12 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+import 'dart:io';
+
 import 'package:fast/actions/plugin_add_git_action.dart';
 import 'package:fast/bash_manager.dart';
 import 'package:fast/config_storage.dart';
+import 'package:fast/windows_manager.dart';
 import 'package:fast/yaml_manager.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 
@@ -22,31 +25,49 @@ import '../logger.dart';
 import 'command_base.dart';
 
 class PluginCommand extends CommandBase {
+  final PluginStorage storage;
+  BashFileManager bashFileManager;
+
   @override
   String get description => 'Managed plugins.';
 
   @override
   String get name => 'plugin';
 
-  PluginCommand() {
-    addSubcommand(AddCommand());
-    addSubcommand(RemovePluginCommand(PluginStorage(), BashFileManager()));
+  PluginCommand(this.storage) {
+    BashFileManager bashFileManager;
+
+    if (Platform.isLinux || Platform.isMacOS) {
+      bashFileManager = BashFileManager();
+    } else if (Platform.isWindows) {
+      bashFileManager = WindowsManager();
+    }
+
+    addSubcommand(AddCommand(bashFileManager));
+    addSubcommand(RemovePluginCommand(PluginStorage(), bashFileManager));
     addSubcommand(ListPluginCommand(PluginStorage()));
     addSubcommand(UpdatePluginCommand(PluginStorage()));
+  }
+
+  @override
+  Future<void> run() async {
+    var pluginName = argResults['name'];
   }
 }
 
 class AddCommand extends CommandBase {
+  final BashFileManager fileManager;
+
   @override
   String get description => 'Adds a plugin resources';
 
   @override
   String get name => 'add';
 
-  AddCommand() {
-    addSubcommand(AddPathCommand(PluginStorage(), BashFileManager()));
+  AddCommand(this.fileManager) {
+    addSubcommand(AddPathCommand(PluginStorage(), fileManager));
     addSubcommand(
-        AddGitCommand(PluginAddGitAction(PluginStorage(), BashFileManager())));
+        AddGitCommand(PluginAddGitAction(PluginStorage(), fileManager)));
   }
 }
 
