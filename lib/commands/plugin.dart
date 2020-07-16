@@ -48,11 +48,6 @@ class PluginCommand extends CommandBase {
     addSubcommand(ListPluginCommand(PluginStorage()));
     addSubcommand(UpdatePluginCommand(PluginStorage()));
   }
-
-  @override
-  Future<void> run() async {
-    var pluginName = argResults['name'];
-  }
 }
 
 class AddCommand extends CommandBase {

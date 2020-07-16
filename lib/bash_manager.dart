@@ -22,7 +22,7 @@ class BashFileManager {
     }
 
     await file.create();
-    await file.writeAsString(_createBashFileData(name));
+    await file.writeAsString(createBashFileData(name));
     var path = '${homePath()}/.fastcli/bin/';
     var result = await configFileAsExecutable('chmod', ['+x', '$name'], path);
   }
@@ -79,7 +79,7 @@ class BashFileManager {
   }
 
   // Return the bash file data to execute a plugin.
-  String _createBashFileData(String name) {
+  String createBashFileData(String name) {
     return ''' 
 #!/bin/bash
 fast load_plugin $name \$1 \$2 \$3 \$4 \$5 \$6 \$7 \$8 \$9

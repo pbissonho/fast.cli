@@ -23,7 +23,12 @@ void main(List<String> arguments) async {
   var commandRunner = CommandRunner('Fast CLI', 'An incredible Dart CLI.');
   var pluginStorage = PluginStorage();
   var fastzCLI = FastCLI(commandRunner, pluginStorage);
-  final isPlugin = arguments.first == 'load_plugin';
+  bool isPlugin;
+  if (arguments.isNotEmpty) {
+    isPlugin = arguments.first == 'load_plugin';
+  } else {
+    isPlugin = false;
+  }
 
   if (isPlugin) {
     final pluginName = arguments[1];
