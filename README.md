@@ -1,16 +1,22 @@
-# FAST CLI
+# Fast.cli
 
 [![Build Status](https://travis-ci.org/pbissonho/fast.cli.svg?branch=master)](https://travis-ci.org/github/pbissonho/fast.cli)
 [![codecov](https://codecov.io/gh/pbissonho/fast.cli/branch/master/graph/badge.svg)](https://codecov.io/gh/pbissonho/fast.cli)
 [![pub package](https://img.shields.io/pub/v/fast.svg)](https://pub.dev/packages/fast)
 
-An incredible command line interface for Flutter.
+An incredible command line interface for Flutter. It allows you to create your own CLI  without coding a line.
 
 With this CLI, you can create your custom templates and define how your project will start.
 
-The generated directories and files are defined from the outside in, that is, the users define the templates, the CLI only creates them.
+The generated directories and files are defined from the outside in, that is, the users define the resources, the CLI generates for you.
 
-That way you are not forced to use the project structure set by someone else and you can easily modify templates already created.
+You can easily:
+* Create
+* Use
+* Edit
+* Share
+
+Do not hesitate to share the plugins created by you with the community, it is very simple.
 
 ## Features
 - Templates generator
@@ -20,16 +26,265 @@ That way you are not forced to use the project structure set by someone else and
 - Standard line commands (Some commands already included in the CLI)
     - install (Add a package to the project dependencies)
 
+
+## Migrating from v0.3 to 0.4 
+
+[Access the guide](#Migrating)
+
+
 ## Table Of Contents 
-- [Template generator example](#template-generator-example)
-- [Snippet generator](#snippets-generator)
-- [Scaffold generator Example](#scaffold-generator-example)
-- [Commands example](#commands-example)
-- [Installation](#installation)
 
-## Template generator example
+- [Install](#install)
+- [Overview](#overview)
+- [Quick Start](#quick-start)
+- [Plugin System](#plugin-system)
+- [Scaffold](#scaffold)
+- [Template](#template)
+- [Snippets Generator](#snippets-generator)
+- [Custom Commands](#custom-commands)
 
-### Template example:
+
+## Install
+
+First of all it is necessary to install the package and configure cache location.
+
+### Install this package globally 
+
+To do this, you must have the Dart SDK [installed and configured](https://dart.dev/get-dart) 
+
+See the [guide](https://dart.dev/tools/pub/cmd/pub-global) referring to the installation of packages globally if you have any doubts on how to do it.
+
+```yaml
+$ pub global activate fast
+```
+
+### Configure cache location
+
+Add the fast cache to your PATH environment variable.
+
+$HOME/.fastcli/bin/
+
+## Overview
+
+  - Plugin System - Provide the mechanism for you to import a set of templates, resources and custom commands.
+  - Custom Commands - Commands defined by you to be executed in cmd.
+  - Scaffold - An initial structural for a project(Start your project with a structure already defined)
+  - Template - (Code that will be created for your project, as if it were a snippet, but by command line)
+
+## Quick Start
+
+Quick use of CLI features.
+
+### Install your first plugin
+
+The plugin system is the way in which you can create, use and share your own resources. Think of them as plugins for VS Code, but in this case for a CLI.
+
+To use the CLI it is necessary to install at least one plugin, so install your first plugin with the command below.
+Don't worry, just below you will learn how to create your own plugin. For now just install this plugin already created.
+
+```yaml
+fast plugin add <repository that has a plugin>
+```
+Example:
+
+```yaml
+$ fast plugin add git https://github.com/pbissonho/mvc_git_test.git
+```
+
+### See what the plugin provides
+
+After installing the plugin, an executable is created with his name, so run the command below to test.
+
+Use the "mvc" plugin that was installed directly from the repository.
+This command will display the functionalities that the plugin provides.
+
+
+```yaml
+$ mvc --help
+```
+
+### Use a plugin scaffold
+
+```yaml
+<plugin_name> create --name <flutter_projet_name> --scaffold <_scaffold_name>
+```
+Create a flutter application called "myapp" with the structure defined in the "sample" scaffold of the "mvc" plugin
+
+Example:
+
+```yaml
+$ mvc create --name myapp --scaffold sample
+```
+
+### Run a plugin custom command
+
+```yaml
+mvc run <custom_command_name>
+```
+Example:
+
+```yaml
+$ mvc run build
+```
+
+### Use a plugin template
+
+```yaml
+mvc <template_name> <template_arg1> <template_arg2> <template_arg3>...
+```
+
+```yaml
+$ mvc page --name myPage 
+```
+
+## Plugin System
+
+The plugin system is the way in which you can create, use and share your own resources. Think of them as plugins for VS Code, but in this case for a CLI.
+
+This CLI is intended to provide the tool for you to create your own CLI, by default the CLI comes with no resources, that is, it does not have any available plugin, command or scaffold. So to use it is necessary to install at least one plugin.
+
+No VS Code os plugins can provide snippets, themes, icons and other things. 
+
+In this CLI the plugins provide:
+
+ - Commands
+ - Scaffolds
+ - Templates
+
+Structure of a plugin:
+
+scaffolds/ <- Folder to add the scaffols.
+templates/ <- Folder to add the templates.
+commands.yaml <- File to define custom commands
+plugin.yaml <- File to define the name and description of the plugin.
+
+See an example on github [clicking here.](https://github.com/pbissonho/mvc_git_test). 
+
+
+### Using a plugin
+
+Fisrt instal the plugin. You can install directly from a repository.
+
+When adding a plugin an executable is created with the name of the plugin, so after installing it it is possible to use it by the plugin's own name.
+
+Install:
+
+```yaml
+$ fast plugin add git https://github.com/pbissonho/mvc_git_test.git
+```
+
+Use:
+```yaml
+$ mvc --help
+```
+
+### Plugin Commands
+
+#### add
+
+Add a plugin
+
+It is possible to add a plugin directly from a github repository or some local path.
+
+Install directly from a repository.
+
+```yaml
+$ fast plugin add git https://github.com/pbissonho/mvc_git_test.git
+```
+
+Install from a local path.
+
+```yaml
+$ fast plugin add path home/mypath/
+```
+
+#### remove
+
+Removes a plugin.
+
+```yaml
+$ fast plugin remove --name <plugin_name>
+```
+
+#### list
+
+Show all installed plugins.
+
+```yaml
+$ fast plugin list
+```
+
+
+
+## Scaffold
+
+A scaffold is a yaml file where you can define a folder structure and a set of dependencies for a Flutter project.
+Instead of creating a blank Flutter project, you can start the project with a folder structure already created and the dependencies configured.
+
+### Define a scaffold.yaml
+
+To define your scaffold just follow the example below:
+
+file: scaffold.yaml
+```yaml
+# The scaffold name.
+name: sample
+description: A sample scaffold.
+author: Pedro Bissonho <pedro.bissonho@gmail.com>
+
+# The folder structure that will be generated inside the 'lib' folder.
+structure:
+  - ui:
+    - pages
+    - shared 
+    - themes
+  - data:
+    - models
+    - repositorys
+  - blocs
+# The folder structure that will be generated inside the 'test' folder.
+test_structure:
+  - ui:
+  - data:
+  - fixtures:
+
+# The standard dependencies that the project will have.
+# Your project will start with all these dependencies.
+# If the version is not informed, the version will be configured as the last version available in Dart Pub.
+dependencies: 
+  koin: 
+  flutter_bloc: 
+
+# The standard dev_dependencies that the project will have.
+# If the version is not informed, the version will be configured as the last version available in Dart Pub.
+dev_dependencies:
+  koin_test:  
+```
+
+### Use a scaffold
+
+Add your scaffold.yaml file inside a plugin and then use it.
+
+```yaml
+<plugin_name> create --name <app_name> --scaffold <scaffold_name>
+```
+Example:
+```yaml
+$ mvc create --name myapp --scaffold mvc1
+```
+
+#### Result
+
+When starting your project with the sample scaffold you will have that project as a result.
+
+![alt text](https://github.com/pbissonho/fast.cli/blob/master/scaffold.png)
+
+
+## Template
+
+Templates are files or a set of files that you use to generate code. Generate code as snippests, but by command line.
+
+### Define a template
 
 First we define the files that are generated.
 In this example, the '@Name' tag will be replaced by the '--name' argument when the file is generated.
@@ -74,15 +329,17 @@ args:
 # - other3
 ```
 
-### Running the template
+### Using a template
 
 Run this command so that your template is generated.
 
-fast <template_name>  <templates_arg1, templates_arg2, templates_arg3....>
-
+```yaml
+<plugin_name> <template_name>  <templates_arg1, templates_arg2, templates_arg3...>
+```
 example:
-run on cmd:
-fast page --name home
+```yaml
+$ mvc page --name home
+```
 
 ### Result 
 
@@ -114,7 +371,7 @@ class _HomePageState extends State<HomePage> {
 A command to generate snippets for the VC Code based on the template files.
 Reuse the code inserted in the template files to generate snippets for Visual Studio Code.
 
-## Example
+### Define your snippets
 
 First we create the template file and template.yaml.
 And then set a snippe to be generated.
@@ -173,11 +430,18 @@ snippets:
 
 ### Generate snippests
 
-Run the command below to generate the snippets.
+Snippests are generated only for the called plugin, so
+if I had more snippes installed they will not be generated for them.
 
-fast snippets
+Run the command below to generate the snippets. 
 
-
+```yaml
+<plugin_name> snippets
+```
+Example:
+```yaml
+$ mvc snippets
+```
 
 ### Result 
 
@@ -186,65 +450,13 @@ It will be possible to use the generated snippet.
 ![alt-text](https://github.com/pbissonho/fast.cli/blob/master/page.gif)
 
 
+## Custom Commands  
 
-## Scaffold generator example
+Recording and having to write commands like 'flutter build runner build' it's not a cool thing to do.
+,so the custom commands will solve this problem. Write only once and then use them for an alias. 
+You only need to create a commands.yaml file in your pluginand define your commands.
 
-### Scaffold example:
-
-file: scaffold.yaml
-```yaml
-# The scaffold name.
-name: sample
-description: A sample scaffold.
-author: Pedro Bissonho <pedro.bissonho@gmail.com>
-
-# The folder structure that will be generated inside the 'lib' folder.
-structure:
-  - ui:
-    - pages
-    - shared 
-    - themes
-  - data:
-    - models
-    - repositorys
-  - blocs
-# The folder structure that will be generated inside the 'test' folder.
-test_structure:
-  - ui:
-  - data:
-  - fixtures:
-
-# The standard dependencies that the project will have.
-# Your project will start with all these dependencies.
-# If the version is not informed, the version will be configured as the last version available in Dart Pub.
-dependencies: 
-  koin: 
-  flutter_bloc: 
-
-# The standard dev_dependencies that the project will have.
-dev_dependencies:
-  koin_test:  
-```
-
-### Create a APP with the sample scaffold
-
-Run this command for your application to be created.
-
-fast create --name <app_name> --scafoold <scafoold_name> 
-
-run on cmd:
-
-fast create --name myapp --scafoold sample
-
-### Result 
-
-An application created with structure and dependencies selects no sample of scaffolding.
-
-![alt text](https://github.com/pbissonho/fast.cli/blob/master/scaffold.png)
-
-## Commands example 
-
-### Commands YAML example:
+### Define your commands
 
 file: commands.yaml
 ```yaml
@@ -256,44 +468,24 @@ commands:
 
 ### Running a command
 
-fast run <command_name>
+```yaml
+<plugin_name> run <command_name>
+```
 
 example:
 
-fast run runner
+```yaml
+$ mvc run runner
+```
 
+## Migrating
 
-# Installation
+### v0.3 to v0.4
 
-## Install
+The commands "config template",'config scaffolds' and 'config commands' have been removed. It is now much easier to configure the CLi and start using it. Just create your plugin and install it.
 
-Install this package globally. To do this, you must have the Dart SDK [installed and configured](https://dart.dev/get-dart) 
-See the [guide](https://dart.dev/tools/pub/cmd/pub-global) referring to the installation of packages globally if you have any doubts on how to do it.
+The scaffolds, templates and commands remain exactly the same, so you will use version 0.4 without making any changes, just add them to your plugin.
 
-run on cmd: 
-pub global activate fast
-
-## Config
-
-Before using the CLI, it is necessary to configure where your templates, commands and scaffolds are. If these paths are not defined, the CLI will not work correctly, because by default the CLI does not come with resources, it is necessary to create new ones or use resources already created by the community.
-
-In the [resources repository](https://github.com/pbissonho/fast_resources) you can download a set of resources already created.
-
-#### Configure the path of the templates that will be used by the CLI.
-
-fast config templates <templates_path>
-
-fast config scaffolds <scaffolds_path>
-
-fast config commands <commands_yaml_file_path>
-
-#### example
-
-fast config templates /home/pedro/Documentos/fast_resources/templates/
-
-fast config scaffolds /home/pedro/Documentos/fast_resources/scaffolds/
-
-fast config commands /home/pedro/Documentos/fast_resources/
 
 ![alt-text](https://github.com/pbissonho/fast.cli/blob/master/resources.gif)
 

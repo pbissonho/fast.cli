@@ -23,8 +23,8 @@ class BashFileManager {
 
     await file.create();
     await file.writeAsString(createBashFileData(name));
-    var path = '${homePath()}/.fastcli/bin/';
-    var result = await configFileAsExecutable('chmod', ['+x', '$name'], path);
+    var result =
+        await configFileAsExecutable('chmod', ['+x', '$name'], filePath);
   }
 
   Future<void> removeExecutable(String name) async {

@@ -13,10 +13,21 @@ void main() {
     expect(await file.exists(), true);
   });
 
-  test('shoud add a bash file with git repo', () async {
-    var action = PluginAddGitAction(PluginStorage(), BashFileManager());
+  test(
+    'shoud add a bash file with git repo',
+    () async {
+      var action = PluginAddGitAction(
+          PluginStorage(),
+          BashFileManager(
+              filePath: 'test/resources/bin',
+              gitCachePath: 'test/resources/cache'));
 
-    action.setUrl('https://github.com/pbissonho/mvc_git_test.git');
-    await action.execute();
-  }, timeout: Timeout(Duration(minutes: 10)));
+      action.setUrl('https://github.com/pbissonho/mvc_plugin.git');
+
+      await action.execute();
+
+      var file = File('test/resources/bin/mvc');
+      expect(await file.exists(), true);
+    },
+  );
 }
