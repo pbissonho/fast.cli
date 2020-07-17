@@ -154,8 +154,11 @@ In this CLI the plugins provide:
 Structure of a plugin:
 
 scaffolds/ <- Folder to add the scaffols.
+
 templates/ <- Folder to add the templates.
+
 commands.yaml <- File to define custom commands
+
 plugin.yaml <- File to define the name and description of the plugin.
 
 See an example on github [clicking here.](https://github.com/pbissonho/mvc_git_test). 
@@ -486,8 +489,6 @@ The commands "config template",'config scaffolds' and 'config commands' have bee
 
 The scaffolds, templates and commands remain exactly the same, so you will use version 0.4 without making any changes, just add them to your plugin.
 
-
-![alt-text](https://github.com/pbissonho/fast.cli/blob/master/resources.gif)
 
 # License
 
