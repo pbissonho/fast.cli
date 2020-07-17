@@ -1,3 +1,6 @@
+## 0.4.0+1
+- Updated readme
+
 ## 0.4.0
 - Added plugin system
 

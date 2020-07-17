@@ -29,7 +29,7 @@ Do not hesitate to share the plugins created by you with the community, it is ve
 
 ## Migrating from v0.3 to 0.4 
 
-[Access the guide](#Migrating)
+[Access the guide](#migrating)
 
 
 ## Table Of Contents 
