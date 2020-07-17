@@ -1,3 +1,6 @@
+## 0.4.0
+- Added plugin system
+
 ## 0.3.2
 - Fixed an error when using the create command in Windows.
 - Fixed an error when using the snippets command in Windows.
