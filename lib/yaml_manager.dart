@@ -12,15 +12,17 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+import 'dart:convert';
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
+import 'config_storage.dart';
 import 'core/exceptions.dart';
 import 'yaml_reader.dart';
 
 class YamlScaffoldKeys {
   static String commandsKey = 'commands';
-  static String structureKey = 'structure';
+  static String structureKey = 'lib_structure';
   static String testStructureKey = 'test_structure';
   static String dependenciesKey = 'dependencies';
   static String dev_dependenciesKey = 'dev_dependencies';
@@ -56,17 +58,22 @@ class YamlDependencies {
 }
 
 class Structure {
+  Structure(this.data, this.mainFolderName) {
+    createStructure(data, mainFolder);
+  }
   final List data;
+  final String mainFolderName;
+
   var mainFolder = Folder('src');
 
   void createStructure(dynamic data, Folder parent) {
-    if (data is YamlList) {
+    if (data is List) {
       data.forEach((folderName) {
         createStructure(folderName, parent);
       });
     }
 
-    if (data is YamlMap) {
+    if (data is Map) {
       data.forEach((key, childData) {
         var folder = Folder(key);
         parent.addSubFolder(folder);
@@ -85,10 +92,6 @@ class Structure {
         parent.addFile(YamlFile(data));
       }
     }
-  }
-
-  Structure(this.data) {
-    createStructure(data, mainFolder);
   }
 }
 
@@ -150,8 +153,14 @@ class Scaffold {
   final String name;
   final Structure structure;
   final Structure testStructure;
+  final List<String> sets;
 
-  Scaffold({this.structure, this.testStructure, this.name});
+  Scaffold({
+    this.structure,
+    this.testStructure,
+    this.name,
+    this.sets,
+  });
 }
 
 // A predefined set of resources.
@@ -175,25 +184,6 @@ class YamlManager {
     return templates;
   }
 
-  static List<Scaffold> loadScaffolds(String folder) {
-    var Scaffolds = <Scaffold>[];
-
-    var dir = Directory(folder);
-    dir.listSync().forEach((element) {
-      var Scaffold = readerYamlScaffoldFile('${element.path}/scaffold.yaml');
-      Scaffolds.add(Scaffold);
-    });
-
-    return Scaffolds;
-  }
-
-  static Scaffold loadScaffold(String folderPath) {
-    Scaffold scaffold;
-    var dir = Directory(folderPath);
-    scaffold = readerYamlScaffoldFile('${dir.path}/scaffold.yaml');
-    return scaffold;
-  }
-
   static List<YamlCommand> readerYamlCommandsFile(String yamlPath) {
     var yamlCommands = <YamlCommand>[];
     var reader = YamlReader(yamlPath);
@@ -204,24 +194,6 @@ class YamlManager {
     });
 
     return yamlCommands;
-  }
-
-  static Scaffold readerYamlScaffoldFile(String yamlPath) {
-    var reader = YamlReader(yamlPath);
-    dynamic structureData;
-    var yamldata = reader.reader();
-
-    structureData = yamldata[YamlScaffoldKeys.structureKey];
-    var structure = Structure(structureData);
-    var name = yamldata['name'];
-    var testStructureData = yamldata[YamlScaffoldKeys.testStructureKey];
-    var testStructure = Structure(testStructureData);
-
-    return Scaffold(
-      name: name,
-      structure: structure,
-      testStructure: testStructure,
-    );
   }
 
   static YamlPlugin readerYamlPluginFile(String yamlPath) {
@@ -293,5 +265,56 @@ Check that the yaml file has been written correctly.
 Error: $error
       ''');
     }
+  }
+}
+
+class ScaffoldReader {
+  final Plugin plugin;
+
+  ScaffoldReader(this.plugin);
+
+  Future<Scaffold> loadScaffold(String scaffoldName) async {
+    Scaffold scaffold;
+    scaffold = await readerYamlScaffoldFile(scaffoldName, plugin.path);
+    return scaffold;
+  }
+
+  static Future<Scaffold> readerYamlScaffoldFile(
+      String scaffoldName, String pluginPath) async {
+    var scaffoldYamlData =
+        await readerYaml('${pluginPath}/scaffolds/$scaffoldName.yaml');
+    final structuresContent =
+        await File('${pluginPath}/structures.yaml').readAsStringSync();
+
+    final structuresMap = json.decode(json.encode(loadYaml(structuresContent)))
+        as Map<String, dynamic>;
+
+    final structureName = scaffoldYamlData[YamlScaffoldKeys.structureKey];
+    final name = scaffoldYamlData['name'];
+    var testStructureName = scaffoldYamlData[YamlScaffoldKeys.testStructureKey];
+
+    var scaffoldDataMap =
+        json.decode(json.encode(scaffoldYamlData)) as Map<String, dynamic>;
+    return Scaffold(
+      sets: (scaffoldDataMap['sets'] as List).map((e) => '$e').toList(),
+      name: name,
+      structure: Structure(structuresMap[structureName], 'src'),
+      testStructure: Structure(structuresMap[testStructureName], 'src'),
+    );
+  }
+}
+
+class StructureReader {
+  final Plugin plugin;
+
+  StructureReader(this.plugin);
+
+  Future<Structure> reader(String structureName, String to) async {
+    final structuresContent =
+        await File('${plugin.path}/structures.yaml').readAsStringSync();
+
+    final structuresMap = json.decode(json.encode(loadYaml(structuresContent)))
+        as Map<String, dynamic>;
+    return Structure(structuresMap[structureName], to);
   }
 }

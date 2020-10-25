@@ -16,6 +16,7 @@ library fast;
 
 import 'dart:io';
 import 'package:args/command_runner.dart';
+import 'package:fast/commands/flutter/install_package.dart';
 import 'package:fast/config_storage.dart';
 import 'package:fast/core/exceptions.dart';
 import 'package:fast/logger.dart';
@@ -33,11 +34,10 @@ class FastCLI {
   FastCLI(this.commandRunner, this.pluginStorage);
 
   Future<void> setupCommandRunner(String pluginName) async {
-    var plugin = await pluginStorage.readByName(pluginName);
-    var pluginPath = plugin.path;
-
     try {
-      var templates = YamlManager.loadTemplates('$pluginPath/templates');
+      var plugin = await pluginStorage.readByName(pluginName);
+
+      var templates = YamlManager.loadTemplates('${plugin.path}/templates');
 
       templates.forEach((template) {
         addCommand(CreateTemplateCommand(
@@ -45,12 +45,12 @@ class FastCLI {
         ));
       });
 
-      var plugin = await pluginStorage.readByName(pluginName);
-      var scaffolsPath = '${plugin.path}/scaffolds';
       addCommand(SnippetsCommand('${plugin.path}/templates', plugin));
       addCommand(RunComand('${plugin.path}'));
-      addCommand(FlutterCreaterComand(scaffolsPath));
-      addCommand(SetupComand(scaffolsPath));
+      addCommand(FlutterCreaterComand(plugin));
+      addCommand(InstallPackageCommand(plugin));
+      addCommand(SetupComand(plugin));
+      addCommand(StructComand(plugin));
     } catch (error) {
       if (error is UsageException || error is FastException) {
         logger.d(error.toString());

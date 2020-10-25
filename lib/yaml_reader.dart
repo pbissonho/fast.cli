@@ -27,3 +27,7 @@ class YamlReader {
     return doc;
   }
 }
+
+dynamic readerYaml(String path) async {
+  return await YamlReader(path).reader();
+}

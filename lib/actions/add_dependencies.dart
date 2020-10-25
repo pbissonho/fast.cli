@@ -18,24 +18,23 @@ import 'package:pubspec_yaml/pubspec_yaml.dart';
 import 'package:fast/core/action.dart';
 import 'package:fast/services/packages_service.dart';
 
-class SetupYaml implements Action {
+class AddDependenciesAction implements Action {
   final String pubspecPath;
-  final String scaffoldPath;
+  final String setPath;
   var newHostedDependencies = <PackageDependencySpec>[];
   var scaffoldYamlDependencies = <PackageDependencySpec>[];
 
-  SetupYaml(this.pubspecPath, this.scaffoldPath);
+  AddDependenciesAction(this.pubspecPath, this.setPath);
 
-  String get finishedDescription => 'Setup pubspec.yaml';
+  String get finishedDescription => 'Add dependencies.';
 
   @override
   Future<void> execute() async {
     var pubspecFile = File(pubspecPath);
 
-    final scaffoldYaml =
-        await File('$scaffoldPath').readAsStringSync().toPubspecYaml();
+    final setPubsp = await File('$setPath').readAsStringSync().toPubspecYaml();
 
-    for (var depen in scaffoldYaml.dependencies) {
+    for (var depen in setPubsp.dependencies) {
       await depen.iswitch(sdk: (sdk) {
         scaffoldYamlDependencies.add(PackageDependencySpec.sdk(sdk));
       }, git: (git) {
@@ -54,7 +53,7 @@ class SetupYaml implements Action {
       ...scaffoldYamlDependencies,
       ...pubsYaml.dependencies
     ], devDependencies: [
-      ...scaffoldYaml.devDependencies,
+      ...setPubsp.devDependencies,
       ...pubsYaml.devDependencies
     ]);
 
@@ -64,20 +63,25 @@ class SetupYaml implements Action {
   }
 
   void process(HostedPackageDependencySpec hosted) async {
-    var pubService = PackagesService();
-    Package package;
-    try {
-      package = await pubService.fetchPackage(hosted.package);
-    } catch (error) {
-      rethrow;
+    if (hosted.version.hasValue) {
+      newHostedDependencies.add(PackageDependencySpec.hosted(hosted));
+    } else {
+      var pubService = PackagesService();
+
+      Package package;
+      try {
+        package = await pubService.fetchPackage(hosted.package);
+      } catch (error) {
+        rethrow;
+      }
+
+      var newHosted =
+          hosted.copyWith(version: Optional('^${package.latest.version}'));
+
+      newHostedDependencies.add(PackageDependencySpec.hosted(newHosted));
     }
-
-    var newHosted =
-        hosted.copyWith(version: Optional('^${package.latest.version}'));
-
-    newHostedDependencies.add(PackageDependencySpec.hosted(newHosted));
   }
 
   @override
-  String get succesMessage => 'Configured pubspec.yaml with dependencies and dev_dependencies.';
+  String get succesMessage => 'Dependencies added to the project.';
 }

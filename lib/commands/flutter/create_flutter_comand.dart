@@ -12,7 +12,9 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+import 'package:fast/actions/add_dependencies.dart';
 import 'package:fast/actions/builder_action.dart';
+import 'package:fast/config_storage.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 import 'package:path/path.dart';
 import 'package:fast/yaml_manager.dart';
@@ -20,7 +22,6 @@ import '../../logger.dart';
 import 'package:fast/actions/clear_structure.dart';
 import 'package:fast/actions/create_structure.dart';
 import 'package:fast/actions/creater_flutter_action.dart';
-import 'package:fast/actions/setup_yaml.dart';
 import 'package:fast/actions/show_folder_structure.dart';
 import 'package:fast/core/process_extension.dart';
 import '../command_base.dart';
@@ -47,7 +48,7 @@ class FlutterAppArgs {
 }
 
 class FlutterCreaterComand extends CommandBase {
-  final String scaffoldsPath;
+  final Plugin plugin;
 
   @override
   String get description => 'Create the app and folder structure';
@@ -57,7 +58,7 @@ class FlutterCreaterComand extends CommandBase {
 
   String get finishedDescription => 'Create the app and folder structure';
 
-  FlutterCreaterComand(this.scaffoldsPath) {
+  FlutterCreaterComand(this.plugin) {
     argParser.addOption('name', abbr: 'n', help: 'Project name.');
     argParser.addOption('scaffold', abbr: 's', help: 'Scaffold template name.');
     argParser.addOption('description', abbr: 'd', help: 'Project descritiopn.');
@@ -82,8 +83,7 @@ class FlutterCreaterComand extends CommandBase {
         useKotlin: useKotlin,
         useSwift: useSwift);
 
-    var scaffold =
-        YamlManager.loadScaffold(normalize('$scaffoldsPath/$scaffoldName'));
+    var scaffold = await ScaffoldReader(plugin).loadScaffold(scaffoldName);
 
     validate(
         Contract<FlutterAppArgs>(flutterScaffoldArgs, 'FlutterScaffoldArgs'));
@@ -100,11 +100,15 @@ class FlutterCreaterComand extends CommandBase {
       CreateFolderStructure('$appName/test', scaffold.testStructure.mainFolder,
           'Created /test folder structure.'),
       ShowFolderStructure(scaffold.testStructure.mainFolder),
-      SetupYaml('$appName/pubspec.yaml',
-          normalize('$scaffoldsPath/$scaffoldName/scaffold.yaml'))
     ]);
 
     await actionBuilder.execute();
+
+    await scaffold.sets.forEach((setName) async {
+      await AddDependenciesAction('$appName/pubspec.yaml',
+              normalize('${plugin.path}/sets/$setName.yaml'))
+          .execute();
+    });
 
     logger.d('All done. Application created and configured.');
   }

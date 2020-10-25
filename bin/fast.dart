@@ -13,7 +13,6 @@
 //limitations under the License.
 
 import 'package:args/command_runner.dart';
-import 'package:fast/commands/flutter/install_package.dart';
 import 'package:fast/commands/flutter/clear_command.dart';
 import 'package:fast/commands/plugin.dart';
 import 'package:fast/config_storage.dart';
@@ -36,7 +35,6 @@ void main(List<String> arguments) async {
   } else {
     await fastzCLI.addCommands([
       ClearCommand(),
-      InstallPackageCommand(),
       PluginCommand(pluginStorage)
     ]);
   }

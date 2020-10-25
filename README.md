@@ -16,6 +16,9 @@ You can easily:
 * Edit
 * Share
 
+
+
+
 Do not hesitate to share the plugins created by you with the community, it is very simple.
 
 ## Features
@@ -25,6 +28,14 @@ Do not hesitate to share the plugins created by you with the community, it is ve
 - Custom commands
 - Standard line commands (Some commands already included in the CLI)
     - install (Add a package to the project dependencies)
+
+
+## Roadmap
+
+- Plugin as packages
+  * Allow plugins to be released as packages to allow versioning.
+  * It will be possible to import a plugin directly from Dart Pub.
+-  Projets
 
 
 ## Migrating from v0.3 to 0.4 
@@ -216,6 +227,12 @@ Show all installed plugins.
 ```yaml
 $ fast plugin list
 ```
+
+## Community Plugins
+
+- Bloc 
+- Mobx
+- Clean
 
 
 

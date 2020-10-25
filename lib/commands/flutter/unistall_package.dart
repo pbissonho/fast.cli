@@ -10,7 +10,6 @@ class UnistallPackageCommand extends CommandBase {
   String get finishedDescription => 'Remove a package to the dependencies.';
 
   UnistallPackageCommand();
-    
 
   @override
   Future<void> run() async {

@@ -1,0 +1,23 @@
+mobx:
+  dep:
+    mobx:
+    flutter_mobx:
+  dev:
+     mobx_codegen:
+
+bloc:
+
+koin:
+
+redux:
+
+firebase:
+
+hive:
+
+core:
+  dep:
+    intl:
+    dio:
+    flutter_secure_storage:
+

@@ -36,22 +36,24 @@ class PluginCommand extends CommandBase {
 
   PluginCommand(this.storage) {
     BashFileManager bashFileManager;
-
+    var storage = PluginStorage() ;
     if (Platform.isLinux || Platform.isMacOS) {
       bashFileManager = BashFileManager();
     } else if (Platform.isWindows) {
       bashFileManager = WindowsManager();
     }
 
-    addSubcommand(AddCommand(bashFileManager));
+    addSubcommand(AddCommand(bashFileManager, storage,
+        PluginAddGitAction(storage, bashFileManager)));
     addSubcommand(RemovePluginCommand(PluginStorage(), bashFileManager));
     addSubcommand(ListPluginCommand(PluginStorage()));
-    addSubcommand(UpdatePluginCommand(PluginStorage()));
   }
 }
 
 class AddCommand extends CommandBase {
   final BashFileManager fileManager;
+  final PluginStorage storage;
+  final PluginAddGitAction addGitAction;
 
   @override
   String get description => 'Adds a plugin resources';
@@ -59,28 +61,36 @@ class AddCommand extends CommandBase {
   @override
   String get name => 'add';
 
-  AddCommand(this.fileManager) {
-    addSubcommand(AddPathCommand(PluginStorage(), fileManager));
-    addSubcommand(
-        AddGitCommand(PluginAddGitAction(PluginStorage(), fileManager)));
+  AddCommand(this.fileManager, this.storage, this.addGitAction) {
+    argParser.addOption('source', allowed: ['path', 'git']);
+  }
+
+  @override
+  Future<void> run() async {
+    var source = argResults['source'];
+
+    if (source == 'path') {
+      var path = argResults.rest[0];
+      await AddPathCommand(storage, fileManager).run(path);
+    } else {
+      var url = argResults.rest[0];
+      var path = argResults.rest[1];
+      await AddGitCommand(addGitAction).run(url, path);
+    }
   }
 }
 
-class AddPathCommand extends CommandBase {
+class AddPathCommand {
   final PluginStorage storage;
   final BashFileManager bashFileManager;
 
-  @override
   String get description => 'Adds a plugin resources from path';
 
-  @override
   String get name => 'path';
 
   AddPathCommand(this.storage, this.bashFileManager);
 
-  @override
-  Future<void> run() async {
-    var path = argResults.rest[0];
+  Future<void> run(String path) async {
     var yamlPluginFile = YamlManager.readerYamlPluginFile('$path/plugin.yaml');
     var plugin = Plugin(git: '', path: path, name: yamlPluginFile.name);
     await storage.add(plugin);
@@ -91,21 +101,18 @@ class AddPathCommand extends CommandBase {
   }
 }
 
-class AddGitCommand extends CommandBase {
+class AddGitCommand {
   final PluginAddGitAction action;
 
-  @override
   String get description => 'Adds a plugin resources from git';
 
-  @override
   String get name => 'git';
 
   AddGitCommand(this.action);
 
-  @override
-  Future<void> run() async {
-    var gitUrl = argResults.rest[0];
+  Future<void> run(String gitUrl, String path) async {
     action.setUrl(gitUrl);
+    action.withPath(path);
     logger.d('Installing plugin...');
     await action.execute();
   }

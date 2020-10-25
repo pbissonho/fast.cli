@@ -9,7 +9,7 @@ void main() {
     await addPackageAction.execute();
   });
 
-   test('shoud install a dev package', () async {
+  test('shoud install a dev package', () async {
     var addPackageAction =
         AddPackage('koin', 'test/resources/_pubspec.yaml', true);
     await addPackageAction.execute();
