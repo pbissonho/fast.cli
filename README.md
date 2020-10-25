@@ -1,6 +1,6 @@
 # Fast.cli
 
-<p align="center"><img src="https://raw.githubusercontent.com/pbissonho/fast.cli/master/fast.svg" height="150" alt="Fast.cli"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/pbissonho/fast.cli/master/fast.svg" height="120" alt="Fast.cli"></p>
 
 [![Build Status](https://travis-ci.org/pbissonho/fast.cli.svg?branch=master)](https://travis-ci.org/github/pbissonho/fast.cli)
 [![codecov](https://codecov.io/gh/pbissonho/fast.cli/branch/master/graph/badge.svg)](https://codecov.io/gh/pbissonho/fast.cli)
