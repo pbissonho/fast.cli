@@ -39,6 +39,11 @@ class SnippetsCommand extends CommandBase {
 
     var templates = await YamlManager.loadTemplates(templatesPath);
 
+    if(templates.isEmpty){
+      logger.d('The plugin not have any template');
+      return;
+    }
+
     String globalSnippetsPath;
     if (Platform.isLinux || Platform.isMacOS) {
       globalSnippetsPath =
