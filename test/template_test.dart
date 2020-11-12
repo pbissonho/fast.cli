@@ -50,4 +50,11 @@ void main() {
     await fastzCLI.run(
         ['fast', 'cli', 'mvc', 'controller', '--name', 'myController'], true);
   });
+
+  test('shoud not throw an error when template is empty', () async {
+     var templates =
+        await YamlManager.loadTemplates('test/resources/empty_templates/');
+
+    expect(0, templates.length);
+  });
 }
