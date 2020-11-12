@@ -12,6 +12,9 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+import 'dart:io';
+
+import 'package:fast/actions/add_main.dart';
 import 'package:fast/actions/builder_action.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 import 'package:path/path.dart';
@@ -91,6 +94,8 @@ class FlutterCreaterComand extends CommandBase {
     await CreaterFlutterAction(appName, flutterScaffoldArgs, FastProcessCLI())
         .execute();
 
+    final cacheMainFile = await File('$appName/lib/main.dart').copy('$appName/tmp/main.dart');
+
     var actionBuilder = ActionBuilder([
       ClearScaffoldStructure('$appName/lib'),
       ClearScaffoldStructure('$appName/test'),
@@ -101,7 +106,8 @@ class FlutterCreaterComand extends CommandBase {
           'Created /test folder structure.'),
       ShowFolderStructure(scaffold.testStructure.mainFolder),
       SetupYaml('$appName/pubspec.yaml',
-          normalize('$scaffoldsPath/$scaffoldName/scaffold.yaml'))
+          normalize('$scaffoldsPath/$scaffoldName/scaffold.yaml')),
+      AddMainFile(main: cacheMainFile, path: '$appName/lib/main.dart'),
     ]);
 
     await actionBuilder.execute();
