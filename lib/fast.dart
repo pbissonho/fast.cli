@@ -39,7 +39,7 @@ class FastCLI {
     try {
       var templates = YamlManager.loadTemplates('$pluginPath/templates');
 
-      templates.forEach((template) {
+      templates?.forEach((template) {
         addCommand(CreateTemplateCommand(
           template: template,
         ));
