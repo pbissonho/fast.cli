@@ -71,12 +71,13 @@ class FlutterCreaterComand extends CommandBase {
 
   @override
   Future<void> run() async {
-    var appName = argResults['name'];
-    var scaffoldName = argResults['scaffold'];
-    var description = argResults['description'];
-    var useKotlin = argResults.wasParsed('kotlin');
-    var useSwift = argResults.wasParsed('swift');
-    var useAndroidX = argResults.wasParsed('androidx');
+    final appName = argResults['name'];
+    final scaffoldName = argResults['scaffold'];
+    final description = argResults['description'];
+    final useKotlin = argResults.wasParsed('kotlin');
+    final useSwift = argResults.wasParsed('swift');
+    final useAndroidX = argResults.wasParsed('androidx');
+    final keepMain = argResults.wasParsed('keep-main');
 
     var flutterScaffoldArgs = FlutterAppArgs(
         useAndroidX: useAndroidX,
@@ -94,8 +95,6 @@ class FlutterCreaterComand extends CommandBase {
     await CreaterFlutterAction(appName, flutterScaffoldArgs, FastProcessCLI())
         .execute();
 
-    final cacheMainFile = await File('$appName/lib/main.dart').copy('$appName/tmp/main.dart');
-
     var actionBuilder = ActionBuilder([
       ClearScaffoldStructure('$appName/lib'),
       ClearScaffoldStructure('$appName/test'),
@@ -107,8 +106,14 @@ class FlutterCreaterComand extends CommandBase {
       ShowFolderStructure(scaffold.testStructure.mainFolder),
       SetupYaml('$appName/pubspec.yaml',
           normalize('$scaffoldsPath/$scaffoldName/scaffold.yaml')),
-      AddMainFile(main: cacheMainFile, path: '$appName/lib/main.dart'),
     ]);
+
+    if (keepMain) {
+      final cacheMainFile =
+          await File('$appName/lib/main.dart').copy('$appName/tmp/main.dart');
+      actionBuilder.actions.add(
+          AddMainFile(main: cacheMainFile, path: '$appName/lib/main.dart'));
+    }
 
     await actionBuilder.execute();
 
