@@ -33,7 +33,7 @@ class ClearCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    var directory = Directory('lib');
+    final directory = Directory('lib');
     await directory.clear();
     await Directory('test').clear();
     validate(Contract('', ''));

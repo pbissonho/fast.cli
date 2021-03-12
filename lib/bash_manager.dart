@@ -15,16 +15,15 @@ class BashFileManager {
 
   // Create a executable named 'name'.
   Future<void> createExecutable(String name) async {
-    var directory = Directory(filePath);
-    var file = File('$filePath/$name');
+    final directory = Directory(filePath);
+    final file = File('$filePath/$name');
     if (!await directory.exists()) {
       await directory.createRecursive();
     }
 
     await file.create();
     await file.writeAsString(createBashFileData(name));
-    var result =
-        await configFileAsExecutable('chmod', ['+x', '$name'], filePath);
+    await configFileAsExecutable('chmod', ['+x', '$name'], filePath);
   }
 
   Future<void> removeExecutable(String name) async {
@@ -34,15 +33,15 @@ class BashFileManager {
 
   Future<bool> cloneRepository(String repositoryUrl, String path) async {
     // Remove a old version from cache
-    var dire = Directory(path);
+    final directory = Directory(path);
 
-    if (await dire.exists()) {
-      await dire.clear();
+    if (await directory.exists()) {
+      await directory.clear();
     } else {
-      await dire.createRecursive();
+      await directory.createRecursive();
     }
 
-    var process = await Process.start('git', ['clone', repositoryUrl],
+    final process = await Process.start('git', ['clone', repositoryUrl],
             runInShell: true, workingDirectory: gitCachePath)
         .then((result) async {
       await stdout.addStream(result.stdout);
@@ -50,31 +49,31 @@ class BashFileManager {
       return result;
     });
 
-    var result = await process.exitCode;
+    final processResult = await process.exitCode;
 
-    if (result == 0) return true;
+    if (processResult == 0) return true;
     return false;
   }
 
   Future<void> removeCachedRepository(String path) async {
-    var dire = Directory(path);
-    if (await dire.exists()) {
-      await dire.delete(recursive: true);
+    final directory = Directory(path);
+    if (await directory.exists()) {
+      await directory.delete(recursive: true);
     }
   }
 
   Future<bool> configFileAsExecutable(
       String name, List<String> args, String path) async {
-    var process = await Process.start(name, args,
+    final process = await Process.start(name, args,
             runInShell: true, workingDirectory: path)
         .then((result) async {
       await stdout.addStream(result.stdout);
       await stderr.addStream(result.stderr);
       return result;
     });
-    var result = await process.exitCode;
+    final processResult = await process.exitCode;
 
-    if (result == 0) return true;
+    if (processResult == 0) return true;
     return false;
   }
 

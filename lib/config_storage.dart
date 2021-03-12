@@ -18,7 +18,7 @@ import 'core/home_path.dart';
 
 class PluginRepository {
   List<Plugin> getAll(Map<String, dynamic> json) {
-    var models = <Plugin>[];
+    final models = <Plugin>[];
     if (json['plugins'] != null) {
       json['plugins'].forEach((v) {
         models.add(Plugin.fromJson(v));
@@ -72,45 +72,45 @@ class PluginStorage {
   }
 
   Future<Plugin> readByName(String name) async {
-    var plugin = await read();
+    final plugin = await read();
     return plugin.firstWhere((element) => element.name == name);
   }
 
   Future<List<Plugin>> read() async {
-    var file = File(_filePath);
+    final file = File(_filePath);
     Map<String, dynamic> data;
     if (!await file.exists()) {
       return <Plugin>[];
     }
 
-    var fileContents = await file.readAsString();
+    final fileContents = await file.readAsString();
     if (fileContents.isEmpty) {
       return <Plugin>[];
     }
 
     data = await json.decode(fileContents);
-    var plugins = PluginRepository().getAll(data);
+    final plugins = PluginRepository().getAll(data);
     return plugins;
   }
 
   Future<void> write(List<Plugin> plugin) async {
-    var file = File(_filePath);
+    final file = File(_filePath);
     if (!await file.exists()) {
       await file.create();
     }
-    var data = PluginRepository().toStorage(plugin);
+    final data = PluginRepository().toStorage(plugin);
     await file.writeAsString(json.encode(data));
   }
 
   Future<void> add(Plugin model) async {
-    var plugins = await read();
+    final plugins = await read();
     plugins.removeWhere((element) => element.name == model.name);
     plugins.add(model);
     await write(plugins);
   }
 
   Future<void> remove(String name) async {
-    var plugins = await read();
+    final plugins = await read();
     plugins.removeWhere((element) => element.name == name);
     await write(plugins);
   }

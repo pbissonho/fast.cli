@@ -22,8 +22,8 @@ class YamlReader {
   YamlReader(this.path);
 
   dynamic reader() {
-    var data = File(path).readAsStringSync();
-    var doc = loadYaml(data);
-    return doc;
+    final data = File(path).readAsStringSync();
+    final yamlData = loadYaml(data);
+    return yamlData;
   }
 }

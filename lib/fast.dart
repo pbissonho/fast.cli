@@ -33,11 +33,11 @@ class FastCLI {
   FastCLI(this.commandRunner, this.pluginStorage);
 
   Future<void> setupCommandRunner(String pluginName) async {
-    var plugin = await pluginStorage.readByName(pluginName);
-    var pluginPath = plugin.path;
+    final plugin = await pluginStorage.readByName(pluginName);
+    final pluginPath = plugin.path;
 
     try {
-      var templates = YamlManager.loadTemplates('$pluginPath/templates');
+      final templates = YamlManager.loadTemplates('$pluginPath/templates');
 
       templates?.forEach((template) {
         addCommand(CreateTemplateCommand(
@@ -45,8 +45,8 @@ class FastCLI {
         ));
       });
 
-      var plugin = await pluginStorage.readByName(pluginName);
-      var scaffolsPath = '${plugin.path}/scaffolds';
+      final plugin = await pluginStorage.readByName(pluginName);
+      final scaffolsPath = '${plugin.path}/scaffolds';
       addCommand(SnippetsCommand('${plugin.path}/templates', plugin));
       addCommand(RunComand('${plugin.path}'));
       addCommand(FlutterCreaterComand(scaffolsPath));
@@ -65,7 +65,7 @@ Please report creating a issue at https://github.com/pbissonho/fast.cli.''');
   Future<void> run(List<String> arguments, bool isPlugin) async {
     List<String> finalArguments;
     if (isPlugin) {
-      var lastIndex = arguments.length;
+      final lastIndex = arguments.length;
       finalArguments = arguments.getRange(2, lastIndex).toList();
     } else {
       finalArguments = arguments;

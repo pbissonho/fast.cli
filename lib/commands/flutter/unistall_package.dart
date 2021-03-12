@@ -10,13 +10,12 @@ class UnistallPackageCommand extends CommandBase {
   String get finishedDescription => 'Remove a package to the dependencies.';
 
   UnistallPackageCommand();
-    
 
   @override
   Future<void> run() async {
-    //var packageName = argResults.rest[0];
-    // var packageVersion = argResults['version'];
-    //var addPackageAction = AddPackage(packageName, 'pubspec.yaml', '');
+    //final packageName = argResults.rest[0];
+    //final packageVersion = argResults['version'];
+    //final addPackageAction = AddPackage(packageName, 'pubspec.yaml', '');
     //await addPackageAction.execute();
     //logger.d('${runtimeType.toString()} finished. - $finishedDescription');
   }

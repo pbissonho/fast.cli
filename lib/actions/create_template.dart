@@ -40,12 +40,12 @@ class CreateTemplateAction implements Action {
 
   @override
   Future<void> execute() async {
-    var templateFiles = await readerTemplatesFiles();
+    final templateFiles = await readerTemplatesFiles();
     replacerTemplatesFile(argsMap, templateFiles);
 
-    for (var template in templateFiles) {
+    for (final template in templateFiles) {
       if (template.extension.toLowerCase() != '.yaml') {
-        var file = File(template.path);
+        final file = File(template.path);
         await file.create(recursive: true);
         await file.writeAsString(template.content);
       }
@@ -53,15 +53,15 @@ class CreateTemplateAction implements Action {
   }
 
   Future<List<TemplateFile>> readerTemplatesFiles() async {
-    var templatesFile = <TemplateFile>[];
-    var systemFiles = await _templateFolderDirectory.getAllSystemFiles();
+    final templatesFile = <TemplateFile>[];
+    final systemFiles = await _templateFolderDirectory.getAllSystemFiles();
 
-    for (var systemFile in systemFiles) {
+    for (final systemFile in systemFiles) {
       if (systemFile is File) {
-        var content = await systemFile.readAsString();
+        final content = await systemFile.readAsString();
 
-        var relativePath = relative(systemFile.path, from: template.path);
-        var filePath = normalize('${template.to}/$relativePath');
+        final relativePath = relative(systemFile.path, from: template.path);
+        final filePath = normalize('${template.to}/$relativePath');
 
         templatesFile.add(TemplateFile(
             name: split(systemFile.path).last,
@@ -75,10 +75,10 @@ class CreateTemplateAction implements Action {
 
   void replacerTemplatesFile(
       Map<String, String> argsMap, List<TemplateFile> templateFiles) {
-    var replacers = createReplacers(argsMap);
+    final replacers = createReplacers(argsMap);
 
-    for (var templateFile in templateFiles) {
-      for (var replacer in replacers) {
+    for (final templateFile in templateFiles) {
+      for (final replacer in replacers) {
         templateFile.name = replaceData(templateFile.name, replacer);
         templateFile.content = replaceData(templateFile.content, replacer);
         templateFile.path = replaceData(templateFile.path, replacer);

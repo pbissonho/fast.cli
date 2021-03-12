@@ -34,13 +34,13 @@ class CreateTemplateCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    var argsMap = <String, String>{};
+    final argsMap = <String, String>{};
 
     template.args.forEach((arg) {
-      var argresult = argResults[arg];
+      final argResult = argResults[arg];
 
-      if (argresult != null) {
-        argsMap[arg] = argresult;
+      if (argResult != null) {
+        argsMap[arg] = argResult;
       }
     });
 

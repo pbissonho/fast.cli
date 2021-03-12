@@ -41,13 +41,13 @@ class SetupComand extends CommandBase {
   @override
   Future<void> run() async {
     validate(Contract('', ''));
-    var scaffoldName = argResults['scaffold'];
-    var scaffold =
+    final scaffoldName = argResults['scaffold'];
+    final scaffold =
         YamlManager.loadScaffold(normalize('$scaffoldsPath/$scaffoldName'));
 
     validate(Contract('', 'FlutterScaffoldArgs'));
 
-    var actionBuilder = ActionBuilder([
+    final actionBuilder = ActionBuilder([
       CreateFolderStructure('lib', scaffold.structure.mainFolder,
           'Created /lib folder structure.'),
       ShowFolderStructure(scaffold.structure.mainFolder),

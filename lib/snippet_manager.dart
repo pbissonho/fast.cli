@@ -24,12 +24,12 @@ class ReplacerSnippet {
 }
 
 List<ReplacerSnippet> createSnipReplacers(List<String> args) {
-  var replacers = <ReplacerSnippet>[];
+  final replacers = <ReplacerSnippet>[];
 
   var index = 1;
   for (var i = 0; i < args.length; i++) {
-    var arg = args[i];
-    var argUpperCase = '${arg[0].toUpperCase()}${arg.substring(1)}';
+    final arg = args[i];
+    final argUpperCase = '${arg[0].toUpperCase()}${arg.substring(1)}';
     replacers.add(ReplacerSnippet('$arg', '\${${index.toString()}:$arg}'));
     index++;
     replacers.add(
@@ -51,7 +51,7 @@ String replacerSnipLine(String line, List<ReplacerSnippet> replacers) {
 
 String replaceSnipData(String content, ReplacerSnippet replacer) {
   String replaced;
-  var contains = replacer.regex.hasMatch(content);
+  final contains = replacer.regex.hasMatch(content);
   if (contains) {
     replaced =
         content.replaceAllMapped(replacer.regex, (mathe) => replacer.value);
@@ -82,9 +82,9 @@ class SnippetFile {
   }
 
   void createBody(List<ReplacerSnippet> replacers) {
-    var linesReplaced = <String>[];
+    final linesReplaced = <String>[];
 
-    for (var line in contentLines) {
+    for (final line in contentLines) {
       var lineReplaced = line;
       for (var replacer in replacers) {
         lineReplaced = replaceSnipData(lineReplaced, replacer);
@@ -126,8 +126,8 @@ class SnippetGenerator {
   }
 
   Future<List<SnippetFile>> _loadSnippetFiles(Template template) async {
-    var dir = Directory(
-        normalize('${templatesPath}/${template.name}_template'));
+    var dir =
+        Directory(normalize('${templatesPath}/${template.name}_template'));
     var files = await dir.getAllSystemFiles();
     final snippetFiles = <SnippetFile>[];
 

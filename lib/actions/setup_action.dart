@@ -31,9 +31,9 @@ class SetupAction implements Action {
 
   @override
   Future<void> execute() async {
-    var libPath = '$path/lib';
-    var createStructAction =
-        CreateFolderStructure(libPath, project.structure.mainFolder, 'Created /lib structure.');
+    final libPath = '$path/lib';
+    final createStructAction = CreateFolderStructure(
+        libPath, project.structure.mainFolder, 'Created /lib structure.');
 
     if (await Directory(libPath).existsFiles()) {
       if (force) {
