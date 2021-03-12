@@ -21,3 +21,14 @@ class FastException implements Exception {
     return '$runtimeType: $msg';
   }
 }
+
+class UnsupportedPlatformException implements Exception {
+  final String msg =
+      'Platform not compatible with Fast CLI. Use Windows, Linux or MacOS.';
+  UnsupportedPlatformException();
+
+  @override
+  String toString() {
+    return '$runtimeType: $msg';
+  }
+}

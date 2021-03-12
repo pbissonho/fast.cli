@@ -112,7 +112,7 @@ class MyPrettyPrinter extends LogPrinter {
   });
   @override
   void log(LogEvent event) {
-    var messageStr = stringifyMessage(event.message);
+    final messageStr = stringifyMessage(event.message);
 
     String stackTraceStr;
     if (event.stackTrace == null) {
@@ -123,7 +123,7 @@ class MyPrettyPrinter extends LogPrinter {
       stackTraceStr = formatStackTrace(event.stackTrace, errorMethodCount);
     }
 
-    var errorStr = event.error?.toString();
+    final errorStr = event.error?.toString();
 
     formatAndPrint(event.level, messageStr, '', errorStr, stackTraceStr);
   }

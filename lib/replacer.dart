@@ -1,4 +1,3 @@
-
 class Replacer {
   RegExp regex;
   final String argName;
@@ -18,7 +17,7 @@ class Replacer {
 }
 
 List<Replacer> createReplacers(Map<String, String> args) {
-  var replacers = <Replacer>[];
+  final replacers = <Replacer>[];
 
   args.forEach((arg, value) {
     replacers.add(Replacer('${arg[0].toUpperCase()}${arg.substring(1)}',
@@ -40,7 +39,7 @@ String replacerFile(String content, List<Replacer> replacers) {
 
 String replaceData(String content, Replacer replacer) {
   String replaced;
-  var contains = replacer.regex.hasMatch(content);
+  final contains = replacer.regex.hasMatch(content);
   if (contains) {
     replaced =
         content.replaceAllMapped(replacer.regex, (mathe) => replacer.value);
@@ -49,5 +48,3 @@ String replaceData(String content, Replacer replacer) {
   if (replaced == null) return content;
   return replaced;
 }
-
-
