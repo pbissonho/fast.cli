@@ -17,18 +17,18 @@ import 'dart:io';
 class FastProcess {
   Future<bool> executeProcess(
       String name, List<String> args, String path) async {
-    var process = await Process.start(name, args,
+    final process = await Process.start(name, args,
         runInShell: true, workingDirectory: path);
-    var result = await process.exitCode;
-    if (result == 0) return true;
+    final processExitCode = await process.exitCode;
+    if (processExitCode == 0) return true;
     return false;
   }
 
   Future<bool> executeProcessShellPath(
       String name, List<String> args, String path) async {
-    var process = await Process.start(name, args, runInShell: false);
-    var result = await process.exitCode;
-    if (result == 0) return true;
+    final process = await Process.start(name, args, runInShell: false);
+    final processExitCode = await process.exitCode;
+    if (processExitCode == 0) return true;
     return false;
   }
 }
@@ -37,32 +37,32 @@ class FastProcessCLI implements FastProcess {
   @override
   Future<bool> executeProcess(
       String name, List<String> args, String path) async {
-    var process =
+    final process =
         await Process.start(name, args, runInShell: true).then((result) async {
       await stdout.addStream(result.stdout);
       await stderr.addStream(result.stderr);
       return result;
     });
 
-    var result = await process.exitCode;
+    final processExitCode = await process.exitCode;
 
-    if (result == 0) return true;
+    if (processExitCode == 0) return true;
     return false;
   }
 
   @override
   Future<bool> executeProcessShellPath(
       String name, List<String> args, String path) async {
-    var process =
+    final process =
         await Process.start(name, args, runInShell: true).then((result) async {
       await stdout.addStream(result.stdout);
       await stderr.addStream(result.stderr);
       return result;
     });
 
-    var result = await process.exitCode;
+    final processExitCode = await process.exitCode;
 
-    if (result == 0) return true;
+    if (processExitCode == 0) return true;
     return false;
   }
 }

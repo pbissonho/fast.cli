@@ -13,10 +13,10 @@
 //limitations under the License.
 import 'dart:io';
 
+import 'package:fast/core/fast_process.dart';
 import 'package:path/path.dart';
 import 'package:fast/core/action.dart';
 import 'package:fast/yaml_manager.dart';
-import '../core/process_extension.dart';
 
 class RunCommandAction implements Action {
   final String yamlCommandPath;

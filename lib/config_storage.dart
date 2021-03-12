@@ -18,13 +18,13 @@ import 'core/home_path.dart';
 
 class PluginRepository {
   List<Plugin> getAll(Map<String, dynamic> json) {
-    final models = <Plugin>[];
+    final plugins = <Plugin>[];
     if (json['plugins'] != null) {
       json['plugins'].forEach((v) {
-        models.add(Plugin.fromJson(v));
+        plugins.add(Plugin.fromJson(v));
       });
     }
-    return models;
+    return plugins;
   }
 
   Map<String, dynamic> toStorage(List<Plugin> models) {
@@ -78,7 +78,6 @@ class PluginStorage {
 
   Future<List<Plugin>> read() async {
     final file = File(_filePath);
-    Map<String, dynamic> data;
     if (!await file.exists()) {
       return <Plugin>[];
     }
@@ -88,7 +87,7 @@ class PluginStorage {
       return <Plugin>[];
     }
 
-    data = await json.decode(fileContents);
+    final data = await json.decode(fileContents);
     final plugins = PluginRepository().getAll(data);
     return plugins;
   }

@@ -44,9 +44,9 @@ class Dependency {
 
 class YamlDependencies {
   static List<Dependency> readDependencies(String key, YamlReader reader) {
-    var yamldata = reader.reader();
-    var dependencies = <Dependency>[];
-    var dependenciesData = yamldata[key] as Map;
+    final yamldata = reader.reader();
+    final dependencies = <Dependency>[];
+    final dependenciesData = yamldata[key] as Map;
     dependenciesData.forEach((key, comand) {
       dependencies.add(Dependency(key, comand));
     });
@@ -57,7 +57,11 @@ class YamlDependencies {
 
 class Structure {
   final List data;
-  var mainFolder = Folder('src');
+  final mainFolder = Folder('src');
+
+  Structure(this.data) {
+    createStructure(data, mainFolder);
+  }
 
   void createStructure(dynamic data, Folder parent) {
     if (data is YamlList) {
@@ -68,16 +72,14 @@ class Structure {
 
     if (data is YamlMap) {
       data.forEach((key, childData) {
-        var folder = Folder(key);
+        final folder = Folder(key);
         parent.addSubFolder(folder);
         createStructure(childData, folder);
       });
     }
 
-    // parent.add(Folder(data));
-
     if (data is String) {
-      var splited = data.split('.');
+      final splited = data.split('.');
 
       if (splited.length == 1) {
         parent.addSubFolder(Folder(data));
@@ -86,16 +88,12 @@ class Structure {
       }
     }
   }
-
-  Structure(this.data) {
-    createStructure(data, mainFolder);
-  }
 }
 
 class Folder {
   final String name;
-  List<Folder> subFolders = <Folder>[];
-  List<YamlFile> files = <YamlFile>[];
+  final List<Folder> subFolders = <Folder>[];
+  final List<YamlFile> files = <YamlFile>[];
 
   Folder(this.name);
 
@@ -164,10 +162,10 @@ class YamlPlugin {
 
 class YamlManager {
   static List<Template> loadTemplates(String folder) {
-    var templates = <Template>[];
+    final templates = <Template>[];
 
-    var dir = Directory(folder);
-    dir.listSync().forEach((element) {
+    final directory = Directory(folder);
+    directory.listSync().forEach((element) {
       templates
           .add(YamlTemplateReader('${element.path}/template.yaml').reader());
     });
@@ -176,21 +174,20 @@ class YamlManager {
   }
 
   static List<Scaffold> loadScaffolds(String folder) {
-    var Scaffolds = <Scaffold>[];
+    final scaffolds = <Scaffold>[];
 
-    var directory = Directory(folder);
+    final directory = Directory(folder);
     directory.listSync().forEach((element) {
       var Scaffold = readerYamlScaffoldFile('${element.path}/scaffold.yaml');
-      Scaffolds.add(Scaffold);
+      scaffolds.add(Scaffold);
     });
 
-    return Scaffolds;
+    return scaffolds;
   }
 
   static Scaffold loadScaffold(String folderPath) {
-    Scaffold scaffold;
     final directory = Directory(folderPath);
-    scaffold = readerYamlScaffoldFile('${directory.path}/scaffold.yaml');
+    final scaffold = readerYamlScaffoldFile('${directory.path}/scaffold.yaml');
     return scaffold;
   }
 
