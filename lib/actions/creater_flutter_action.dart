@@ -28,7 +28,7 @@ class CreaterFlutterAction implements Action {
 
   @override
   Future<void> execute() async {
-    var args = ['create', '--no-pub'];
+    final args = ['create', '--no-pub'];
     if (flutterProjectArgs.useKotlin) args.addAll(['-a', 'kotlin']);
     if (flutterProjectArgs.useSwift) args.addAll(['-i', 'swift']);
     if (flutterProjectArgs.useAndroidX) args.add('--androidx');
@@ -47,9 +47,10 @@ class CreaterFlutterAction implements Action {
 
     args.add(path);
     logger.d('Creating the flutter application...');
-    var result = await process.executeProcessShellPath('flutter', args, path);
+    final processresult =
+        await process.executeProcessShellPath('flutter', args, path);
 
-    if (!result) {
+    if (!processresult) {
       logger.d('An error has occurred while creating the flutter application.');
       exit(64);
     }

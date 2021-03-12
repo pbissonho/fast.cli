@@ -22,14 +22,14 @@ class PackagesService {
   Future<Package> fetchPackage(
     String packageName,
   ) async {
-    var url = '$pubUrl/$packageName';
+    final url = '$pubUrl/$packageName';
 
     try {
-      var response = await http.get(url);
+      final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        var data = jsonDecode(response.body);
-        var map = data as Map;
+        final data = jsonDecode(response.body);
+        final map = data as Map;
         return Package.fromJson(map);
       }
       throw FastException('Not found package.');
@@ -45,7 +45,7 @@ Check that the package name is valid.
 class Package {
   String name;
   Version latest;
- // List<Version> versions;
+  // List<Version> versions;
 
   /*
   bool hasVersion(String version) {

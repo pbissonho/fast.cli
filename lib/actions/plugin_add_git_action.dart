@@ -19,14 +19,14 @@ class PluginAddGitAction implements Action {
 
   @override
   Future<void> execute() async {
-    var pathOnlyBaseName = basename(_gitUrl);
-    var repositoryName = withoutExtension(pathOnlyBaseName);
-    var path = normalize('${bashFileManager.gitCachePath}/$repositoryName/');
+    final pathOnlyBaseName = basename(_gitUrl);
+    final repositoryName = withoutExtension(pathOnlyBaseName);
+    final path = normalize('${bashFileManager.gitCachePath}/$repositoryName/');
 
     await bashFileManager.cloneRepository(_gitUrl, path);
 
-    var yamlPlugin = YamlManager.readerYamlPluginFile('$path/plugin.yaml');
-    var plugin = Plugin(git: _gitUrl, path: path, name: yamlPlugin.name);
+    final yamlPlugin = YamlManager.readerYamlPluginFile('$path/plugin.yaml');
+    final plugin = Plugin(git: _gitUrl, path: path, name: yamlPlugin.name);
     await storage.add(plugin);
     await bashFileManager.createExecutable(yamlPlugin.name);
     logger.d('Plugin(${yamlPlugin.name}) - Resources successfully configured.');

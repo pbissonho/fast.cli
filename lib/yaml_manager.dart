@@ -178,8 +178,8 @@ class YamlManager {
   static List<Scaffold> loadScaffolds(String folder) {
     var Scaffolds = <Scaffold>[];
 
-    var dir = Directory(folder);
-    dir.listSync().forEach((element) {
+    var directory = Directory(folder);
+    directory.listSync().forEach((element) {
       var Scaffold = readerYamlScaffoldFile('${element.path}/scaffold.yaml');
       Scaffolds.add(Scaffold);
     });
@@ -189,16 +189,16 @@ class YamlManager {
 
   static Scaffold loadScaffold(String folderPath) {
     Scaffold scaffold;
-    var dir = Directory(folderPath);
-    scaffold = readerYamlScaffoldFile('${dir.path}/scaffold.yaml');
+    final directory = Directory(folderPath);
+    scaffold = readerYamlScaffoldFile('${directory.path}/scaffold.yaml');
     return scaffold;
   }
 
   static List<YamlCommand> readerYamlCommandsFile(String yamlPath) {
-    var yamlCommands = <YamlCommand>[];
-    var reader = YamlReader(yamlPath);
-    var yamldata = reader.reader();
-    var yamlCommandsData = yamldata[YamlScaffoldKeys.commandsKey] as Map;
+    final yamlCommands = <YamlCommand>[];
+    final reader = YamlReader(yamlPath);
+    final yamldata = reader.reader();
+    final yamlCommandsData = yamldata[YamlScaffoldKeys.commandsKey] as Map;
     yamlCommandsData.forEach((key, comand) {
       yamlCommands.add(YamlCommand(key, comand));
     });
@@ -207,15 +207,15 @@ class YamlManager {
   }
 
   static Scaffold readerYamlScaffoldFile(String yamlPath) {
-    var reader = YamlReader(yamlPath);
+    final reader = YamlReader(yamlPath);
     dynamic structureData;
-    var yamldata = reader.reader();
+    final yamldata = reader.reader();
 
     structureData = yamldata[YamlScaffoldKeys.structureKey];
-    var structure = Structure(structureData);
-    var name = yamldata['name'];
-    var testStructureData = yamldata[YamlScaffoldKeys.testStructureKey];
-    var testStructure = Structure(testStructureData);
+    final structure = Structure(structureData);
+    final name = yamldata['name'];
+    final testStructureData = yamldata[YamlScaffoldKeys.testStructureKey];
+    final testStructure = Structure(testStructureData);
 
     return Scaffold(
       name: name,
@@ -225,11 +225,11 @@ class YamlManager {
   }
 
   static YamlPlugin readerYamlPluginFile(String yamlPath) {
-    var reader = YamlReader(yamlPath);
-    var yamldata = reader.reader();
+    final reader = YamlReader(yamlPath);
+    final yamldata = reader.reader();
 
-    var name = yamldata['name'];
-    var description = yamldata['description'];
+    final name = yamldata['name'];
+    final description = yamldata['description'];
 
     return YamlPlugin(
       name: name,
@@ -248,20 +248,20 @@ class YamlTemplateReader {
 
   Template reader() {
     try {
-      var yamlData = yamlReader.reader();
-      var args =
+      final yamlData = yamlReader.reader();
+      final args =
           (yamlData['args'] as YamlList).map((value) => '$value').toList();
 
       YamlList snippetsData;
-      var snippets = <TemplateSnippet>[];
+      final snippets = <TemplateSnippet>[];
 
       try {
         snippetsData = (yamlData['snippets'] as YamlList);
-        var listSnippetsData = snippetsData.toList();
+        final listSnippetsData = snippetsData.toList();
 
         for (var item in listSnippetsData) {
-          var mapData = (item as YamlMap);
-          var templateSnippet = TemplateSnippet(
+          final mapData = (item as YamlMap);
+          final templateSnippet = TemplateSnippet(
               fileName: mapData['file'],
               prefix: mapData['prefix'],
               excludeLines: (mapData['excluded'] as YamlList)

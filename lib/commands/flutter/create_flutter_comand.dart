@@ -68,21 +68,21 @@ class FlutterCreaterComand extends CommandBase {
 
   @override
   Future<void> run() async {
-    var appName = argResults['name'];
-    var scaffoldName = argResults['scaffold'];
-    var description = argResults['description'];
-    var useKotlin = argResults.wasParsed('kotlin');
-    var useSwift = argResults.wasParsed('swift');
-    var useAndroidX = argResults.wasParsed('androidx');
+    final appName = argResults['name'];
+    final scaffoldName = argResults['scaffold'];
+    final description = argResults['description'];
+    final useKotlin = argResults.wasParsed('kotlin');
+    final useSwift = argResults.wasParsed('swift');
+    final useAndroidX = argResults.wasParsed('androidx');
 
-    var flutterScaffoldArgs = FlutterAppArgs(
+    final flutterScaffoldArgs = FlutterAppArgs(
         useAndroidX: useAndroidX,
         name: appName,
         description: description,
         useKotlin: useKotlin,
         useSwift: useSwift);
 
-    var scaffold =
+    final scaffold =
         YamlManager.loadScaffold(normalize('$scaffoldsPath/$scaffoldName'));
 
     validate(
@@ -91,15 +91,11 @@ class FlutterCreaterComand extends CommandBase {
     await CreaterFlutterAction(appName, flutterScaffoldArgs, FastProcessCLI())
         .execute();
 
-    var actionBuilder = ActionBuilder([
-      ClearScaffoldStructure(
-        '$appName/lib',
-        excludedFiles: ['$appName/lib/main.dart']
-      ),
-      ClearScaffoldStructure(
-        '$appName/test',
-        excludedFiles: ['$appName/test/widget_test.dart']
-      ),
+    final actionBuilder = ActionBuilder([
+      ClearScaffoldStructure('$appName/lib',
+          excludedFiles: ['$appName/lib/main.dart']),
+      ClearScaffoldStructure('$appName/test',
+          excludedFiles: ['$appName/test/widget_test.dart']),
       CreateFolderStructure('$appName/lib', scaffold.structure.mainFolder,
           'Created /lib folder structure.'),
       ShowFolderStructure(scaffold.structure.mainFolder),
