@@ -12,6 +12,8 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+import 'dart:io';
+
 import 'package:fast/commands/flutter/create_flutter_comand.dart';
 import 'package:fast/core/action.dart';
 import 'package:fast/logger.dart';
@@ -37,14 +39,20 @@ class CreaterFlutterAction implements Action {
     ]);
 
     if (flutterProjectArgs.description.isEmpty) {
-      args.addAll(['--description','An application created with the FAST CLI.']);
+      args.addAll(
+          ['--description', 'An application created with the FAST CLI.']);
     } else {
       args.addAll(['--description', flutterProjectArgs.description]);
     }
 
     args.add(path);
     logger.d('Creating the flutter application...');
-    await process.executeProcessShellPath('flutter', args, path);
+    var result = await process.executeProcessShellPath('flutter', args, path);
+
+    if (!result) {
+      logger.d('An error has occurred while creating the flutter application.');
+      exit(64);
+    }
   }
 
   @override

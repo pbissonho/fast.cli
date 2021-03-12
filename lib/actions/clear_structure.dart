@@ -18,12 +18,13 @@ import 'package:fast/core/directory/directory.dart';
 
 class ClearScaffoldStructure implements Action {
   final String path;
+  final List<String> excludedFiles;
 
-  ClearScaffoldStructure(this.path);
+  ClearScaffoldStructure(this.path, {this.excludedFiles = const []});
 
   @override
   Future<void> execute() async {
-    await Directory(path).clear();
+    await Directory(path).clear(excludedFiles: excludedFiles);
   }
 
   @override

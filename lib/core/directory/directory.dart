@@ -17,10 +17,13 @@ import 'dart:io';
 import 'package:path/path.dart';
 
 extension DirectoryX on Directory {
-  Future<bool> clear() async {
+  Future<bool> clear(
+      {List<String> excludedFiles = const []}) async {
     if (await exists()) {
       await list().forEach((fileSystem) async {
-        await fileSystem.delete(recursive: true);
+        if (!excludedFiles.contains(fileSystem.path)) {
+          await fileSystem.delete(recursive: true);
+        }
       });
       return true;
     } else {

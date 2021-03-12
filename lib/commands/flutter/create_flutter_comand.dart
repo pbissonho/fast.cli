@@ -92,8 +92,14 @@ class FlutterCreaterComand extends CommandBase {
         .execute();
 
     var actionBuilder = ActionBuilder([
-      ClearScaffoldStructure('$appName/lib'),
-      ClearScaffoldStructure('$appName/test'),
+      ClearScaffoldStructure(
+        '$appName/lib',
+        excludedFiles: ['$appName/lib/main.dart']
+      ),
+      ClearScaffoldStructure(
+        '$appName/test',
+        excludedFiles: ['$appName/test/widget_test.dart']
+      ),
       CreateFolderStructure('$appName/lib', scaffold.structure.mainFolder,
           'Created /lib folder structure.'),
       ShowFolderStructure(scaffold.structure.mainFolder),
