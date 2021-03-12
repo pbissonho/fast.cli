@@ -80,9 +80,10 @@ class AddPathCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    var path = argResults.rest[0];
-    var yamlPluginFile = YamlManager.readerYamlPluginFile('$path/plugin.yaml');
-    var plugin = Plugin(git: '', path: path, name: yamlPluginFile.name);
+    final path = argResults.rest[0];
+    final yamlPluginFile =
+        YamlManager.readerYamlPluginFile('$path/plugin.yaml');
+    final plugin = Plugin(git: '', path: path, name: yamlPluginFile.name);
     await storage.add(plugin);
     await bashFileManager.createExecutable(yamlPluginFile.name);
     logger.d(
@@ -104,7 +105,7 @@ class AddGitCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    var gitUrl = argResults.rest[0];
+    final gitUrl = argResults.rest[0];
     action.setUrl(gitUrl);
     logger.d('Installing plugin...');
     await action.execute();
@@ -127,15 +128,15 @@ class RemovePluginCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    var pluginName = argResults['name'];
+    final pluginName = argResults['name'];
 
     validate(
         Contract<String>(pluginName, 'name')..isNotNull('Must be passed.'));
 
-    var model = await storage.readByName(pluginName);
+    final plugin = await storage.readByName(pluginName);
     await storage.remove(pluginName);
     await bashFileManager.removeExecutable(pluginName);
-    await bashFileManager.removeCachedRepository(model.path);
+    await bashFileManager.removeCachedRepository(plugin.path);
     logger.d('Plugin removed successfully.');
   }
 }

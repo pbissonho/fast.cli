@@ -37,9 +37,9 @@ class SnippetsCommand extends CommandBase {
   Future<void> run() async {
     validate(Contract('', ''));
 
-    var templates = await YamlManager.loadTemplates(templatesPath);
+    final templates = await YamlManager.loadTemplates(templatesPath);
 
-    if(templates.isEmpty){
+    if (templates.isEmpty) {
       logger.d('The plugin not have any template');
       return;
     }

@@ -24,12 +24,12 @@ class ReplacerSnippet {
 }
 
 List<ReplacerSnippet> createSnipReplacers(List<String> args) {
-  var replacers = <ReplacerSnippet>[];
+  final replacers = <ReplacerSnippet>[];
 
   var index = 1;
   for (var i = 0; i < args.length; i++) {
-    var arg = args[i];
-    var argUpperCase = '${arg[0].toUpperCase()}${arg.substring(1)}';
+    final arg = args[i];
+    final argUpperCase = '${arg[0].toUpperCase()}${arg.substring(1)}';
     replacers.add(ReplacerSnippet('$arg', '\${${index.toString()}:$arg}'));
     index++;
     replacers.add(
@@ -51,7 +51,7 @@ String replacerSnipLine(String line, List<ReplacerSnippet> replacers) {
 
 String replaceSnipData(String content, ReplacerSnippet replacer) {
   String replaced;
-  var contains = replacer.regex.hasMatch(content);
+  final contains = replacer.regex.hasMatch(content);
   if (contains) {
     replaced =
         content.replaceAllMapped(replacer.regex, (mathe) => replacer.value);
@@ -82,9 +82,9 @@ class SnippetFile {
   }
 
   void createBody(List<ReplacerSnippet> replacers) {
-    var linesReplaced = <String>[];
+    final linesReplaced = <String>[];
 
-    for (var line in contentLines) {
+    for (final line in contentLines) {
       var lineReplaced = line;
       for (var replacer in replacers) {
         lineReplaced = replaceSnipData(lineReplaced, replacer);
@@ -97,7 +97,7 @@ class SnippetFile {
   }
 
   void _addspaces() async {
-    body = <String>[];
+    final body = <String>[];
     for (var i = 0; i < snippetContent.length; i++) {
       if (!excluded.contains(i)) {
         body.add('${snippetContent[i]}');
@@ -126,17 +126,15 @@ class SnippetGenerator {
   }
 
   Future<List<SnippetFile>> _loadSnippetFiles(Template template) async {
-    var dir = Directory(
-        normalize('${templatesPath}/${template.name}_template'));
-    var files = await dir.getAllSystemFiles();
+    final directory =
+        Directory(normalize('${templatesPath}/${template.name}_template'));
+    final files = await directory.getAllSystemFiles();
     final snippetFiles = <SnippetFile>[];
 
     for (var file in files) {
-      var content = await (file as File).readAsLines();
-
-      var fileName = split(file.path).last;
-
-      var templateFileSnippet = template.templateSnippets
+      final content = await (file as File).readAsLines();
+      final fileName = split(file.path).last;
+      final templateFileSnippet = template.templateSnippets
           .firstWhere((item) => item.fileName == fileName, orElse: () => null);
 
       if (templateFileSnippet != null) {
@@ -155,9 +153,9 @@ class SnippetGenerator {
   void _createSnippets() async {
     for (var template in templates) {
       final snippetFiles = await _loadSnippetFiles(template);
-      var codeSnippets = <CodeSnippet>[];
+      final codeSnippets = <CodeSnippet>[];
 
-      for (var snippetFile in snippetFiles) {
+      for (final snippetFile in snippetFiles) {
         snippetFile.createBody(createSnipReplacers(template.args));
         codeSnippets.add(CodeSnippet('${snippetFile.prefix}',
             snippetConfig: SnippetConfig(
@@ -167,7 +165,7 @@ class SnippetGenerator {
                 body: snippetFile.body)));
       }
 
-      for (var codeSnippet in codeSnippets) {
+      for (final codeSnippet in codeSnippets) {
         _snippetsData[codeSnippet.name] = codeSnippet.toJson();
       }
     }

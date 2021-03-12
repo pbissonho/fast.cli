@@ -24,13 +24,13 @@ class AddPackage implements Action {
   final bool isDev;
   final String yamlPath;
   Optional _optionalVersion;
-  Package _package;    
+  Package _package;
 
   AddPackage(this.name, this.yamlPath, this.isDev, [this.version]);
 
   @override
   Future<void> execute() async {
-    var pubspecFile = File(yamlPath);
+    final pubspecFile = File(yamlPath);
     PubspecYaml finalYaml;
 
     final pubsYamlFileData = await pubspecFile.readAsString();
@@ -58,7 +58,7 @@ class AddPackage implements Action {
       ]);
     }
 
-    var yamlData = finalYaml.toYamlString();
+    final yamlData = finalYaml.toYamlString();
 
     await pubspecFile.writeAsString(yamlData);
   }

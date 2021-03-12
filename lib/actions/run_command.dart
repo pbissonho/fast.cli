@@ -13,10 +13,11 @@
 //limitations under the License.
 import 'dart:io';
 
+import 'package:fast/core/fast_process.dart';
 import 'package:path/path.dart';
 import 'package:fast/core/action.dart';
 import 'package:fast/yaml_manager.dart';
-import '../core/process_extension.dart';
+
 class RunCommandAction implements Action {
   final String yamlCommandPath;
   final Directory workingDirectory;
@@ -27,12 +28,12 @@ class RunCommandAction implements Action {
 
   @override
   Future<void> execute() async {
-    var yamlCommand = YamlManager.readerYamlCommandsFile(
+    final yamlCommand = YamlManager.readerYamlCommandsFile(
             normalize('${yamlCommandPath}/commands.yaml'))
         .firstWhere((yamlCommand) => yamlCommand.key == commandName);
 
-    var splited = yamlCommand.command.split(' ');
-    var name = splited[0];
+    final splited = yamlCommand.command.split(' ');
+    final name = splited[0];
 
     await FastProcessCLI().executeProcess(name,
         splited.getRange(1, splited.length).toList(), workingDirectory.path);

@@ -6,14 +6,14 @@ import 'core/directory/directory.dart';
 class WindowsManager extends BashFileManager {
   @override
   Future<void> removeExecutable(String name) async {
-    var file = File('$filePath/$name.bat');
+    final file = File('$filePath/$name.bat');
     await file.delete();
   }
 
   @override
   Future<void> createExecutable(String name) async {
-    var directory = Directory(filePath);
-    var file = File('$filePath/$name.bat');
+    final directory = Directory(filePath);
+    final file = File('$filePath/$name.bat');
     if (!await directory.exists()) {
       await directory.createRecursive();
     }

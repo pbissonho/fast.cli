@@ -15,13 +15,11 @@ import 'package:fast/core/action.dart';
 import 'package:fast/logger.dart';
 
 class ActionBuilder implements Action {
-  List<Action> _actions;
+  final List<Action> _actions;
 
   List<Action> get actions => _actions;
 
-  ActionBuilder([this._actions]) {
-    _actions ??= <Action>[];
-  }
+  ActionBuilder([this._actions = const []]);
 
   void add(Action action) {
     _actions.add(action);
@@ -40,5 +38,5 @@ class ActionBuilder implements Action {
   }
 
   @override
-  String get succesMessage => 'Actino builder.';
+  String get succesMessage => 'Action Builder.';
 }
