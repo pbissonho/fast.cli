@@ -16,8 +16,8 @@ import 'dart:io';
 
 import 'package:fast/commands/flutter/create_flutter_comand.dart';
 import 'package:fast/core/action.dart';
+import 'package:fast/core/fast_process.dart';
 import 'package:fast/logger.dart';
-import '../core/process_extension.dart';
 
 class CreaterFlutterAction implements Action {
   final String path;

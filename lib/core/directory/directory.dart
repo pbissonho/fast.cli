@@ -17,8 +17,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 
 extension DirectoryX on Directory {
-  Future<bool> clear(
-      {List<String> excludedFiles = const []}) async {
+  Future<bool> clear({List<String> excludedFiles = const []}) async {
     if (await exists()) {
       await list().forEach((fileSystem) async {
         if (!excludedFiles.contains(fileSystem.path)) {
@@ -33,11 +32,11 @@ extension DirectoryX on Directory {
 
   Future<bool> existsFiles() async {
     if (await exists()) {
-      var size = await list().length;
+      final size = await list().length;
 
       if (size == 1) {
-        var first = await list().first;
-        var last = split(first.path).last;
+        final first = await list().first;
+        final last = split(first.path).last;
         if (last == '.directory') return false;
       }
 
@@ -64,7 +63,7 @@ extension DirectoryX on Directory {
   }
 
   Future<List<FileSystemEntity>> getAllSystemFiles() async {
-    var systemFiles = <FileSystemEntity>[];
+    final systemFiles = <FileSystemEntity>[];
 
     if (await exists()) {
       await list(recursive: true).forEach((
@@ -75,10 +74,12 @@ extension DirectoryX on Directory {
 
       return systemFiles;
     }
+
+    return [];
   }
 
   Future<List<FileSystemEntity>> getAllSystemFilesNotRecursive() async {
-    var systemFiles = <FileSystemEntity>[];
+    final systemFiles = <FileSystemEntity>[];
 
     if (await exists()) {
       await list().forEach((
@@ -89,5 +90,7 @@ extension DirectoryX on Directory {
 
       return systemFiles;
     }
+
+    return [];
   }
 }

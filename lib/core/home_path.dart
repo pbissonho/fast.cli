@@ -1,14 +1,11 @@
 import 'dart:io';
 
+import 'package:fast/core/exceptions.dart';
+
 String homePath() {
-  String home;
-  var envVars = Platform.environment;
-  if (Platform.isMacOS) {
-    home = envVars['HOME'];
-  } else if (Platform.isLinux) {
-    home = envVars['HOME'];
-  } else if (Platform.isWindows) {
-    home = envVars['UserProfile'];
-  }
-  return home;
+  final environmentVars = Platform.environment;
+  if (Platform.isMacOS || Platform.isLinux) return environmentVars['HOME'];
+  if (Platform.isWindows) return environmentVars['UserProfile'];
+
+  throw UnsupportedPlatformException();
 }

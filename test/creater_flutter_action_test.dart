@@ -1,6 +1,6 @@
 import 'package:fast/actions/creater_flutter_action.dart';
 import 'package:fast/commands/flutter/create_flutter_comand.dart';
-import 'package:fast/core/process_extension.dart';
+import 'package:fast/core/fast_process.dart';
 import 'package:test/test.dart';
 
 void main() {
