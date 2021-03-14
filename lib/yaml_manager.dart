@@ -24,6 +24,7 @@ class YamlScaffoldKeys {
   static String testStructureKey = 'test_structure';
   static String dependenciesKey = 'dependencies';
   static String dev_dependenciesKey = 'dev_dependencies';
+  static String copy_filesKey = 'copy_files';
 }
 
 class YamlCommand {
@@ -148,8 +149,9 @@ class Scaffold {
   final String name;
   final Structure structure;
   final Structure testStructure;
+  final bool copyFiles;
 
-  Scaffold({this.structure, this.testStructure, this.name});
+  Scaffold({this.structure, this.testStructure, this.name, this.copyFiles = false});
 }
 
 // A predefined set of resources.
@@ -213,11 +215,13 @@ class YamlManager {
     final name = yamldata['name'];
     final testStructureData = yamldata[YamlScaffoldKeys.testStructureKey];
     final testStructure = Structure(testStructureData);
+    final copyFiles = yamldata[YamlScaffoldKeys.copy_filesKey];
 
     return Scaffold(
       name: name,
       structure: structure,
       testStructure: testStructure,
+      copyFiles: copyFiles,
     );
   }
 

@@ -13,6 +13,7 @@
 //limitations under the License.
 
 import 'package:fast/actions/builder_action.dart';
+import 'package:fast/actions/copy_scaffold_files.dart';
 import 'package:fast/core/fast_process.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 import 'package:path/path.dart';
@@ -103,7 +104,9 @@ class FlutterCreaterComand extends CommandBase {
           'Created /test folder structure.'),
       ShowFolderStructure(scaffold.testStructure.mainFolder),
       SetupYaml('$appName/pubspec.yaml',
-          normalize('$scaffoldsPath/$scaffoldName/scaffold.yaml'))
+          normalize('$scaffoldsPath/$scaffoldName/scaffold.yaml')),
+      CopyScaffoldFiles('$scaffoldsPath/$scaffoldName/files', appName,
+          scaffold.copyFiles ?? false),
     ]);
 
     await actionBuilder.execute();
