@@ -37,20 +37,26 @@ class FastCLI {
     final pluginPath = plugin.path;
 
     try {
-      final templates = YamlManager.loadTemplates('$pluginPath/templates');
+      final pathTemplates = '$pluginPath/templates';
+      final templatesPathExists = await Directory(pathTemplates).exists();
 
-      templates?.forEach((template) {
-        addCommand(CreateTemplateCommand(
-          template: template,
-        ));
-      });
+      if (templatesPathExists) {
+        final templates = YamlManager.loadTemplates(pathTemplates);
+
+        templates?.forEach((template) {
+          addCommand(CreateTemplateCommand(
+            template: template,
+          ));
+        });
+      }
 
       final plugin = await pluginStorage.readByName(pluginName);
-      final scaffolsPath = '${plugin.path}/scaffolds';
+      final scaffoldsPath = '${plugin.path}/scaffolds';
+      
       addCommand(SnippetsCommand('${plugin.path}/templates', plugin));
       addCommand(RunComand('${plugin.path}'));
-      addCommand(FlutterCreaterComand(scaffolsPath));
-      addCommand(SetupComand(scaffolsPath));
+      addCommand(FlutterCreaterComand(scaffoldsPath));
+      addCommand(SetupComand(scaffoldsPath));
     } catch (error) {
       if (error is UsageException || error is FastException) {
         logger.d(error.toString());

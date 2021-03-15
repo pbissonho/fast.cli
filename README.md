@@ -240,6 +240,8 @@ $ fast plugin list
 A scaffold is a yaml file where you can define a folder structure and a set of dependencies for a Flutter project.
 Instead of creating a blank Flutter project, you can start the project with a folder structure already created and the dependencies configured.
 
+Also you can add custom files with ```copy_files: true``` option and adding **files** folder inside your scaffold folder. You can use ```@appName``` or ```@AppName``` tag to replace it with your app name, for example to define imports.
+
 ### Define a scaffold.yaml
 
 To define your scaffold just follow the example below:
@@ -292,16 +294,83 @@ Example:
 $ mvc create --name myapp --scaffold mvc1
 ```
 
-#### Result
+### Result
 
 When starting your project with the sample scaffold you will have that project as a result.
 
 ![alt text](https://github.com/pbissonho/fast.cli/blob/master/scaffold.png)
 
 
+
+### Example with copy_files option enabled
+
+file: scaffold.yaml
+```yaml
+# The scaffold name.
+name: clean
+description: A scaffold example with files to copy.
+author: Alberto Chamorro <a.chamorro.ruiz@gmail.com>
+
+# Copy files option enabled
+copy_files: true
+
+# The folder structure that will be generated inside the 'lib' folder.
+structure:
+  - ui:
+  - domain:
+    - entities
+    - usecases
+  - di
+  - data:
+    - models
+    - repositories
+    - services
+
+# The folder structure that will be generated inside the 'test' folder.
+test_structure:
+  - ui:
+  - data:
+  - domain:
+
+# The standard dependencies that the project will have.
+# Your project will start with all these dependencies.
+# If the version is not informed, the version will be configured as the last version available in Dart Pub.
+dependencies:
+  equatable:
+  bloc:
+  flutter_bloc:
+
+# The standard dev_dependencies that the project will have.
+# If the version is not informed, the version will be configured as the last version available in Dart Pub.
+dev_dependencies:
+  build_runner:
+
+  #Linter
+  very_good_analysis:
+```
+
+Then create a folder with name "files" and put your content there.
+
+![Scaffold with files](https://github.com/pbissonho/fast.cli/blob/master/scaffold_with_files.png)
+
+All tags '@AppName' and '@appName' would be replaced with your application name.
+
+Add your scaffold.yaml file inside a plugin and then use it.
+
+```yaml
+<plugin_name> create --name <app_name> --scaffold <scaffold_name>
+```
+
+Example:
+```yaml
+$ fast_files_sample create --name myapp --scaffold clean
+```
+
+You have a repository with this example [here](https://github.com/achamorro-dev/fast_files_sample)
+
 ## Template
 
-Templates are files or a set of files that you use to generate code. Generate code as snippests, but by command line.
+Templates are files or a set of files that you use to generate code. Generate code as snippets, but by command line.
 
 ### Define a template
 
