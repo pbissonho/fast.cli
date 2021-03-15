@@ -541,7 +541,7 @@ It will be possible to use the generated snippet.
 
 ## Custom Commands  
 
-Recording and having to write commands like 'flutter run build_runner build --delete-conflicting-outputs' it's not a cool thing to do.
+Recording and having to write commands like 'flutter pub run build_runner build --delete-conflicting-outputs' it's not a cool thing to do.
 ,so the custom commands will solve this problem. Write only once and then use them for an alias. 
 
 You only need to create a commands.yaml file in your plugin and define your commands.
@@ -551,9 +551,9 @@ You only need to create a commands.yaml file in your plugin and define your comm
 file: commands.yaml
 ```yaml
 commands:
-  build: flutter run build_runner build
-  buildx: flutter run build_runner build --delete-conflicting-outputs
-  watch: flutter run build_runner watch
+  build: flutter pub run build_runner build
+  buildx: flutter pub run build_runner build --delete-conflicting-outputs
+  watch: flutter pub run build_runner watch
   push: git push origin master
 
 ```
