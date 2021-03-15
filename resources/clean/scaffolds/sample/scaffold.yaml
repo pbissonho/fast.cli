@@ -1,0 +1,35 @@
+name: sample
+description: A sample template.
+author: Pedro Bissonho <pedro.bissonho@gmail.com>
+
+structure:
+  - ui:
+    - pages
+    - shared 
+    - themes
+  - data:
+    - models
+    - repositories
+  - blocs
+   
+test_structure:
+  - ui:
+  - data:
+
+dependencies: 
+  flutter_bloc:
+   
+
+dev_dependencies:
+
+
+
+
+
+
+
+
+
+
+
+      

@@ -1,0 +1,7 @@
+commands:
+  build: flutter run build_runner build
+  buildx: flutter run build_runner build --delete-conflicting-outputs
+  watch: flutter run build_runner watch
+  push: git push origin master
+
+

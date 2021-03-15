@@ -1,0 +1,5 @@
+{
+    "commandsFilePath": "test/resources",
+    "templatesPath": "test/resources/templates",
+    "scaffoldsPath": "test/resources/scaffolds"
+}
