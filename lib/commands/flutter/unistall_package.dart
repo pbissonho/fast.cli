@@ -1,5 +1,6 @@
 import '../command_base.dart';
 
+// TODO
 class UnistallPackageCommand extends CommandBase {
   @override
   String get description => 'Remove a package to the dependencies.';

@@ -14,35 +14,55 @@
 
 import 'dart:io';
 
-import 'package:fast/commands/flutter/create_flutter_comand.dart';
 import 'package:fast/core/action.dart';
 import 'package:fast/core/fast_process.dart';
 import 'package:fast/logger.dart';
 
-class CreaterFlutterAction implements Action {
+class FlutterAppArgs {
+  final String name;
+  String description;
+  String org;
+  final bool useKotlin;
+  final bool useSwift;
+  final bool useAndroidX;
+
+  FlutterAppArgs({
+    this.useAndroidX = false,
+    this.org = '',
+    this.description = '',
+    this.name,
+    this.useKotlin = false,
+    this.useSwift = false,
+  }) {
+    description ??= '';
+    org ??= '';
+  }
+}
+
+class CreateProjectAction implements Action {
   final String path;
-  final FlutterAppArgs flutterProjectArgs;
+  final FlutterAppArgs actionArgs;
   final FastProcess process;
 
-  CreaterFlutterAction(this.path, this.flutterProjectArgs, this.process);
+  CreateProjectAction(this.path, this.actionArgs, this.process);
 
   @override
   Future<void> execute() async {
     final args = ['create', '--no-pub'];
-    if (flutterProjectArgs.useKotlin) args.addAll(['-a', 'kotlin']);
-    if (flutterProjectArgs.useSwift) args.addAll(['-i', 'swift']);
-    if (flutterProjectArgs.useAndroidX) args.add('--androidx');
+    if (actionArgs.useKotlin) args.addAll(['-a', 'kotlin']);
+    if (actionArgs.useSwift) args.addAll(['-i', 'swift']);
+    if (actionArgs.useAndroidX) args.add('--androidx');
 
     args.addAll([
       '--project-name',
-      flutterProjectArgs.name,
+      actionArgs.name,
     ]);
 
-    if (flutterProjectArgs.description.isEmpty) {
+    if (actionArgs.description.isEmpty) {
       args.addAll(
           ['--description', 'An application created with the FAST CLI.']);
     } else {
-      args.addAll(['--description', flutterProjectArgs.description]);
+      args.addAll(['--description', actionArgs.description]);
     }
 
     args.add(path);

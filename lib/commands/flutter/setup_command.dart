@@ -22,7 +22,7 @@ import '../../logger.dart';
 import '../../yaml_manager.dart';
 import '../command_base.dart';
 
-class SetupComand extends CommandBase {
+class SetupCommand extends CommandBase {
   final String scaffoldsPath;
 
   @override
@@ -32,7 +32,7 @@ class SetupComand extends CommandBase {
   @override
   String get name => 'setup';
 
-  SetupComand(this.scaffoldsPath) {
+  SetupCommand(this.scaffoldsPath) {
     argParser.addFlag('force',
         abbr: 'f', help: 'Create even with data in the lib folder.');
     argParser.addOption('scaffold', abbr: 'p', help: 'scaffold template name.');
@@ -55,7 +55,7 @@ class SetupComand extends CommandBase {
           'Created /test folder structure.'),
       ShowFolderStructure(scaffold.testStructure.mainFolder),
       SetupYaml('pubspec.yaml',
-          normalize('$scaffoldsPath/$scaffoldName/scaffold.yaml'))
+          normalize('$scaffoldsPath/$scaffoldName/scaffold.yaml')),
     ]);
 
     await actionBuilder.execute();

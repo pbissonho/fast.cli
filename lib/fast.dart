@@ -20,7 +20,7 @@ import 'package:fast/config_storage.dart';
 import 'package:fast/core/exceptions.dart';
 import 'package:fast/logger.dart';
 import 'package:fast/yaml_manager.dart';
-import 'commands/flutter/create_flutter_comand.dart';
+import 'commands/flutter/create_command.dart';
 import 'commands/flutter/create_template.dart';
 import 'commands/flutter/run_command.dart';
 import 'commands/flutter/setup_command.dart';
@@ -54,9 +54,9 @@ class FastCLI {
       final scaffoldsPath = '${plugin.path}/scaffolds';
 
       addCommand(SnippetsCommand('${plugin.path}/templates', plugin));
-      addCommand(RunComand('${plugin.path}'));
-      addCommand(FlutterCreaterComand(scaffoldsPath));
-      addCommand(SetupComand(scaffoldsPath));
+      addCommand(RunCommand('${plugin.path}'));
+      addCommand(CreateCommand(scaffoldsPath));
+      addCommand(SetupCommand(scaffoldsPath));
     } catch (error) {
       if (error is UsageException || error is FastException) {
         logger.d(error.toString());

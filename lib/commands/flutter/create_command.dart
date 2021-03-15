@@ -14,6 +14,7 @@
 
 import 'package:fast/actions/action_builder.dart';
 import 'package:fast/actions/copy_scaffold_files.dart';
+import 'package:fast/actions/create_project_action.dart';
 import 'package:fast/core/fast_process.dart';
 import 'package:flunt_dart/flunt_dart.dart';
 import 'package:path/path.dart';
@@ -21,33 +22,11 @@ import 'package:fast/yaml_manager.dart';
 import '../../logger.dart';
 import 'package:fast/actions/clear_structure.dart';
 import 'package:fast/actions/create_structure.dart';
-import 'package:fast/actions/creater_flutter_action.dart';
 import 'package:fast/actions/setup_yaml.dart';
 import 'package:fast/actions/show_folder_structure.dart';
 import '../command_base.dart';
 
-class FlutterAppArgs {
-  final String name;
-  String description;
-  String org;
-  final bool useKotlin;
-  final bool useSwift;
-  final bool useAndroidX;
-
-  FlutterAppArgs({
-    this.useAndroidX = false,
-    this.org = '',
-    this.description = '',
-    this.name,
-    this.useKotlin = false,
-    this.useSwift = false,
-  }) {
-    description ??= '';
-    org ??= '';
-  }
-}
-
-class FlutterCreaterComand extends CommandBase {
+class CreateCommand extends CommandBase {
   final String scaffoldsPath;
 
   @override
@@ -58,7 +37,7 @@ class FlutterCreaterComand extends CommandBase {
 
   String get finishedDescription => 'Create the app and folder structure';
 
-  FlutterCreaterComand(this.scaffoldsPath) {
+  CreateCommand(this.scaffoldsPath) {
     argParser.addOption('name', abbr: 'n', help: 'Project name.');
     argParser.addOption('scaffold', abbr: 's', help: 'Scaffold template name.');
     argParser.addOption('description', abbr: 'd', help: 'Project descritiopn.');
@@ -89,7 +68,7 @@ class FlutterCreaterComand extends CommandBase {
     validate(
         Contract<FlutterAppArgs>(flutterScaffoldArgs, 'FlutterScaffoldArgs'));
 
-    await CreaterFlutterAction(appName, flutterScaffoldArgs, FastProcessCLI())
+    await CreateProjectAction(appName, flutterScaffoldArgs, FastProcessCLI())
         .execute();
 
     final actionBuilder = ActionBuilder([

@@ -20,8 +20,8 @@ import 'package:fast/actions/run_command.dart';
 
 import '../command_base.dart';
 
-class RunComand extends CommandBase {
-  RunComand(this.commandsFilePath);
+class RunCommand extends CommandBase {
+  RunCommand(this.commandsFilePath);
 
   @override
   String get description => 'Run a command.';
