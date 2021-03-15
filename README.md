@@ -1,6 +1,6 @@
 # Fast CLI
 
-<p align="center"><img src="https://raw.githubusercontent.com/pbissonho/fast.cli/master/fast.svg" height="120" alt="Fast.cli"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/pbissonho/fast.cli/master/assets/fast.svg" height="120" alt="Fast.cli"></p>
 
 [![Build Status](https://travis-ci.org/pbissonho/fast.cli.svg?branch=master)](https://travis-ci.org/github/pbissonho/fast.cli)
 [![codecov](https://codecov.io/gh/pbissonho/fast.cli/branch/master/graph/badge.svg)](https://codecov.io/gh/pbissonho/fast.cli)
@@ -299,7 +299,7 @@ $ mvc create --name myapp --scaffold mvc1
 
 When starting your project with the sample scaffold you will have that project as a result.
 
-![alt text](https://github.com/pbissonho/fast.cli/blob/master/scaffold.png)
+![alt text](https://github.com/pbissonho/fast.cli/blob/master/assets/scaffold.png)
 
 
 
@@ -352,7 +352,7 @@ dev_dependencies:
 
 Then create a folder with name "files" and put your content there.
 
-![Scaffold with files](https://github.com/pbissonho/fast.cli/blob/master/scaffold_with_files.png)
+![Scaffold with files](https://github.com/pbissonho/fast.cli/blob/master/assets/scaffold_with_files.png)
 
 All tags '@AppName' and '@appName' would be replaced with your application name.
 
@@ -536,7 +536,7 @@ $ mvc snippets
 
 It will be possible to use the generated snippet.
 
-![alt-text](https://github.com/pbissonho/fast.cli/blob/master/page.gif)
+![alt-text](https://github.com/pbissonho/fast.cli/blob/master/assets/page.gif)
 
 
 ## Custom Commands  
