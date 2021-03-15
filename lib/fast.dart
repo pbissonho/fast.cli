@@ -52,7 +52,7 @@ class FastCLI {
 
       final plugin = await pluginStorage.readByName(pluginName);
       final scaffoldsPath = '${plugin.path}/scaffolds';
-      
+
       addCommand(SnippetsCommand('${plugin.path}/templates', plugin));
       addCommand(RunComand('${plugin.path}'));
       addCommand(FlutterCreaterComand(scaffoldsPath));
@@ -68,9 +68,9 @@ Please report creating a issue at https://github.com/pbissonho/fast.cli.''');
     }
   }
 
-  Future<void> run(List<String> arguments, bool isPlugin) async {
+  Future<void> run(List<String> arguments, bool loadPlugin) async {
     List<String> finalArguments;
-    if (isPlugin) {
+    if (loadPlugin) {
       final lastIndex = arguments.length;
       finalArguments = arguments.getRange(2, lastIndex).toList();
     } else {

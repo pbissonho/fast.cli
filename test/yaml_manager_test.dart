@@ -2,10 +2,10 @@ import 'package:fast/yaml_manager.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('shoud read a cli file', () {
-    var clIFile =
+  test('should read a plugin file', () {
+    final yamlPlugin =
         YamlManager.readerYamlPluginFile('test/resources/clean/plugin.yaml');
 
-    expect(clIFile.name, 'clean');
+    expect(yamlPlugin.name, 'clean');
   });
 }

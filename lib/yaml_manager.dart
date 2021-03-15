@@ -151,7 +151,8 @@ class Scaffold {
   final Structure testStructure;
   final bool copyFiles;
 
-  Scaffold({this.structure, this.testStructure, this.name, this.copyFiles = false});
+  Scaffold(
+      {this.structure, this.testStructure, this.name, this.copyFiles = false});
 }
 
 // A predefined set of resources.

@@ -6,17 +6,17 @@ import 'package:test/test.dart';
 
 void main() {
   test('shoud add a bash file', () async {
-    var manager = BashFileManager(filePath: 'test/resources/bin');
+    final manager = BashFileManager(filePath: 'test/resources/bin');
     await manager.createExecutable('tenaz');
 
-    var file = File('test/resources/bin/tenaz');
+    final file = File('test/resources/bin/tenaz');
     expect(await file.exists(), true);
   });
 
   test(
     'shoud add a bash file with git repo',
     () async {
-      var action = PluginAddGitAction(
+      final action = PluginAddGitAction(
           PluginStorage(),
           BashFileManager(
               filePath: 'test/resources/bin',
@@ -26,7 +26,7 @@ void main() {
 
       await action.execute();
 
-      var file = File('test/resources/bin/mvc');
+      final file = File('test/resources/bin/mvc');
       expect(await file.exists(), true);
     },
   );

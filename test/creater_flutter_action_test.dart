@@ -4,26 +4,26 @@ import 'package:fast/core/fast_process.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('Shoud create a Flutter Project', () async {
-    var appName = 'tutuca';
+  test('should create a Flutter Project', () async {
+    final appName = 'tutuca';
 
-    var args = FlutterAppArgs(
+    final args = FlutterAppArgs(
         useAndroidX: false,
         name: appName,
         description: 'vem_tutuca',
         useKotlin: false,
         useSwift: false);
 
-    var process = FastProcessCLI();
-    var createrFlutter = CreaterFlutterAction(appName, args, process);
+    final process = FastProcessCLI();
+    final createrFlutter = CreaterFlutterAction(appName, args, process);
     await createrFlutter.execute();
   });
 
   /*
   test('create command', () async {
-    var commandRunner = CommandRunner('Fast CLI', 'An incredible Dart CLI.');
-    var storage = ConfigStorage('test/resources/fast_config.json');
-    var fastzCLI = FastCLI(storage, commandRunner, CliConfigStorage());
+    final commandRunner = CommandRunner('Fast CLI', 'An incredible Dart CLI.');
+    final storage = ConfigStorage('test/resources/fast_config.json');
+    final fastzCLI = FastCLI(storage, commandRunner, CliConfigStorage());
     await fastzCLI.setupCommandRunnerCli(false);
     fastzCLI.addCommand(
         FlutterCreaterComand(await storage.getValue(ConfigKeys.scaffoldsPath)));

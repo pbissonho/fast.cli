@@ -3,20 +3,20 @@ import 'package:fast/core/exceptions.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('shoud install package', () async {
-    var addPackageAction =
+  test('should install package', () async {
+    final addPackageAction =
         AddPackage('koin', 'test/resources/_pubspec.yaml', false);
     await addPackageAction.execute();
   });
 
-   test('shoud install a dev package', () async {
-    var addPackageAction =
+  test('should install a dev package', () async {
+    final addPackageAction =
         AddPackage('koin', 'test/resources/_pubspec.yaml', true);
     await addPackageAction.execute();
   });
 
-  test('shoud not install package', () async {
-    var addPackageAction =
+  test('should not install package', () async {
+    final addPackageAction =
         AddPackage('konidfsdf', 'test/resources/_pubspec.yaml', false);
     expect(() => addPackageAction.execute(),
         throwsA((value) => value is FastException));

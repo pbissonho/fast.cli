@@ -3,7 +3,7 @@ import 'package:pubspec_yaml/pubspec_yaml.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('description', () {
+  test('should read yaml file', () {
     var pubspecFile = File('flutter.yaml');
 
     final projectYaml =

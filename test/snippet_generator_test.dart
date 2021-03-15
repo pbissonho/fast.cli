@@ -4,9 +4,9 @@ import 'package:test/test.dart';
 
 void main() {
   test(
-    'shoud create snippets global file',
+    'should create snippets global file',
     () async {
-      var templates =
+      final templates =
           await YamlManager.loadTemplates('test/resources/templates');
       //final globalSnippetsPath =
       //     '${homePath()}/.config/Code/User/snippets/created.code-snippets';

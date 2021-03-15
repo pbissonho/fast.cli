@@ -6,53 +6,54 @@ import 'package:fast/yaml_manager.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('shoud reader yaml template file', () async {
-    var yamlTemplate = await YamlTemplateReader('test/resources/template.yaml');
-    var template = yamlTemplate.reader();
+  test('should reader yaml template file', () async {
+    final yamlTemplate =
+        await YamlTemplateReader('test/resources/template.yaml');
+    final template = yamlTemplate.reader();
 
     print(template);
   });
 
-  test('shoud load all templates', () async {
-    var templates =
+  test('should load all templates', () async {
+    final templates =
         await YamlManager.loadTemplates('test/resources/templates/');
 
     expect(templates.length, 2);
   });
 
-  test('shoud not have snippets', () async {
-    var templates =
+  test('should not have snippets', () async {
+    final templates =
         await YamlManager.loadTemplates('test/resources/templates/');
 
     expect(
         false, templates.firstWhere((tem) => tem.name == 'bloc').hasSnippets());
   });
 
-  test('shoud have snippets', () async {
-    var templates =
+  test('should have snippets', () async {
+    final templates =
         await YamlManager.loadTemplates('test/resources/templates/');
 
     expect(
         true, templates.firstWhere((tem) => tem.name == 'page').hasSnippets());
   });
 
-  test('shoud create template', () async {
-    var path = 'test/resources/templates/bloc_template/';
-    var tamplate = await YamlTemplateReader('$path/template.yaml').reader();
-    var createTamplate = CreateTemplateAction(tamplate, {'name': 'counter'});
+  test('should create template', () async {
+    final path = 'test/resources/templates/bloc_template/';
+    final tamplate = await YamlTemplateReader('$path/template.yaml').reader();
+    final createTamplate = CreateTemplateAction(tamplate, {'name': 'counter'});
     await createTamplate.execute();
   });
 
-  test('shoud create a tamplate - FAST CLI', () async {
-    var commandRunner = CommandRunner('Fast CLI', 'An incredible Dart CLI.');
-    var fastzCLI = FastCLI(commandRunner, PluginStorage());
+  test('should create a tamplate - FAST CLI', () async {
+    final commandRunner = CommandRunner('Fast CLI', 'An incredible Dart CLI.');
+    final fastzCLI = FastCLI(commandRunner, PluginStorage());
     await fastzCLI.setupCommandRunner('mvc');
     await fastzCLI.run(
         ['fast', 'cli', 'mvc', 'controller', '--name', 'myController'], true);
   });
 
-  test('shoud not throw an error when template is empty', () async {
-     var templates =
+  test('should not throw an error when template is empty', () async {
+    final templates =
         await YamlManager.loadTemplates('test/resources/empty_templates/');
 
     expect(0, templates.length);
