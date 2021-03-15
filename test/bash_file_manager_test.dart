@@ -5,7 +5,7 @@ import 'package:fast/config_storage.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('shoud add a bash file', () async {
+  test('should add a bash file', () async {
     final manager = BashFileManager(filePath: 'test/resources/bin');
     await manager.createExecutable('tenaz');
 
@@ -14,7 +14,7 @@ void main() {
   });
 
   test(
-    'shoud add a bash file with git repo',
+    'should add a bash file with git repo',
     () async {
       final action = PluginAddGitAction(
           PluginStorage(),
