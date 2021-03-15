@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:fast/yaml_manager.dart';
 import 'package:path/path.dart';
-import 'core/directory/directory.dart';
+import 'core/directory.dart';
 
 class ReplacerSnippet {
   RegExp regex;

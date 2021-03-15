@@ -16,7 +16,7 @@ import 'dart:io';
 
 import 'package:flunt_dart/flunt_dart.dart';
 import '../../logger.dart';
-import 'package:fast/core/directory/directory.dart';
+import 'package:fast/core/directory.dart';
 
 import '../command_base.dart';
 

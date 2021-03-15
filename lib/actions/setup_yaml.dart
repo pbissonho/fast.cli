@@ -21,8 +21,8 @@ import 'package:fast/services/packages_service.dart';
 class SetupYaml implements Action {
   final String pubspecPath;
   final String scaffoldPath;
-  var newHostedDependencies = <PackageDependencySpec>[];
-  var scaffoldYamlDependencies = <PackageDependencySpec>[];
+  final newHostedDependencies = <PackageDependencySpec>[];
+  final scaffoldYamlDependencies = <PackageDependencySpec>[];
 
   SetupYaml(this.pubspecPath, this.scaffoldPath);
 
@@ -49,7 +49,7 @@ class SetupYaml implements Action {
 
     final pubsYaml = await pubspecFile.readAsStringSync().toPubspecYaml();
 
-    var finalYaml = pubsYaml.copyWith(dependencies: [
+    final finalYaml = pubsYaml.copyWith(dependencies: [
       ...newHostedDependencies,
       ...scaffoldYamlDependencies,
       ...pubsYaml.dependencies
@@ -58,7 +58,7 @@ class SetupYaml implements Action {
       ...pubsYaml.devDependencies
     ]);
 
-    var yamlData = finalYaml.toYamlString();
+    final yamlData = finalYaml.toYamlString();
 
     await pubspecFile.writeAsString(yamlData);
   }
@@ -72,12 +72,13 @@ class SetupYaml implements Action {
       rethrow;
     }
 
-    var newHosted =
+    final newHosted =
         hosted.copyWith(version: Optional('^${package.latest.version}'));
 
     newHostedDependencies.add(PackageDependencySpec.hosted(newHosted));
   }
 
   @override
-  String get succesMessage => 'Configured pubspec.yaml with dependencies and dev_dependencies.';
+  String get succesMessage =>
+      'Configured pubspec.yaml with dependencies and dev_dependencies.';
 }

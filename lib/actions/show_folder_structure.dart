@@ -26,15 +26,15 @@ class ShowFolderStructure implements Action {
     logger.d('Structure: \n-----------');
 
     folder.subFolders.forEach((folder) {
-      exibirFolders(2, folder);
+      showFolders(2, folder);
     });
   }
 
-  void exibirFolders(int sub, Folder folder) {
+  void showFolders(int sub, Folder folder) {
     sub += 2;
     logger.d(' ' * sub + '${folder.name}');
-    for (var subFolder in folder.subFolders) {
-      exibirFolders(sub, subFolder);
+    for (final subFolder in folder.subFolders) {
+      showFolders(sub, subFolder);
     }
   }
 

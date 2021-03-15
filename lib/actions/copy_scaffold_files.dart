@@ -2,7 +2,7 @@ import 'dart:io';
 
 import '../logger.dart';
 import '../core/action.dart';
-import '../core/directory/directory.dart';
+import '../core/directory.dart';
 import '../yaml_manager.dart';
 import 'create_template.dart';
 
@@ -19,17 +19,17 @@ class CopyScaffoldFiles implements Action {
   Future<void> execute() async {
     if (!activated) return null;
 
-    var filesExistsAndHasContent = await Directory(path).existsFiles();
+    final filesExistsAndHasContent = await Directory(path).existsFiles();
     if (!filesExistsAndHasContent) return null;
 
     Directory(path)
         .listSync(followLinks: true, recursive: true)
         .forEach((fileEntity) {
-      var template = Template(
+      final template = Template(
           path: fileEntity.path,
           to: fileEntity.path.replaceFirst(path, appName),
           args: [appNameKey]);
-      var argsMap = {appNameKey: appName};
+      final argsMap = {appNameKey: appName};
 
       logger.d('Copying file ${fileEntity.path} to ${template.to}');
 

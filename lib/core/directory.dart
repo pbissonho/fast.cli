@@ -16,7 +16,7 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 
-extension DirectoryX on Directory {
+extension DirectoryExtension on Directory {
   Future<bool> clear({List<String> excludedFiles = const []}) async {
     if (await exists()) {
       await list().forEach((fileSystem) async {

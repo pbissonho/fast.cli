@@ -13,7 +13,7 @@
 //limitations under the License.
 import 'dart:io';
 import 'package:fast/core/action.dart';
-import 'package:fast/core/directory/directory.dart';
+import 'package:fast/core/directory.dart';
 import 'package:fast/yaml_manager.dart';
 
 class CreateFolderStructure implements Action {

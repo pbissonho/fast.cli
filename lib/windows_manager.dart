@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'bash_manager.dart';
-import 'core/directory/directory.dart';
+import 'core/directory.dart';
 
 class WindowsManager extends BashFileManager {
   @override

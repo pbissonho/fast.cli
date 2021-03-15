@@ -15,23 +15,21 @@ import 'package:fast/core/action.dart';
 import 'package:fast/logger.dart';
 
 class ActionBuilder implements Action {
-  final List<Action> _actions;
+  final List<Action> actions;
 
-  List<Action> get actions => _actions;
-
-  ActionBuilder([this._actions = const []]);
+  ActionBuilder([this.actions = const []]);
 
   void add(Action action) {
-    _actions.add(action);
+    actions.add(action);
   }
 
   void addAll(List<Action> actions) {
-    _actions.addAll(actions);
+    actions.addAll(actions);
   }
 
   @override
   Future<void> execute() async {
-    for (var action in actions) {
+    for (final action in actions) {
       await action.execute();
       logger.d(action.succesMessage);
     }

@@ -15,7 +15,7 @@
 import 'dart:io';
 import 'package:fast/actions/create_structure.dart';
 import 'package:fast/core/action.dart';
-import 'package:fast/core/directory/directory.dart';
+import 'package:fast/core/directory.dart';
 import 'package:fast/yaml_manager.dart';
 
 import '../logger.dart';

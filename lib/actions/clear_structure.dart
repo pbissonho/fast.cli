@@ -14,7 +14,7 @@
 import 'dart:io';
 
 import 'package:fast/core/action.dart';
-import 'package:fast/core/directory/directory.dart';
+import 'package:fast/core/directory.dart';
 
 class ClearScaffoldStructure implements Action {
   final String path;

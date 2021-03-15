@@ -12,7 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-import 'package:fast/actions/builder_action.dart';
+import 'package:fast/actions/action_builder.dart';
 import 'package:fast/actions/create_structure.dart';
 import 'package:fast/actions/setup_yaml.dart';
 import 'package:flunt_dart/flunt_dart.dart';
