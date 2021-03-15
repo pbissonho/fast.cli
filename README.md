@@ -155,11 +155,12 @@ $ mvc page --name myPage
 
 ## Plugin System
 
-The plugin system is the way in which you can create, use and share your own resources. Think of them as plugins for VS Code, but in this case for a CLI.
+The plugin system is the way in which you can create, use and share your own resources. Think of them as plugins for Visual Studio Code, but in this case for a CLI.
 
 This CLI is intended to provide the tool for you to create your own CLI, by default the CLI comes with no resources, that is, it does not have any available plugin, command or scaffold. So to use it is necessary to install at least one plugin.
 
-No VS Code os plugins can provide snippets, themes, icons and other things. 
+
+In Visual Studio Code the plugins can provide snippets, themes, icons and other things. 
 
 In this CLI the plugins provide:
 
@@ -182,7 +183,7 @@ See an example on github [clicking here.](https://github.com/pbissonho/mvc_git_t
 
 ### Using a plugin
 
-Fisrt instal the plugin. You can install directly from a repository.
+First instal the plugin. You can install directly from a repository.
 
 When adding a plugin an executable is created with the name of the plugin, so after installing it it is possible to use it by the plugin's own name.
 
@@ -540,18 +541,21 @@ It will be possible to use the generated snippet.
 
 ## Custom Commands  
 
-Recording and having to write commands like 'flutter build runner build' it's not a cool thing to do.
+Recording and having to write commands like 'flutter run build_runner build --delete-conflicting-outputs' it's not a cool thing to do.
 ,so the custom commands will solve this problem. Write only once and then use them for an alias. 
-You only need to create a commands.yaml file in your pluginand define your commands.
+
+You only need to create a commands.yaml file in your plugin and define your commands.
 
 ### Define your commands
 
 file: commands.yaml
 ```yaml
 commands:
-  runner: flutter build runner build
+  build: flutter run build_runner build
+  buildx: flutter run build_runner build --delete-conflicting-outputs
+  watch: flutter run build_runner watch
   push: git push origin master
-  mkdir: mkdir myFolder
+
 ```
 
 ### Running a command
@@ -563,7 +567,7 @@ commands:
 example:
 
 ```yaml
-$ mvc run runner
+$ mvc run build
 ```
 
 ## Migrating

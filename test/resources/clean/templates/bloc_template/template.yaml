@@ -1,6 +1,0 @@
-name: bloc
-description: Create flutter bloc.
-to: lib/blocs/@name
-args:
-  - name
-
