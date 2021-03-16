@@ -1,10 +1,9 @@
 name: fast
-description: A sample command-line application.
-version: 0.4.0+1
+description: An incredible command line interface for Flutter.
+version: 0.5.0
 homepage: https://github.com/pbissonho/fast.cli
 # author: Pedro Bissonho <pedro.bissonho@gmail.com>
 
-# Add the bin/stagehand.dart script to the scripts pub installs.
 executables:
   fast:
 

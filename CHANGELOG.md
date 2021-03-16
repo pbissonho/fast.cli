@@ -1,3 +1,10 @@
+
+## 0.5.0
+- Updated readme
+- Fix issues
+- The file "lib/main.dart" and "test/widget_test.dart" are not removed when executing the command "create"
+- Added a new feature: It is now possible to add a file folder to a scaffold. In addition to the structure, it will be possible to start the project with a set of files.
+
 ## 0.4.0+1
 - Updated readme
 
