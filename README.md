@@ -1,4 +1,4 @@
-# Fast CLI
+# [Archived] Fast CLI
 
 <p align="center"><img src="https://raw.githubusercontent.com/pbissonho/fast.cli/master/assets/fast.svg" height="120" alt="Fast.cli"></p>
 
